@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { messaging, getToken, onMessage } from "@/lib/firebase";
+import { MessagePayload } from "firebase/messaging";
 import axios from "axios";
 
 export default function NotificationButton() {
@@ -28,30 +29,33 @@ export default function NotificationButton() {
       });
 
       // FCM 토큰 받아오기
-      const token = await getToken(messaging, {
-        vapidKey: process.env.NEXT_PUBLIC_VAPID_KEY,
-      });
-
-      localStorage.setItem("cpnow-fb-token", token);
-      const firstNoti = new Notification("알림이 허용되었습니다", {
-        body: "최저가 알람을 받을 수 있어요 🚀",
-        icon: "/icons/android-icon-192x192.png",
-        data: {
-          click_action: "https://cpnow.kr", // ✅ 클릭 시 이동할 링크
-        },
-      });
-      firstNoti.onclick = (event) => {
-        event.preventDefault();
-        window.open(firstNoti.data.click_action, "_blank");
-      };
-
-      // 포그라운드 메세지 수신
-      onMessage(messaging, (payload: any) => {
-        new Notification(payload.notification.title, {
-          body: payload.notification.body,
-          icon: payload.notification.icon,
+      if (messaging) {
+        const token = await getToken(messaging, {
+          vapidKey: process.env.NEXT_PUBLIC_VAPID_KEY,
         });
-      });
+
+        localStorage.setItem("cpnow-fb-token", token);
+        const firstNoti = new Notification("알림이 허용되었습니다", {
+          body: "최저가 알람을 받을 수 있어요 🚀",
+          icon: "/icons/android-icon-192x192.png",
+          data: {
+            click_action: "https://cpnow.kr", // ✅ 클릭 시 이동할 링크
+          },
+        });
+
+        firstNoti.onclick = (event) => {
+          event.preventDefault();
+          window.open(firstNoti.data.click_action, "_blank");
+        };
+
+        // 포그라운드 메세지 수신
+        onMessage(messaging, (payload: MessagePayload) => {
+          new Notification(payload.notification?.title || "", {
+            body: payload.notification?.body,
+            icon: payload.notification?.icon,
+          });
+        });
+      }
     }
   };
 

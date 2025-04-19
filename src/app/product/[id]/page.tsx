@@ -1,9 +1,7 @@
 "use client";
-import { use } from "react";
-
 import Image from "next/image";
 import Link from "next/link";
-
+import { use } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { notFound } from "next/navigation";
