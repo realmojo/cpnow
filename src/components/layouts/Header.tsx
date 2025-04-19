@@ -1,4 +1,6 @@
 import Link from "next/link";
+import Image from "next/image";
+import Logo from "@/public/main-logo.png";
 
 export default function Header() {
   // const pathname = usePathname();
@@ -7,29 +9,14 @@ export default function Header() {
     <header className="w-full border-b bg-white shadow-sm">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <Link href="/">
-          <span className="text-xl font-bold">CP Now</span>
+          <Image
+            src={Logo}
+            width={140}
+            alt="시피나우-로고"
+            placeholder="blur"
+            priority
+          />
         </Link>
-        {/* <nav className="flex space-x-4">
-          <Link
-            href="/categories/1"
-            // className={cn(
-            //   "text-sm font-medium hover:underline",
-            //   pathname === "/" && "text-blue-600"
-            // )}
-          >
-            Home
-          </Link>
-          <Link
-            href="/categories/2"
-            // className={cn(
-            //   "text-sm font-medium hover:underline",
-            //   pathname === "/about" && "text-blue-600"
-            // )}
-          >
-            About
-          </Link>
-        </nav> */}
-        {/* <Button variant="outline">랜덤상품 보기</Button> */}
       </div>
     </header>
   );

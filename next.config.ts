@@ -1,15 +1,17 @@
 import type { NextConfig } from "next";
 
+const remotePatterns = [];
+for (let i = 1; i <= 10; i += 1) {
+  remotePatterns.push({
+    protocol: "https",
+    hostname: `thumbnail${i}.coupangcdn.com`, // 이미지 도메인
+    pathname: "/**",
+  });
+}
 const nextConfig: NextConfig = {
   /* config options here */
   images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "thumbnail8.coupangcdn.com", // 이미지 도메인
-        pathname: "/**",
-      },
-    ],
+    remotePatterns,
   },
 };
 

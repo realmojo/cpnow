@@ -14,16 +14,11 @@ firebase.initializeApp({
   measurementId: "G-YL7EGJ74DV",
 });
 
-console.log(1111);
 const messaging = firebase.messaging();
 const isSupported = firebase.messaging.isSupported();
-console.log("isSuported", isSupported);
 
 if (isSupported) {
   console.log("백그라운드를 수신 합니다.");
-  messaging.onMessage((payload) => {
-    console.log(payload);
-  });
   messaging.onBackgroundMessage(function (payload) {
     console.log(
       "[firebase-messaging-sw.js] Received background message ",

@@ -1,10 +1,9 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { use } from "react";
+import { use, useState, useEffect } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { notFound } from "next/navigation";
 import {
   Card,
   CardContent,
@@ -45,7 +44,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import NotificationButton from "@/src/components/Notification";
+// import NotificationButton from "@/src/components/Notification";
 
 const data = [
   { name: "월", uv: 400 },
@@ -57,6 +56,19 @@ const data = [
   { name: "일", uv: 300 },
 ];
 
+// ✅ 실제 API 호출 함수
+async function getProductById(id: string): Promise<any | null> {
+  const res = await fetch(`/api/product?id=${id}`, {
+    cache: "no-store", // ← SSR 시 실시간 데이터 원할 경우
+  });
+  // const res = await fetch(`/api/product?id=${id}`);
+
+  if (!res.ok) return null;
+
+  const data = await res.json();
+  return data;
+}
+
 export default function ProductPage({
   params,
 }: {
@@ -64,10 +76,12 @@ export default function ProductPage({
 }) {
   const { id } = use(params); // ✅ 이렇게 unwrapping 필요
 
+  const [productItem, setProductItem] = useState<any>({});
+
   // 예시: 유효하지 않은 ID 처리
-  if (!["1", "2", "3"].includes(id)) {
-    notFound(); // 404 처리
-  }
+  // if (!["1", "2", "3"].includes(id)) {
+  //   notFound(); // 404 처리
+  // }
 
   const handleNotify = () => {
     toast("최저가 알림받기가 설정되었습니다.", {
@@ -75,27 +89,60 @@ export default function ProductPage({
     });
   };
 
+  const initData = async (id: string) => {
+    const data = await getProductById(id);
+    setProductItem(data);
+  };
+
+  const formatNumber = (num: number | string): string => {
+    return num ? Number(num).toLocaleString("ko-KR") : 0;
+  };
+  const calculateDiscountRate = (
+    originalPrice: number,
+    salePrice: number,
+  ): number => {
+    if (originalPrice <= 0) return 0; // 0원 이상이어야 나눗셈 가능
+    const discount = ((originalPrice - salePrice) / originalPrice) * 100;
+    return Math.round(discount); // 정수 반올림
+  };
+
+  const getShortUrl = (item: any) => {
+    const { shortUrl, link } = item;
+    if (shortUrl && shortUrl.startsWith("https")) {
+      return shortUrl;
+    } else {
+      return link;
+    }
+  };
+
+  useEffect(() => {
+    initData(id);
+  }, [id]);
+
   return (
     <div className="container mx-auto py-10">
-      {/* <h1 className="text-2xl font-bold">Product ID: {id}</h1> */}
-      <NotificationButton />
+      {/* <NotificationButton /> */}
       <div className="flex justify-center">
         <div className="w-[800px] px-4">
-          <h2 className="font-heading mt-16 flex scroll-m-20 justify-between border-b pb-4 text-2xl font-bold tracking-tight first:mt-0">
+          <h2 className="font-heading mt-16 flex scroll-m-20 justify-between border-b pb-4 text-2xl tracking-tight first:mt-0">
             <div>상품정보</div>
             <div className="mt-3">
               <Breadcrumb>
                 <BreadcrumbList>
                   <BreadcrumbItem>
-                    <BreadcrumbLink href="/">의류</BreadcrumbLink>
+                    <BreadcrumbLink href="/">
+                      {productItem.bigCategory}
+                    </BreadcrumbLink>
                   </BreadcrumbItem>
                   <BreadcrumbSeparator />
                   <BreadcrumbItem>
-                    <BreadcrumbLink href="/components">여성패션</BreadcrumbLink>
+                    <BreadcrumbLink href="/components">
+                      {productItem.middleCategory}
+                    </BreadcrumbLink>
                   </BreadcrumbItem>
                   <BreadcrumbSeparator />
                   <BreadcrumbItem>
-                    <BreadcrumbPage>가디건</BreadcrumbPage>
+                    <BreadcrumbPage>{productItem.category}</BreadcrumbPage>
                   </BreadcrumbItem>
                 </BreadcrumbList>
               </Breadcrumb>
@@ -108,7 +155,10 @@ export default function ProductPage({
           {/* 왼쪽 이미지 영역 */}
           <div className="flex items-center justify-center p-4 sm:flex-[3]">
             <Image
-              src="https://thumbnail8.coupangcdn.com/thumbnails/remote/400x400ex/image/vendor_inventory/d21e/7a9b3ba07a64bf5fcd699da80ae058a5b6ccc192253b634b46d0a87edb6f.jpg"
+              src={
+                productItem.thumbnail ||
+                "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgdmlld0JveD0iMCAwIDYwMCA0MDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjYwMCIgaGVpZ2h0PSI0MDAiIGZpbGw9IiNlZWVlZWUiLz48L3N2Zz4="
+              }
               alt="product"
               width={400}
               height={400}
@@ -124,37 +174,47 @@ export default function ProductPage({
             <table className="w-full border-collapse text-base">
               <tbody>
                 <tr className="border-b border-gray-200">
-                  <th className="w-[140px] p-3 text-left font-bold text-gray-700">
+                  <th className="w-[100px] p-3 text-left font-bold text-gray-700">
                     상품명
                   </th>
                   <td className="p-3 text-lg text-gray-800">
-                    예시 상품명입니다
+                    {productItem.title}
                   </td>
                 </tr>
                 <tr className="border-b border-gray-200">
                   <th className="p-3 text-left font-bold text-gray-700">
                     할인율
                   </th>
-                  <td className="p-3 text-lg text-gray-800">15%</td>
+                  <td className="p-3 text-lg text-gray-800">
+                    {calculateDiscountRate(
+                      productItem.price,
+                      productItem.lowPrice ?? productItem.price,
+                    ) || 0}
+                    %
+                  </td>
                 </tr>
                 <tr className="border-b border-gray-200">
                   <th className="p-3 text-left font-bold text-gray-700">
                     최저가
                   </th>
-                  <td className="p-3 text-lg text-gray-800">89,000원</td>
+                  <td className="p-3 text-lg text-gray-800">
+                    {formatNumber(productItem.lowPrice ?? productItem.price)}원
+                  </td>
                 </tr>
                 <tr className="border-b border-gray-200">
                   <th className="p-3 text-left font-bold text-gray-700">
                     최고가
                   </th>
-                  <td className="p-3 text-lg text-gray-800">129,000원</td>
+                  <td className="p-3 text-lg text-gray-800">
+                    {formatNumber(productItem.highPrice ?? productItem.price)}원
+                  </td>
                 </tr>
                 <tr className="border-b border-gray-200">
                   <th className="p-3 text-left font-bold text-gray-700">
                     현재가
                   </th>
                   <td className="p-3 text-lg font-bold text-red-600">
-                    99,000원
+                    {formatNumber(productItem.price)}원
                   </td>
                 </tr>
                 <tr className="border-b border-gray-200">
@@ -170,18 +230,23 @@ export default function ProductPage({
                   <td className="p-3 text-lg text-gray-800">4.7 / 5</td>
                 </tr>
                 <tr>
-                  <td colSpan={2} className="p-3 text-lg text-gray-800">
+                  <td colSpan={2} className="text-lg text-gray-800">
                     <div className="mt-4 flex gap-2">
                       <Button
                         variant="secondary"
-                        className="h-14 flex-1"
-                        onClick={handleNotify}
+                        className="h-14 flex-1 px-0"
                         size="lg"
                       >
-                        구매하기
+                        <a
+                          href={getShortUrl(productItem)}
+                          target="_blank"
+                          className="flex h-full w-full items-center justify-center text-center"
+                        >
+                          구매하기
+                        </a>
                       </Button>
                       <Button
-                        className="h-14 flex-1"
+                        className="h-14 flex-1 px-0"
                         size="lg"
                         onClick={handleNotify}
                       >
@@ -304,7 +369,7 @@ export default function ProductPage({
                   />
                 </TableCell>
                 <TableCell className="font-medium">
-                  삼성 4K UHD TV 55인치
+                  {productItem.title}
                 </TableCell>
                 <TableCell>₩699,000</TableCell>
                 <TableCell className="font-semibold text-red-500">

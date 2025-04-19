@@ -25,12 +25,10 @@ let messaging: ReturnType<typeof getMessaging> | null = null;
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-console.log("자동로딩롣ㅇ");
 if (typeof window !== "undefined") {
   isSupported().then((supported) => {
     if (supported) {
       messaging = getMessaging(app);
-      console.log(messaging);
       console.log("✅ Firebase Messaging Init");
     } else {
       console.warn("⚠️ 이 브라우저는 FCM을 지원하지 않습니다.");

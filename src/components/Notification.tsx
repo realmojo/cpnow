@@ -97,39 +97,12 @@ export default function NotificationButton() {
               onClick: () => window.open("https://cpnow.kr"),
             },
           });
-          // const notification = new Notification("시피나우", {
-          //   // requireInteraction: true,
-          //   body: "알림이 성공적으로 보내졌습니다!.",
-          //   badge: "32",
-          //   icon: "/icons/logo-512x512.png",
-          //   data: {
-          //     click_action: "https://www.naver.com", // ✅ 클릭 시 이동할 링크
-          //   },
-          // });
-          // notification.onclick = (event) => {
-          //   event.preventDefault();
-          //   window.open(notification.data.click_action, "_blank");
-          // };
         }
       } else {
       }
     } catch (e) {
       console.log(e);
     }
-
-    // await admin.messaging().send({
-    //   token:
-    //     "cgEhW5uCJBoL17YbW_hXaU:APA91bFX_Enb7r4MEmFc753wDmYUJFa46Bc-aX8mQBri7q_rXB3PJfczdYsRfzFJQBn0tOMQFoE9QRpebvifQo0mzyMbTOSV-oGdJ1cY0wi3uXkgDwt_DXk",
-    //   notification: {
-    //     title: "📢 새로운 소식!",
-    //     body: "지금 확인해보세요.",
-    //   },
-    //   webpush: {
-    //     notification: {
-    //       click_action: "https://yourapp.com/product/123",
-    //     },
-    //   },
-    // });
   };
 
   return (
