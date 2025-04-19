@@ -46,7 +46,6 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import NotificationButton from "@/src/components/Notification";
-export const runtime = "edge";
 
 const data = [
   { name: "월", uv: 400 },

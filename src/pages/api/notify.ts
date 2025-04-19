@@ -1,7 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { messaging } from "@/lib/firebase-admin";
 
-export const runtime = "edge";
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
@@ -28,8 +27,6 @@ export default async function handler(
       },
     };
     const response = await messaging.send(params);
-    console.log(params);
-    console.log(response);
     return res.status(200).json({ success: true, messageId: response });
   } catch (e: unknown) {
     return res
