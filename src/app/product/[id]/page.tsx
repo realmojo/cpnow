@@ -95,7 +95,7 @@ export default function ProductPage({
   };
 
   const formatNumber = (num: number | string): string => {
-    return num ? Number(num).toLocaleString("ko-KR") : 0;
+    return num ? Number(num).toLocaleString("ko-KR") : "0";
   };
   const calculateDiscountRate = (
     originalPrice: number,
