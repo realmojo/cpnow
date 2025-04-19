@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
+import type { RemotePattern } from "next/dist/shared/lib/image-config";
 
-const remotePatterns = [];
+const remotePatterns: RemotePattern[] = [];
 for (let i = 1; i <= 10; i += 1) {
   remotePatterns.push({
     protocol: "https",
