@@ -64,10 +64,7 @@ export async function GET(req: NextRequest) {
     }
 
     const data = await apiRes.json();
-
     const { productId, vendorItemId, itemId, lastUpdated, price } = data;
-
-    console.log(lastUpdated, getTodayDate());
 
     data.thumbnail = data.thumbnail.replace("230x230", "600x600");
 
@@ -83,7 +80,6 @@ export async function GET(req: NextRequest) {
         ? coupangItem[0].moduleData[3].priceInfo.finalPrice.price
         : coupangItem[0].moduleData[1].detailPriceBundle.finalPrice
             .bestPriceInfo.price;
-      console.log("price", price);
 
       const params = {
         id,
