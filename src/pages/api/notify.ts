@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { messaging } from "@/lib/firebase-admin";
-export const runtime = "nodejs";
 
 export default async function handler(
   req: NextApiRequest,
