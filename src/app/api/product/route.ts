@@ -80,6 +80,7 @@ export async function GET(req: NextRequest) {
     });
 
     // 새롭게 가격을 가져옴
+    console.log(lastUpdated, getTodayDate(), lastUpdated.substring(0, 10));
     if (!lastUpdated || getTodayDate() !== lastUpdated.substring(0, 10)) {
       const nowPrice = coupangItem[0].moduleData[3].priceInfo.finalPrice.price
         ? coupangItem[0].moduleData[3].priceInfo.finalPrice.price
