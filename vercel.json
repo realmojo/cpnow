@@ -1,16 +1,16 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "app.js",
-      "use": "@vercel/node"
+  "functions": {
+    "src/app/api/**/*.ts": {
+      "regions": ["icn1"]
+    },
+    "src/app/api/**/*.tsx": {
+      "regions": ["icn1"]
+    },
+    "src/app/**/route.ts": {
+      "regions": ["icn1"]
+    },
+    "src/app/**/route.tsx": {
+      "regions": ["icn1"]
     }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/app.js"
-    }
-  ],
-  "regions": ["icn1"]
+  }
 }
