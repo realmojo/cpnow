@@ -73,12 +73,7 @@ export async function GET(req: NextRequest) {
 
     data.thumbnail = data.thumbnail.replace("230x230", "600x600");
 
-    console.log(
-      1,
-      lastUpdated,
-      getTodayDate(),
-      lastUpdated ? lastUpdated.substring(0, 10) : "",
-    );
+    console.log(1, lastUpdated, getTodayDate());
     const coupangItem: any = await getCoupangItemRequest({
       productId,
       vendorItemId,
@@ -86,7 +81,7 @@ export async function GET(req: NextRequest) {
     });
 
     // 새롭게 가격을 가져옴
-    console.log(2, lastUpdated, getTodayDate(), lastUpdated.substring(0, 10));
+    console.log(2, lastUpdated, getTodayDate());
     if (!lastUpdated || getTodayDate() !== lastUpdated.substring(0, 10)) {
       const nowPrice = coupangItem[0].moduleData[3].priceInfo.finalPrice.price
         ? coupangItem[0].moduleData[3].priceInfo.finalPrice.price
