@@ -16,13 +16,64 @@ const getCoupangItemRequest = async (params: ProductParam) => {
   // ];
   const myHeaders = new Headers();
 
-  const referer = `https://coupang.com/vp/products/${productId}?itemId=${itemId}&vendorItemId=${vendorItemId}`;
+  const referer = `https://coupang.com/vp/products/${productId}?itemId=${itemId}&vendorItemId=${vendorItemId}&isAddedCart=`;
+  myHeaders.append("Host", "www.coupang.com");
+  myHeaders.append("Connection", "keep-alive");
+  myHeaders.append("sec-ch-ua-platform", '"macOS"');
+  myHeaders.append("X-Requested-With", "XMLHttpRequest"); // 또는 빈 문자열 가능
+  myHeaders.append(
+    "User-Agent",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36",
+  );
+  myHeaders.append("Accept", "*/*");
+  myHeaders.append(
+    "sec-ch-ua",
+    '"Google Chrome";v="135", "Not-A.Brand";v="8", "Chromium";v="135"',
+  );
+  myHeaders.append("sec-ch-ua-mobile", "?0");
+  myHeaders.append("Sec-Fetch-Site", "same-origin");
+  myHeaders.append("Sec-Fetch-Mode", "cors");
+  myHeaders.append("Sec-Fetch-Dest", "empty");
   myHeaders.append("Referer", referer);
+  myHeaders.append("Accept-Encoding", "gzip, deflate, br, zstd");
+  myHeaders.append("Accept-Language", "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7");
+
+  // ✅ 쿠키 (필요한 최소 쿠키만 발췌, 너무 길면 서버 거부 가능)
+  myHeaders.append(
+    "Cookie",
+    [
+      "cf_clearance=Cp.wa8CulYTdDTFS_OjUL5.nMQypFPpmlYIuTVfuIaY-1727096575-1.2.1.1-...",
+      "PCID=17352055459852814276955",
+      "x-coupang-accept-language=ko-KR",
+      "x-coupang-target-market=KR",
+      "sid=e8ef858ebcca412bb398e1fe74aa3e1d00742d28",
+    ].join("; "),
+  );
+  // myHeaders.append("Referer", referer);
+  // myHeaders.append("accept", "*/*");
+  // myHeaders.append("cache-control", "no-cache");
+  // myHeaders.append("connection", "keep-alive");
+  // myHeaders.append("user-agent", "PostmanRuntime/7.43.0");
+  // myHeaders.append("x-forwarded-for", "::1");
+  // myHeaders.append("x-forwarded-host", "localhost:3000");
+  // myHeaders.append("x-forwarded-port", "3000");
+  // myHeaders.append("x-forwarded-proto", "http");
+  // accept: ,
+  // 'accept-encoding': 'gzip, deflate, br',
+  // 'cache-control': 'no-cache',
+  // connection: 'keep-alive',
+  // host: 'localhost:3000',
+  // 'postman-token': '466ab032-9016-4411-9899-01b8134dc88e',
+  // '': '',
+  // 'x-forwarded-for': '::1',
+  // 'x-forwarded-host': 'localhost:3000',
+  // 'x-forwarded-port': '3000',
+  // 'x-forwarded-proto': 'http'
 
   const requestOptions: RequestInit = {
     method: "GET",
     headers: myHeaders,
-    // redirect: "follow",
+    redirect: "follow",
   };
 
   const url = `https://coupang.com/vp/products/${productId}/vendoritems/${vendorItemId}/quantity-info?quantity=1`;
