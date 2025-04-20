@@ -41,13 +41,7 @@ const getCoupangItemRequest = async (params: ProductParam) => {
   // ✅ 쿠키 (필요한 최소 쿠키만 발췌, 너무 길면 서버 거부 가능)
   myHeaders.append(
     "Cookie",
-    [
-      "cf_clearance=Cp.wa8CulYTdDTFS_OjUL5.nMQypFPpmlYIuTVfuIaY-1727096575-1.2.1.1-...",
-      "PCID=17352055459852814276955",
-      "x-coupang-accept-language=ko-KR",
-      "x-coupang-target-market=KR",
-      "sid=e8ef858ebcca412bb398e1fe74aa3e1d00742d28",
-    ].join("; "),
+    "MARKETID=4582282478309293724418; PCID=4582282478309293724418; _abck=EF7BE2B0C29338B5C33C11FD1D8D6943~-1~YAAQt+Q1FwLLYz+WAQAAE/lgUg1b34CXWvGXWV0hAypbVMaYUulB7hp4obxM+SW0UY9JvXgSY9bmDgoXMv4cyUwoAIGGfvcsfwYZI4m2P6Cbuo1N7FSbdxk4pu76IauAZAk47TYEOFhfyh34TtuAIFcmDMWPKnr4traPr4FG5zvprLY6IlWyZjhhANNuH8pdrhxlzGvVfgbvHwq/rNo6fnz418ViKd/kvbRxSb+XwfQAfj5d0OuWqcLZr+XdqwGMbtzXNqSJTSYSW804pmmuv+v9rTUm2kLnB5CEaYNOgzqCam2WAZz73HJzKdCsnqmqmUgFwE+bGML9ymQf6zdLyjCzpXn3kXO0jGORRKzRuYsD1DcDJWlZU0LWNHQ2avV1uOPHm5ewgibpZeeZbMJ7ujxGHd3GEa3ZYi4l9QrdtuZ7uRo8dWJhhui4atvW7Jzb+WGOJVEqPT96L4EDMEHJGWFyGN2LSsZvc8twBY/yibsPGECpf4iqEaek49Jj1+vfRUcsET+SPZ5/HByfcpZX8UQBs8ZqjgT3ELBDs0FAQBEic9SCJp9McO15Gz2ANr9XCdIR/TIJHpw5iR/4D6Fbxjg9Ag==~-1~-1~-1; bm_s=YAAQt+Q1FwPLYz+WAQAAE/lgUgO7OAZQwFLRvwtw1mPUnFoPYTmJ+foJ0arZN6pvqfMip6sgMf2rfN4Z2ccEqG7EvpijenEd0R/NzQdD9MWQcWxiKFZoX1B3tWlercublyjkieDsCfB9IZN1mi0QwTOKJ7Jekg5lRVOGJn9OE97drndcY7oJ6Uj7YEgPuo+4lbJXYOG7iYkXtwwjlsULH0kD1IvumCvBF8AmgIJ7h8wCzv2/Bn09YJ+SRsthGmtCVco6oHOoBSrwnBhah2pM/snYZrIt2GrSYnSBOzCajc6E+3ORyQGtg67P/DfP04Enyj1PIorRkEzCEYMO+HgeUUUyVyAJNyn7XAzPyKSOm2r9ec05SLIsXWueOQuUEp0SkYcJcpHuTszURxn8Ger4I4sFRHRkEgT93kGE63rlLSFZ8kIXlasHpY3H/pw0FAhk3FRWqTxlcKF3c78Wz/UfdADJQHxkQlaaZ8Ech05L; bm_ss=ab8e18ef4e; bm_sz=03ED3B7846696ABF0DE88FF4352D9FFC~YAAQt+Q1FwTLYz+WAQAAE/lgUhvzsynn8/aWOoWU/VAIXQiVq/NvLhAx1yYnT2+ZrBSKo7r1esq2QdaCpjMBwFr1kOW7eb2ee7mjzVW1YVe+3z5QWx5QqMSuue5UD9a8xDhoiulG4EzTf/smCRWCm/EO6kzwiJiSPuB3gkRSJ7E93PKGatzeNMF5s8MRaiwmq3Dm7x8uhd9CAnpYaFZq4qfbERnhUpuVFf2GcKFoTLYxzyFoa/En5HyTm0K5CDLadenoG9sSof9m6RF6YynlsEyM2KtDmljBvuJYCdyacQf9b3t6qPfRf8wx4fFtyaLG6ZehY2FL2XgRURNuDwS2h63JdLQZiNYsbgNijMKU7I8=~3228214~3356725; overrideAbTestGroup=%5B%5D; sid=ab0a0ce72bfb425494e3bb300e8feedc18828dd0",
   );
   const requestOptions: RequestInit = {
     method: "GET",
