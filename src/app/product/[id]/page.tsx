@@ -131,18 +131,20 @@ export default function ProductPage({
                 <BreadcrumbList>
                   <BreadcrumbItem>
                     <BreadcrumbLink href="/">
-                      {productItem.bigCategory}
+                      {productItem.bigCategory ?? ""}
                     </BreadcrumbLink>
                   </BreadcrumbItem>
                   <BreadcrumbSeparator />
                   <BreadcrumbItem>
                     <BreadcrumbLink href="/components">
-                      {productItem.middleCategory}
+                      {productItem.middleCategory ?? ""}
                     </BreadcrumbLink>
                   </BreadcrumbItem>
                   <BreadcrumbSeparator />
                   <BreadcrumbItem>
-                    <BreadcrumbPage>{productItem.category}</BreadcrumbPage>
+                    <BreadcrumbPage>
+                      {productItem.category ?? ""}
+                    </BreadcrumbPage>
                   </BreadcrumbItem>
                 </BreadcrumbList>
               </Breadcrumb>
@@ -159,7 +161,7 @@ export default function ProductPage({
                 productItem.thumbnail ||
                 "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgdmlld0JveD0iMCAwIDYwMCA0MDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjYwMCIgaGVpZ2h0PSI0MDAiIGZpbGw9IiNlZWVlZWUiLz48L3N2Zz4="
               }
-              alt="product"
+              alt={productItem.title ?? ""}
               width={400}
               height={400}
               className="h-auto w-full rounded-md object-contain sm:w-[400px]"
@@ -178,7 +180,7 @@ export default function ProductPage({
                     상품명
                   </th>
                   <td className="p-3 text-lg text-gray-800">
-                    {productItem.title}
+                    {productItem.title ?? ""}
                   </td>
                 </tr>
                 <tr className="border-b border-gray-200">
@@ -221,13 +223,48 @@ export default function ProductPage({
                   <th className="p-3 text-left font-bold text-gray-700">
                     로켓배송
                   </th>
-                  <td className="p-3 text-lg text-gray-800">가능</td>
+                  <td className="p-3 text-lg text-gray-800">
+                    {productItem.deliveryType === "1" ? (
+                      <Image
+                        src="https://image1.coupangcdn.com/image/badges/rocket/rocket_logo.png"
+                        width={80}
+                        height={20}
+                        alt="로켓배송"
+                      />
+                    ) : (
+                      ""
+                    )}
+                    {productItem.deliveryType === "2" ? (
+                      <Image
+                        src="https://image1.coupangcdn.com/image/coupang/rds/logo/iphone_2x/logoRocketMerchantLargeV3R3@2x.png"
+                        width={80}
+                        height={20}
+                        alt="판매자직구"
+                      />
+                    ) : (
+                      ""
+                    )}
+                    {productItem.deliveryType === "3" ? (
+                      <Image
+                        src="https://image1.coupangcdn.com/image/coupang/rds/logo/iphone_2x/logoRocketMerchantLargeV3R3@2x.png"
+                        width={80}
+                        height={20}
+                        alt="로켓직구"
+                      />
+                    ) : (
+                      ""
+                    )}
+                    {productItem.deliveryType === "0" ? "일반배송" : ""}
+                  </td>
                 </tr>
                 <tr className="border-b border-gray-200">
                   <th className="p-3 text-left font-bold text-gray-700">
-                    평점
+                    평점(리뷰 수)
                   </th>
-                  <td className="p-3 text-lg text-gray-800">4.7 / 5</td>
+                  <td className="p-3 text-lg text-gray-800">
+                    {productItem.rating ?? 0} / 5 (
+                    {productItem.reviewCount ?? 0})
+                  </td>
                 </tr>
                 <tr>
                   <td colSpan={2} className="text-lg text-gray-800">
