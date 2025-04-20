@@ -49,21 +49,26 @@ export async function GET(req: NextRequest) {
     }
 
     // ✅ 외부 API 호출
-    const apiRes = await fetch(
+    // const apiRes = await fetch(
+    //   `https://api.mindpang.com/api/coupang/getItemById.php?id=${id}`,
+    // );
+
+    // if (!apiRes.ok) {
+    //   return new Response(
+    //     JSON.stringify({ error: "Failed to fetch from external API" }),
+    //     {
+    //       status: 502,
+    //       headers: { "Content-Type": "application/json" },
+    //     },
+    //   );
+    // }
+    console.log("id", id);
+    const { data } = await axios.get(
       `https://api.mindpang.com/api/coupang/getItemById.php?id=${id}`,
     );
+    console.log(data);
 
-    if (!apiRes.ok) {
-      return new Response(
-        JSON.stringify({ error: "Failed to fetch from external API" }),
-        {
-          status: 502,
-          headers: { "Content-Type": "application/json" },
-        },
-      );
-    }
-
-    const data = await apiRes.json();
+    // const data = await apiRes.json();
     const { productId, vendorItemId, itemId, lastUpdated, price } = data;
 
     data.thumbnail = data.thumbnail.replace("230x230", "600x600");
