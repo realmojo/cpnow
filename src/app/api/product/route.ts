@@ -49,27 +49,6 @@ const getCoupangItemRequest = async (params: ProductParam) => {
       "sid=e8ef858ebcca412bb398e1fe74aa3e1d00742d28",
     ].join("; "),
   );
-  // myHeaders.append("Referer", referer);
-  // myHeaders.append("accept", "*/*");
-  // myHeaders.append("cache-control", "no-cache");
-  // myHeaders.append("connection", "keep-alive");
-  // myHeaders.append("user-agent", "PostmanRuntime/7.43.0");
-  // myHeaders.append("x-forwarded-for", "::1");
-  // myHeaders.append("x-forwarded-host", "localhost:3000");
-  // myHeaders.append("x-forwarded-port", "3000");
-  // myHeaders.append("x-forwarded-proto", "http");
-  // accept: ,
-  // 'accept-encoding': 'gzip, deflate, br',
-  // 'cache-control': 'no-cache',
-  // connection: 'keep-alive',
-  // host: 'localhost:3000',
-  // 'postman-token': '466ab032-9016-4411-9899-01b8134dc88e',
-  // '': '',
-  // 'x-forwarded-for': '::1',
-  // 'x-forwarded-host': 'localhost:3000',
-  // 'x-forwarded-port': '3000',
-  // 'x-forwarded-proto': 'http'
-
   const requestOptions: RequestInit = {
     method: "GET",
     headers: myHeaders,
@@ -77,6 +56,8 @@ const getCoupangItemRequest = async (params: ProductParam) => {
   };
 
   const url = `https://coupang.com/vp/products/${productId}/vendoritems/${vendorItemId}/quantity-info?quantity=1`;
+  console.log(url);
+  console.log(requestOptions);
 
   try {
     const response = await fetch(url, requestOptions);
