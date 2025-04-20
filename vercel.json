@@ -1,15 +1,15 @@
 {
   "functions": {
-    "src/app/api/**/*.ts": {
+    "app/api/**/*.ts": {
       "regions": ["icn1"]
     },
-    "src/app/api/**/*.tsx": {
+    "app/api/**/*.tsx": {
       "regions": ["icn1"]
     },
-    "src/app/**/route.ts": {
+    "app/**/route.ts": {
       "regions": ["icn1"]
     },
-    "src/app/**/route.tsx": {
+    "app/**/route.tsx": {
       "regions": ["icn1"]
     }
   }
