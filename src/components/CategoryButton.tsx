@@ -5,20 +5,6 @@ import { useRouter, useSearchParams } from "next/navigation";
 import clsx from "clsx";
 import { useEffect, useState } from "react";
 
-const categories = [
-  { id: "464982", name: "전체" },
-  { id: "1001", name: "상의" },
-  { id: "1002", name: "하의" },
-  { id: "1003", name: "신발" },
-  { id: "1004", name: "아우터" },
-  { id: "1005", name: "모자/악세서리" },
-  { id: "1006", name: "모자/악세서리" },
-  { id: "1007", name: "모자/악세서리" },
-  { id: "1008", name: "모자/악세서리" },
-  { id: "1009", name: "모자/악세서리" },
-  { id: "1010", name: "모자/악세서리" },
-];
-// getCategoryByDepth1.php;
 type CategoryButtonsProps = {
   categoryId: string;
 };

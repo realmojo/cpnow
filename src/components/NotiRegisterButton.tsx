@@ -14,7 +14,8 @@ export default function NotiRegisterButton() {
     userId: "",
     fcmToken: "",
   });
-  const [_, setPermission] = useState<NotificationPermission>(
+  /* eslint-disable @typescript-eslint/no-unused-vars */
+  const [_permission, setPermission] = useState<NotificationPermission>(
     typeof window !== "undefined" && "Notification" in window
       ? Notification.permission
       : "default",

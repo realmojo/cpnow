@@ -2,9 +2,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { use, useState, useEffect } from "react";
-import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
-import { Star } from "lucide-react"; // 또는 원하는 아이콘 라이브러리 사용
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import CategoryTabs from "@/src/components/CategoryButton";
@@ -27,8 +24,8 @@ export default function CategoryPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = use(params); // ✅ 이렇게 unwrapping 필요
-  console.log(id);
-  const [categoryItem, setCategoryItem] = useState<any>([]);
+  /* eslint-disable @typescript-eslint/no-unused-vars */
+  const [_categoryItem, setCategoryItem] = useState<any>([]);
 
   const initData = async (id: string) => {
     const data = await getCategoryById(id);
@@ -37,7 +34,7 @@ export default function CategoryPage({
   };
 
   useEffect(() => {
-    // initData(id);
+    initData(id);
   }, [id]);
 
   return (

@@ -1,12 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
 import Logo from "@/public/main-logo.png";
-import { Button } from "@/components/ui/button";
 import NotiRegisterButton from "../NotiRegisterButton";
 
 export default function Header() {
-  // const pathname = usePathname();
-
   return (
     <header className="container mx-auto flex h-16 w-full max-w-[800px] items-center justify-between px-4">
       <Link href="/">
