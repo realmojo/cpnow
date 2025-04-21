@@ -17,7 +17,7 @@ export async function GET(req: NextRequest) {
 
     // ✅ 외부 API 호출
     const { data } = await axios.get(
-      `https://api.mindpang.com/api/coupang/getItemById.php?id=${id}`,
+      `https://api.mindpang.com/api/cpnow/getItemById.php?id=${id}`,
     );
 
     const { lastUpdated } = data;
@@ -36,8 +36,8 @@ export async function GET(req: NextRequest) {
       //   highPrice: nowPrice >= price ? nowPrice : price,
       //   lowPrice: nowPrice <= price ? nowPrice : price,
       // };
-      const addCrawlWaitId = `https://api.mindpang.com/api/coupang/addCoupangCrawlwait.php?cpId=${id}`;
-      await axios.get(addCrawlWaitId);
+      const addCrawlWaitUrl = `https://api.mindpang.com/api/cpnow/addCoupangCrawlwait.php?cpId=${id}`;
+      await axios.get(addCrawlWaitUrl);
     }
     // ✅ 결과 반환
 

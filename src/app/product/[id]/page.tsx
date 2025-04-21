@@ -120,12 +120,12 @@ export default function ProductPage({
   }, [id]);
 
   return (
-    <div className="container mx-auto py-10">
+    <article>
       {/* <NotificationButton /> */}
-      <div className="flex justify-center">
-        <div className="w-[800px] px-4">
-          <h2 className="font-heading mt-16 flex scroll-m-20 justify-between border-b pb-4 text-2xl tracking-tight first:mt-0">
-            <div>상품정보</div>
+      <section className="flex justify-center py-10">
+        <div className="mx-auto w-full max-w-[800px] px-4">
+          <h2 className="font-heading flex scroll-m-20 justify-between border-b pb-4 text-2xl font-bold tracking-tight first:mt-0">
+            상품정보
             <div className="mt-3">
               <Breadcrumb>
                 <BreadcrumbList>
@@ -143,161 +143,167 @@ export default function ProductPage({
                   <BreadcrumbSeparator />
                   <BreadcrumbItem>
                     <BreadcrumbPage>
-                      {productItem.category ?? ""}
+                      <BreadcrumbLink
+                        href={`/categories/${productItem.categoryId}`}
+                      >
+                        {productItem.category ?? ""}
+                      </BreadcrumbLink>
                     </BreadcrumbPage>
                   </BreadcrumbItem>
                 </BreadcrumbList>
               </Breadcrumb>
             </div>
           </h2>
-        </div>
-      </div>
-      <div className="flex justify-center">
-        <div className="flex w-[800px] flex-col items-stretch overflow-hidden rounded-lg bg-white sm:flex-row">
-          {/* 왼쪽 이미지 영역 */}
-          <div className="flex items-center justify-center p-4 sm:flex-[3]">
-            <Image
-              src={
-                productItem.thumbnail ||
-                "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgdmlld0JveD0iMCAwIDYwMCA0MDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjYwMCIgaGVpZ2h0PSI0MDAiIGZpbGw9IiNlZWVlZWUiLz48L3N2Zz4="
-              }
-              alt={productItem.title ?? ""}
-              width={400}
-              height={400}
-              className="h-auto w-full rounded-md object-contain sm:w-[400px]"
-              placeholder="blur"
-              blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgdmlld0JveD0iMCAwIDYwMCA0MDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjYwMCIgaGVpZ2h0PSI0MDAiIGZpbGw9IiNlZWVlZWUiLz48L3N2Zz4="
-              priority
-            />
-          </div>
+          {/* </section>
+      <section className="flex justify-center"> */}
+          <div className="flex flex-col items-stretch overflow-hidden rounded-lg bg-white sm:flex-row">
+            {/* 왼쪽 이미지 영역 */}
+            <div className="flex items-center justify-center sm:flex-[3]">
+              <Image
+                src={
+                  productItem.thumbnail ||
+                  "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgdmlld0JveD0iMCAwIDYwMCA0MDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjYwMCIgaGVpZ2h0PSI0MDAiIGZpbGw9IiNlZWVlZWUiLz48L3N2Zz4="
+                }
+                alt={productItem.title ?? ""}
+                width={400}
+                height={400}
+                className="h-auto w-full rounded-md object-contain sm:w-[400px]"
+                placeholder="blur"
+                blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgdmlld0JveD0iMCAwIDYwMCA0MDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjYwMCIgaGVpZ2h0PSI0MDAiIGZpbGw9IiNlZWVlZWUiLz48L3N2Zz4="
+                priority
+              />
+            </div>
 
-          {/* 오른쪽 정보 영역 */}
-          <div className="flex flex-col justify-center bg-white p-6 sm:flex-[4]">
-            <table className="w-full border-collapse text-base">
-              <tbody>
-                <tr className="border-b border-gray-200">
-                  <th className="w-[100px] p-3 text-left font-bold text-gray-700">
-                    상품명
-                  </th>
-                  <td className="p-3 text-lg text-gray-800">
-                    {productItem.title ?? ""}
-                  </td>
-                </tr>
-                <tr className="border-b border-gray-200">
-                  <th className="p-3 text-left font-bold text-gray-700">
-                    할인율
-                  </th>
-                  <td className="p-3 text-lg text-gray-800">
-                    {calculateDiscountRate(
-                      productItem.price,
-                      productItem.lowPrice ?? productItem.price,
-                    ) || 0}
-                    %
-                  </td>
-                </tr>
-                <tr className="border-b border-gray-200">
-                  <th className="p-3 text-left font-bold text-gray-700">
-                    최저가
-                  </th>
-                  <td className="p-3 text-lg text-gray-800">
-                    {formatNumber(productItem.lowPrice ?? productItem.price)}원
-                  </td>
-                </tr>
-                <tr className="border-b border-gray-200">
-                  <th className="p-3 text-left font-bold text-gray-700">
-                    최고가
-                  </th>
-                  <td className="p-3 text-lg text-gray-800">
-                    {formatNumber(productItem.highPrice ?? productItem.price)}원
-                  </td>
-                </tr>
-                <tr className="border-b border-gray-200">
-                  <th className="p-3 text-left font-bold text-gray-700">
-                    현재가
-                  </th>
-                  <td className="p-3 text-lg font-bold text-red-600">
-                    {formatNumber(productItem.price)}원
-                  </td>
-                </tr>
-                <tr className="border-b border-gray-200">
-                  <th className="p-3 text-left font-bold text-gray-700">
-                    로켓배송
-                  </th>
-                  <td className="p-3 text-lg text-gray-800">
-                    {productItem.deliveryType === "1" ? (
-                      <Image
-                        src="https://image1.coupangcdn.com/image/badges/rocket/rocket_logo.png"
-                        width={80}
-                        height={20}
-                        alt="로켓배송"
-                      />
-                    ) : (
-                      ""
-                    )}
-                    {productItem.deliveryType === "2" ? (
-                      <Image
-                        src="https://image1.coupangcdn.com/image/coupang/rds/logo/iphone_2x/logoRocketMerchantLargeV3R3@2x.png"
-                        width={80}
-                        height={20}
-                        alt="판매자직구"
-                      />
-                    ) : (
-                      ""
-                    )}
-                    {productItem.deliveryType === "3" ? (
-                      <Image
-                        src="https://image1.coupangcdn.com/image/coupang/rds/logo/iphone_2x/logoRocketMerchantLargeV3R3@2x.png"
-                        width={80}
-                        height={20}
-                        alt="로켓직구"
-                      />
-                    ) : (
-                      ""
-                    )}
-                    {productItem.deliveryType === "0" ? "일반배송" : ""}
-                  </td>
-                </tr>
-                <tr className="border-b border-gray-200">
-                  <th className="p-3 text-left font-bold text-gray-700">
-                    평점(리뷰 수)
-                  </th>
-                  <td className="p-3 text-lg text-gray-800">
-                    {productItem.rating ?? 0} / 5 (
-                    {productItem.reviewCount ?? 0})
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan={2} className="text-lg text-gray-800">
-                    <div className="mt-4 flex gap-2">
-                      <Button
-                        variant="secondary"
-                        className="h-14 flex-1 px-0"
-                        size="lg"
-                      >
-                        <a
-                          href={getShortUrl(productItem)}
-                          target="_blank"
-                          className="flex h-full w-full items-center justify-center text-center"
+            {/* 오른쪽 정보 영역 */}
+            <div className="flex flex-col justify-center bg-white sm:flex-[4] sm:pl-8">
+              <table className="w-full border-collapse text-base">
+                <tbody>
+                  <tr className="border-b border-gray-200">
+                    <th className="w-[100px] p-3 text-left font-bold text-gray-700">
+                      상품명
+                    </th>
+                    <td className="p-3 text-lg text-gray-800">
+                      {productItem.title ?? ""}
+                    </td>
+                  </tr>
+                  <tr className="border-b border-gray-200">
+                    <th className="p-3 text-left font-bold text-gray-700">
+                      할인율
+                    </th>
+                    <td className="p-3 text-lg text-gray-800">
+                      {calculateDiscountRate(
+                        productItem.price,
+                        productItem.lowPrice ?? productItem.price,
+                      ) || 0}
+                      %
+                    </td>
+                  </tr>
+                  <tr className="border-b border-gray-200">
+                    <th className="p-3 text-left font-bold text-gray-700">
+                      최저가
+                    </th>
+                    <td className="p-3 text-lg text-gray-800">
+                      {formatNumber(productItem.lowPrice ?? productItem.price)}
+                      원
+                    </td>
+                  </tr>
+                  <tr className="border-b border-gray-200">
+                    <th className="p-3 text-left font-bold text-gray-700">
+                      최고가
+                    </th>
+                    <td className="p-3 text-lg text-gray-800">
+                      {formatNumber(productItem.highPrice ?? productItem.price)}
+                      원
+                    </td>
+                  </tr>
+                  <tr className="border-b border-gray-200">
+                    <th className="p-3 text-left font-bold text-gray-700">
+                      현재가
+                    </th>
+                    <td className="p-3 text-lg font-bold text-red-600">
+                      {formatNumber(productItem.price)}원
+                    </td>
+                  </tr>
+                  <tr className="border-b border-gray-200">
+                    <th className="p-3 text-left font-bold text-gray-700">
+                      로켓배송
+                    </th>
+                    <td className="p-3 text-lg text-gray-800">
+                      {productItem.deliveryType === "1" ? (
+                        <Image
+                          src="https://image1.coupangcdn.com/image/badges/rocket/rocket_logo.png"
+                          width={80}
+                          height={20}
+                          alt="로켓배송"
+                        />
+                      ) : (
+                        ""
+                      )}
+                      {productItem.deliveryType === "2" ? (
+                        <Image
+                          src="https://image1.coupangcdn.com/image/coupang/rds/logo/iphone_2x/logoRocketMerchantLargeV3R3@2x.png"
+                          width={80}
+                          height={20}
+                          alt="판매자직구"
+                        />
+                      ) : (
+                        ""
+                      )}
+                      {productItem.deliveryType === "3" ? (
+                        <Image
+                          src="https://image1.coupangcdn.com/image/coupang/rds/logo/iphone_2x/logoRocketMerchantLargeV3R3@2x.png"
+                          width={80}
+                          height={20}
+                          alt="로켓직구"
+                        />
+                      ) : (
+                        ""
+                      )}
+                      {productItem.deliveryType === "0" ? "일반배송" : ""}
+                    </td>
+                  </tr>
+                  <tr className="border-b border-gray-200">
+                    <th className="p-3 text-left font-bold text-gray-700">
+                      평점(리뷰 수)
+                    </th>
+                    <td className="p-3 text-lg text-gray-800">
+                      {productItem.rating ?? 0} / 5 (
+                      {productItem.reviewCount ?? 0})
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colSpan={2} className="text-lg text-gray-800">
+                      <div className="mt-4 flex gap-2">
+                        <Button
+                          variant="secondary"
+                          className="h-14 flex-1 px-0"
+                          size="lg"
                         >
-                          구매하기
-                        </a>
-                      </Button>
-                      <Button
-                        className="h-14 flex-1 px-0"
-                        size="lg"
-                        onClick={handleNotify}
-                      >
-                        알람받기
-                      </Button>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                          <a
+                            href={getShortUrl(productItem)}
+                            target="_blank"
+                            className="flex h-full w-full items-center justify-center text-center"
+                          >
+                            구매하기
+                          </a>
+                        </Button>
+                        <Button
+                          className="h-14 flex-1 px-0"
+                          size="lg"
+                          onClick={handleNotify}
+                        >
+                          알람받기
+                        </Button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
-      </div>
-      <div className="mt-16 flex justify-center">
+      </section>
+      <section className="mt-16 flex justify-center">
         <div className="w-[800px] px-4">
           <h2 className="font-heading mt-16 scroll-m-20 border-b pb-4 text-2xl font-bold tracking-tight first:mt-0">
             가격추이
@@ -317,8 +323,8 @@ export default function ProductPage({
             </LineChart>
           </ResponsiveContainer>
         </div>
-      </div>
-      <div className="mt-16 flex justify-center">
+      </section>
+      <section className="mt-16 flex justify-center">
         <div className="w-[800px] px-4">
           <h2 className="font-heading mt-16 scroll-m-20 border-b pb-4 text-2xl font-bold tracking-tight first:mt-0">
             최근 최저가 변경 상품
@@ -372,9 +378,8 @@ export default function ProductPage({
             <CarouselNext />
           </Carousel>
         </div>
-      </div>
-
-      <div className="mt-16 flex justify-center">
+      </section>
+      <section className="mt-16 flex justify-center">
         <div className="w-[800px] px-4">
           <h2 className="font-heading mt-16 scroll-m-20 border-b pb-4 text-2xl font-bold tracking-tight first:mt-0">
             비슷한 상품 추천
@@ -441,7 +446,7 @@ export default function ProductPage({
             </TableBody>
           </Table>
         </div>
-      </div>
-    </div>
+      </section>
+    </article>
   );
 }
