@@ -142,7 +142,7 @@ export default function NotiRegisterButton() {
           location.href = "/";
         }
       }
-    } catch (e: unknown) {
+    } catch (e: any) {
       console.log(e.message);
     }
   };
