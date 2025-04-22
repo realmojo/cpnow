@@ -56,6 +56,8 @@ export default function NotificationButton() {
           });
         });
       }
+    } else {
+      console.log("example");
     }
   };
 
