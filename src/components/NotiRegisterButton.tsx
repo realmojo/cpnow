@@ -5,8 +5,8 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { messaging, getToken, onMessage } from "@/lib/firebase";
 import { MessagePayload } from "firebase/messaging";
-import axios from "axios";
 import { nanoid } from "nanoid";
+import axios from "axios";
 import Link from "next/link";
 
 export default function NotiRegisterButton() {
@@ -44,14 +44,20 @@ export default function NotiRegisterButton() {
 
         alert(token);
 
-        const firstNoti = new Notification("최저가 알람을 받을 수 있어요 🚀", {
-          body: "알림을 받고 싶은 상품을 담아보세요",
-          icon: "/icons/android-icon-192x192.png",
-          data: {
-            click_action: "https://cpnow.kr", // ✅ 클릭 시 이동할 링크
-          },
-        });
+        let firstNoti: any = "";
+        try {
+          firstNoti = new Notification("최저가 알람을 받을 수 있어요 🚀", {
+            body: "알림을 받고 싶은 상품을 담아보세요",
+            icon: "/icons/android-icon-192x192.png",
+            data: {
+              click_action: "https://cpnow.kr", // ✅ 클릭 시 이동할 링크
+            },
+          });
+        } catch (e) {
+          alert(e);
+        }
 
+        alert(nanoid(12));
         const cpnowInfo = {
           userId: nanoid(12),
           fcmToken: token,
@@ -65,7 +71,7 @@ export default function NotiRegisterButton() {
         alert(res.data);
         if (res.status === 200 && res.data === "ok") {
           localStorage.setItem("cpnow-auth", JSON.stringify(cpnowInfo));
-          firstNoti.onclick = (event) => {
+          firstNoti.onclick = (event: any) => {
             event.preventDefault();
             window.open(firstNoti.data.click_action, "_blank");
           };
