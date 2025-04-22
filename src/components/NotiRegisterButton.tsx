@@ -44,18 +44,18 @@ export default function NotiRegisterButton() {
 
         alert(token);
 
-        let firstNoti: any = "";
-        try {
-          firstNoti = new Notification("최저가 알람을 받을 수 있어요 🚀", {
-            body: "알림을 받고 싶은 상품을 담아보세요",
-            icon: "/icons/android-icon-192x192.png",
-            data: {
-              click_action: "https://cpnow.kr", // ✅ 클릭 시 이동할 링크
-            },
-          });
-        } catch (e) {
-          alert(e);
-        }
+        // let firstNoti: any = "";
+        // try {
+        //   firstNoti = new Notification("최저가 알람을 받을 수 있어요 🚀", {
+        //     body: "알림을 받고 싶은 상품을 담아보세요",
+        //     icon: "/icons/android-icon-192x192.png",
+        //     data: {
+        //       click_action: "https://cpnow.kr", // ✅ 클릭 시 이동할 링크
+        //     },
+        //   });
+        // } catch (e) {
+        //   alert(e);
+        // }
 
         alert(nanoid(12));
         const cpnowInfo = {
@@ -71,18 +71,18 @@ export default function NotiRegisterButton() {
         alert(res.data);
         if (res.status === 200 && res.data === "ok") {
           localStorage.setItem("cpnow-auth", JSON.stringify(cpnowInfo));
-          firstNoti.onclick = (event: any) => {
-            event.preventDefault();
-            window.open(firstNoti.data.click_action, "_blank");
-          };
+          // firstNoti.onclick = (event: any) => {
+          //   event.preventDefault();
+          //   window.open(firstNoti.data.click_action, "_blank");
+          // };
 
-          // 포그라운드 메세지 수신
-          onMessage(messaging, (payload: MessagePayload) => {
-            new Notification(payload.notification?.title || "", {
-              body: payload.notification?.body,
-              icon: payload.notification?.icon,
-            });
-          });
+          // // 포그라운드 메세지 수신
+          // onMessage(messaging, (payload: MessagePayload) => {
+          //   new Notification(payload.notification?.title || "", {
+          //     body: payload.notification?.body,
+          //     icon: payload.notification?.icon,
+          //   });
+          // });
         }
       }
     } else if (result === "denied") {
