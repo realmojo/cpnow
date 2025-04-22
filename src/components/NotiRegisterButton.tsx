@@ -44,7 +44,6 @@ export default function NotiRegisterButton() {
 
         alert(token);
 
-        localStorage.setItem("cpnow-fcm-token", token);
         const firstNoti = new Notification("최저가 알람을 받을 수 있어요 🚀", {
           body: "알림을 받고 싶은 상품을 담아보세요",
           icon: "/icons/android-icon-192x192.png",
@@ -57,10 +56,13 @@ export default function NotiRegisterButton() {
           userId: nanoid(12),
           fcmToken: token,
         };
+        alert(cpnowInfo.userId);
         const res = await axios.post(
           "https://api.mindpang.com/api/cpnow/addUserFcmToken.php",
           cpnowInfo,
         );
+        alert(res.status);
+        alert(res.data);
         if (res.status === 200 && res.data === "ok") {
           localStorage.setItem("cpnow-auth", JSON.stringify(cpnowInfo));
           firstNoti.onclick = (event) => {
