@@ -14,7 +14,6 @@ export default function NotiRegisterButton() {
     userId: "",
     fcmToken: "",
   });
-  /* eslint-disable @typescript-eslint/no-unused-vars */
   const [permission, setPermission] = useState<NotificationPermission>(
     typeof window !== "undefined" && "Notification" in window
       ? "default"
@@ -31,8 +30,6 @@ export default function NotiRegisterButton() {
     const result = await Notification.requestPermission();
     setPermission(result);
 
-    alert(messaging);
-
     if (result === "granted") {
       toast("알림이 허용되었습니다!", {
         description: "이제 푸시 메시지를 받을 수 있어요 🚀",
@@ -40,9 +37,12 @@ export default function NotiRegisterButton() {
 
       // FCM 토큰 받아오기
       if (messaging) {
+        alert(process.env.NEXT_PUBLIC_VAPID_KEY);
         const token = await getToken(messaging, {
           vapidKey: process.env.NEXT_PUBLIC_VAPID_KEY,
         });
+
+        alert(token);
 
         localStorage.setItem("cpnow-fcm-token", token);
         const firstNoti = new Notification("최저가 알람을 받을 수 있어요 🚀", {
