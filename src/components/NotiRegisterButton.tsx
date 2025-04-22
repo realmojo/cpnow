@@ -58,52 +58,52 @@ export default function NotiRegisterButton() {
           vapidKey: process.env.NEXT_PUBLIC_VAPID_KEY,
         });
 
-        // if (deviceInfo.isMobile) {
-        //   const cpnowInfo = {
-        //     userId,
-        //     fcmToken,
-        //   };
+        if (deviceInfo.isMobile) {
+          const cpnowInfo = {
+            userId,
+            fcmToken,
+          };
 
-        //   const res = await axios.post("/api/token", cpnowInfo);
+          const res = await axios.post("/api/token", cpnowInfo);
 
-        //   if (res.status === 200 && res.data === "ok") {
-        //     localStorage.setItem("cpnow-auth", JSON.stringify(cpnowInfo));
-        //   }
-        // } else if (deviceInfo.isDesktop) {
-        //   let firstNoti: any = "";
-        //   try {
-        //     firstNoti = new Notification("최저가 알람을 받을 수 있어요 🚀", {
-        //       body: "알림을 받고 싶은 상품을 담아보세요",
-        //       icon: "/icons/android-icon-192x192.png",
-        //       data: {
-        //         click_action: "https://cpnow.kr", // ✅ 클릭 시 이동할 링크
-        //       },
-        //     });
-        //   } catch (e) {
-        //     alert(e);
-        //   }
+          if (res.status === 200 && res.data === "ok") {
+            localStorage.setItem("cpnow-auth", JSON.stringify(cpnowInfo));
+          }
+        } else if (deviceInfo.isDesktop) {
+          let firstNoti: any = "";
+          try {
+            firstNoti = new Notification("최저가 알람을 받을 수 있어요 🚀", {
+              body: "알림을 받고 싶은 상품을 담아보세요",
+              icon: "/icons/android-icon-192x192.png",
+              data: {
+                click_action: "https://cpnow.kr", // ✅ 클릭 시 이동할 링크
+              },
+            });
+          } catch (e) {
+            alert(e);
+          }
 
-        //   const cpnowInfo = {
-        //     userId,
-        //     fcmToken,
-        //   };
+          const cpnowInfo = {
+            userId,
+            fcmToken,
+          };
 
-        //   const res = await axios.post(
-        //     "https://api.mindpang.com/api/cpnow/addUserFcmToken.php",
-        //     cpnowInfo,
-        //   );
+          const res = await axios.post(
+            "https://api.mindpang.com/api/cpnow/addUserFcmToken.php",
+            cpnowInfo,
+          );
 
-        //   if (res.status === 200 && res.data === "ok") {
-        //     localStorage.setItem("cpnow-auth", JSON.stringify(cpnowInfo));
-        //     firstNoti.onclick = (event: any) => {
-        //       event.preventDefault();
-        //       window.open(firstNoti.data.click_action, "_blank");
-        //     };
+          if (res.status === 200 && res.data === "ok") {
+            localStorage.setItem("cpnow-auth", JSON.stringify(cpnowInfo));
+            firstNoti.onclick = (event: any) => {
+              event.preventDefault();
+              window.open(firstNoti.data.click_action, "_blank");
+            };
 
-        //     // 포그라운드 메세지 수신
-        //     openForegroundMessage(messaging);
-        //   }
-        // }
+            // 포그라운드 메세지 수신
+            openForegroundMessage(messaging);
+          }
+        }
       }
     } else if (result === "denied") {
       setPermission(result);
