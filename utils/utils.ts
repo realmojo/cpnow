@@ -26,6 +26,7 @@ export const detectDevice = () => {
 
 export const sendNotificationTest = async () => {
   const permission = await Notification.requestPermission();
+  alert(permission);
   if (permission === "granted") {
     const click_action = "https://cpnow.kr";
     new Notification("시피나우", {
@@ -39,6 +40,6 @@ export const sendNotificationTest = async () => {
       window.open(click_action, "_blank");
     };
   } else {
-    alert("알림 권한이 필요합니다.");
+    alert("알림 권한이 필요합니다. 1");
   }
 };

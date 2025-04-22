@@ -8,6 +8,8 @@ import localFont from "next/font/local";
 
 import "./globals.css";
 import SendAuthToSW from "../components/SendAuthToSW";
+import ConsoleOverlay from "../components/ConsoleOverlay";
+import InstallPromptBanner from "../components/InstallPromptBanner";
 
 export const metadata: Metadata = {
   title: "시피나우",
@@ -38,6 +40,8 @@ export default function RootLayout({
         <Toaster />
         <RegisterServiceWorker />
         <SendAuthToSW />
+        <ConsoleOverlay />
+        <InstallPromptBanner />
       </body>
     </html>
   );

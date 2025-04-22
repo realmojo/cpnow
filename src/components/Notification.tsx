@@ -71,7 +71,7 @@ export default function NotificationButton() {
         },
       });
     } else {
-      alert("알림 권한이 필요합니다.");
+      alert("알림 권한이 필요합니다. 2");
     }
   };
 

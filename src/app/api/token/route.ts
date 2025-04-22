@@ -6,7 +6,7 @@ export async function DELETE(req: NextRequest) {
     const { searchParams } = new URL(req.url);
     const userId = searchParams.get("userId");
     const fcmToken = searchParams.get("fcmToken");
-
+    console.log(userId, fcmToken);
     const url = "https://api.mindpang.com/api/cpnow/deleteUserFcmToken.php";
     if (!userId && !fcmToken) {
       throw new Error("no parameter");

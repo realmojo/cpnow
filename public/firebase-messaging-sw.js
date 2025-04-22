@@ -18,9 +18,7 @@ const messaging = firebase.messaging();
 const isSupported = firebase.messaging.isSupported();
 
 if (isSupported) {
-  // const userInfo = localStorage.getItem("cpnow-auth");
-  // console.log(userInfo);
-  console.log("백그라운드를 수신 합니다.1113333");
+  console.log("백그라운드를 수신 합니다.v1.0.0");
   messaging.onBackgroundMessage(function (payload) {
     console.log(
       "[firebase-messaging-sw.js] Received background message ",
