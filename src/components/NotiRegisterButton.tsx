@@ -8,6 +8,20 @@ import { MessagePayload } from "firebase/messaging";
 import { nanoid } from "nanoid";
 import axios from "axios";
 import Link from "next/link";
+import { detectDevice, sendNotificationTest } from "@/utils/utils";
+
+const openForegroundMessage = (messaging: any) => {
+  console.log("✅ 포그라운드 메세지 수신", messaging);
+  if (messaging) {
+    onMessage(messaging, (payload: MessagePayload) => {
+      console.log("foreground payload", payload);
+      new Notification(payload.notification?.title || "", {
+        body: payload.notification?.body,
+        icon: payload.notification?.icon,
+      });
+    });
+  }
+};
 
 export default function NotiRegisterButton() {
   const [auth, setAuth] = useState<any>({
@@ -35,63 +49,83 @@ export default function NotiRegisterButton() {
         description: "이제 푸시 메시지를 받을 수 있어요 🚀",
       });
 
-      // FCM 토큰 받아오기
+      const deviceInfo = detectDevice();
       if (messaging) {
-        alert(process.env.NEXT_PUBLIC_VAPID_KEY);
-        const token = await getToken(messaging, {
+        // FCM 토큰 받아오기
+        const userId = nanoid(12);
+        const fcmToken = await getToken(messaging, {
           vapidKey: process.env.NEXT_PUBLIC_VAPID_KEY,
         });
 
-        alert(token);
+        if (deviceInfo.isMobile) {
+          const cpnowInfo = {
+            userId,
+            fcmToken,
+          };
 
-        // let firstNoti: any = "";
-        // try {
-        //   firstNoti = new Notification("최저가 알람을 받을 수 있어요 🚀", {
-        //     body: "알림을 받고 싶은 상품을 담아보세요",
-        //     icon: "/icons/android-icon-192x192.png",
-        //     data: {
-        //       click_action: "https://cpnow.kr", // ✅ 클릭 시 이동할 링크
-        //     },
-        //   });
-        // } catch (e) {
-        //   alert(e);
-        // }
+          const res = await axios.post("/api/token", cpnowInfo);
 
-        alert(nanoid(12));
-        const cpnowInfo = {
-          userId: nanoid(12),
-          fcmToken: token,
-        };
-        alert(cpnowInfo.userId);
-        const res = await axios.post(
-          "https://api.mindpang.com/api/cpnow/addUserFcmToken.php",
-          cpnowInfo,
-        );
-        alert(res.status);
-        alert(res.data);
-        if (res.status === 200 && res.data === "ok") {
-          localStorage.setItem("cpnow-auth", JSON.stringify(cpnowInfo));
-          // firstNoti.onclick = (event: any) => {
-          //   event.preventDefault();
-          //   window.open(firstNoti.data.click_action, "_blank");
-          // };
+          if (res.status === 200 && res.data === "ok") {
+            localStorage.setItem("cpnow-auth", JSON.stringify(cpnowInfo));
+          }
+        } else if (deviceInfo.isDesktop) {
+          let firstNoti: any = "";
+          try {
+            firstNoti = new Notification("최저가 알람을 받을 수 있어요 🚀", {
+              body: "알림을 받고 싶은 상품을 담아보세요",
+              icon: "/icons/android-icon-192x192.png",
+              data: {
+                click_action: "https://cpnow.kr", // ✅ 클릭 시 이동할 링크
+              },
+            });
+          } catch (e) {
+            alert(e);
+          }
 
-          // // 포그라운드 메세지 수신
-          // onMessage(messaging, (payload: MessagePayload) => {
-          //   new Notification(payload.notification?.title || "", {
-          //     body: payload.notification?.body,
-          //     icon: payload.notification?.icon,
-          //   });
-          // });
+          const cpnowInfo = {
+            userId,
+            fcmToken,
+          };
+
+          const res = await axios.post(
+            "https://api.mindpang.com/api/cpnow/addUserFcmToken.php",
+            cpnowInfo,
+          );
+
+          if (res.status === 200 && res.data === "ok") {
+            localStorage.setItem("cpnow-auth", JSON.stringify(cpnowInfo));
+            firstNoti.onclick = (event: any) => {
+              event.preventDefault();
+              window.open(firstNoti.data.click_action, "_blank");
+            };
+
+            // 포그라운드 메세지 수신
+            openForegroundMessage(messaging);
+          }
         }
       }
     } else if (result === "denied") {
       setPermission(result);
-      // alert(1);
-      // new Notification("title" || "", {
-      //   body: "hi",
-      //   // icon: payload.notification?.icon,
-      // });
+    }
+    // alert(1);
+  };
+
+  const deleteFcmToken = async () => {
+    const cpnowAuthItem = localStorage.getItem("cpnow-auth") || "";
+    const params = cpnowAuthItem
+      ? JSON.parse(cpnowAuthItem)
+      : {
+          userId: "",
+          fcmToken: "",
+        };
+
+    const { data } = await axios.delete(
+      `/api/token?userId=${params.userId}&fcmToken=${params.fcmToken}`,
+    );
+
+    if (data === "ok") {
+      localStorage.removeItem("cpnow-auth");
+      location.href = "/";
     }
   };
 
@@ -106,6 +140,9 @@ export default function NotiRegisterButton() {
 
   useEffect(() => {
     initAuth();
+
+    // 포그라운드 메세지 수신
+    openForegroundMessage(messaging);
   }, []);
 
   if (!isReady) return null;
@@ -119,6 +156,8 @@ export default function NotiRegisterButton() {
       ) : (
         <Button onClick={handleRequestPermission}>알림 받기</Button>
       )}
+      <Button onClick={sendNotificationTest}>테스트 알림</Button>
+      <Button onClick={deleteFcmToken}>알림 토큰 삭제</Button>
       {permission === "denied" ? (
         <div className="fixed right-4 bottom-4 left-4 z-50 mx-auto max-w-md rounded-lg border border-red-300 bg-red-100 p-4 text-red-700 shadow-md">
           <h2 className="mb-1 text-sm font-bold">알림 권한이 꺼져 있어요 😢</h2>

@@ -5,26 +5,16 @@ import { messaging } from "@/lib/firebase-admin"; // firebase-admin 초기화된
 export async function POST(req: NextRequest) {
   try {
     const reqItems = await req.json();
-    const { token, title, body, link } = reqItems;
-
+    const { token } = reqItems;
     const message = {
       token,
-      notification: {
-        title,
-        body,
-      },
-      webpush: {
-        notification: {
-          icon: "https://thumbnail9.coupangcdn.com/thumbnails/remote/230x230ex/image/rs_quotation_api/viuyklb9/8d26f43fcce84dcdb73bd314fcae2bed.jpg",
-        },
-        fcm_options: {
-          link: link || "https://cpnow.kr",
-        },
+      data: {
+        check: "validity",
+        silent: "true",
       },
     };
-    console.log(message);
-
     const response = await messaging.send(message);
+    console.log("✅ 유효한 토큰입니다:", response);
 
     return new Response(
       JSON.stringify({ success: true, messageId: response }),
@@ -35,9 +25,14 @@ export async function POST(req: NextRequest) {
     );
   } catch (err) {
     const errorMessage = err instanceof Error ? err.message : String(err);
-    // if (errorMessage === "Requested entity was not found") {
-
-    // }
+    console.log(err);
+    if (
+      errorMessage ===
+      "The registration token is not a valid FCM registration token"
+    ) {
+      console.log(111);
+    } else if (errorMessage === "Requested entity was not found") {
+    }
     return new Response(
       JSON.stringify({ success: false, error: errorMessage }),
       {

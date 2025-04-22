@@ -7,6 +7,7 @@ import RegisterServiceWorker from "@/src/app/register-service-worker";
 import localFont from "next/font/local";
 
 import "./globals.css";
+import SendAuthToSW from "../components/SendAuthToSW";
 
 export const metadata: Metadata = {
   title: "시피나우",
@@ -36,6 +37,7 @@ export default function RootLayout({
         <Footer />
         <Toaster />
         <RegisterServiceWorker />
+        <SendAuthToSW />
       </body>
     </html>
   );

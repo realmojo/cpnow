@@ -67,7 +67,7 @@ export default function NotificationButton() {
         body: "등록하신 상품이 최저가로 올라왔습니다.",
         icon: "/icons/logo-512x512.png",
         data: {
-          click_action: "https://www.naver.com", // ✅ 클릭 시 이동할 링크
+          click_action: "https://cpnow.kr", // ✅ 클릭 시 이동할 링크
         },
       });
     } else {
@@ -87,7 +87,7 @@ export default function NotificationButton() {
           token,
           title: "쿠팡 최저가 알림이 도달했습니다.",
           body: "왜 안되는거야!!",
-          link: "https://naver.com",
+          link: "https://cpnow.kr",
         });
 
         if (response.status === 200) {

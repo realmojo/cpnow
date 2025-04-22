@@ -18,7 +18,9 @@ const messaging = firebase.messaging();
 const isSupported = firebase.messaging.isSupported();
 
 if (isSupported) {
-  console.log("백그라운드를 수신 합니다.");
+  // const userInfo = localStorage.getItem("cpnow-auth");
+  // console.log(userInfo);
+  console.log("백그라운드를 수신 합니다.1113333");
   messaging.onBackgroundMessage(function (payload) {
     console.log(
       "[firebase-messaging-sw.js] Received background message ",
@@ -28,10 +30,11 @@ if (isSupported) {
     const notificationTitle = payload.notification.title;
     const notificationOptions = {
       body: payload.notification.body,
-      icon: "icons/android-icon-192x192.png",
+      icon: payload.notification.icon,
       data: {
-        click_action: payload.notification.click_action || "https://naver.com",
+        click_action: payload.fcmOptions?.link || "https://cpnow.kr",
       },
+      tag: "test tag",
     };
 
     self.registration.showNotification(notificationTitle, notificationOptions);
@@ -41,6 +44,17 @@ if (isSupported) {
     console.log("알람 클릭됌");
     console.log(event);
     event.notification.close();
-    event.waitUntil(clients.openWindow(event.notification.data.click_action));
+    event.waitUntil(
+      clients.openWindow(
+        event.notification.data?.click_action || "https://cpnow.kr",
+      ),
+    );
+  });
+
+  self.addEventListener("message", (event) => {
+    if (event.data?.type === "AUTH_TOKEN") {
+      console.log("🔐 클라이언트로부터 받은 데이터:", event.data);
+      // 여기에 저장하거나 상태로 보관 가능
+    }
   });
 }
