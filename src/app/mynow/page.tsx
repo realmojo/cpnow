@@ -30,7 +30,8 @@ export default function LocalAuthViewer() {
       } else {
         setError("❗ userId 또는 fcmToken이 포함되어 있지 않습니다.");
       }
-    } catch (e) {
+    } catch (e: unknown) {
+      console.log(e);
       setError("❌ JSON 파싱 중 오류가 발생했습니다.");
     }
   }, []);
