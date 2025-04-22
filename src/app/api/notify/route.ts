@@ -17,14 +17,15 @@ export async function POST(req: NextRequest) {
         notification: {
           title,
           body: content,
-          icon: "/icons/android-icon-192x192.png",
-          click_action: link || "https://cpnow.kr",
+          icon: "https://thumbnail9.coupangcdn.com/thumbnails/remote/230x230ex/image/rs_quotation_api/viuyklb9/8d26f43fcce84dcdb73bd314fcae2bed.jpg",
+          // click_action: link || "https://cpnow.kr",
         },
         fcm_options: {
           link: link || "https://cpnow.kr",
         },
       },
     };
+    console.log(message);
 
     const response = await messaging.send(message);
 
