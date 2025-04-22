@@ -65,7 +65,7 @@ export default function NotificationButton() {
     if (permission === "granted") {
       new Notification("시피나우", {
         body: "등록하신 상품이 최저가로 올라왔습니다.",
-        icon: "/icons/logo-512x512.png",
+        icon: "/icons/android-icon-512x512.png",
         data: {
           click_action: "https://cpnow.kr", // ✅ 클릭 시 이동할 링크
         },

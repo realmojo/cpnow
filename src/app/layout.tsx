@@ -8,7 +8,7 @@ import localFont from "next/font/local";
 
 import "./globals.css";
 import SendAuthToSW from "../components/SendAuthToSW";
-import ConsoleOverlay from "../components/ConsoleOverlay";
+// import ConsoleOverlay from "../components/ConsoleOverlay";
 import InstallPromptBanner from "../components/InstallPromptBanner";
 
 export const metadata: Metadata = {
@@ -40,7 +40,7 @@ export default function RootLayout({
         <Toaster />
         <RegisterServiceWorker />
         <SendAuthToSW />
-        <ConsoleOverlay />
+        {/* <ConsoleOverlay /> */}
         <InstallPromptBanner />
       </body>
     </html>
