@@ -21,8 +21,16 @@ const queryOne = async <T extends RowDataPacket = any>(
   return rows[0] || null;
 };
 
+const queryList = async <T extends RowDataPacket = any>(
+  sql: string,
+  params: any[] = [],
+): Promise<T[]> => {
+  const [rows] = await pool.execute<T[]>(sql, params);
+  return rows;
+};
+
 const insertOne = async (sql: string, params: any[]) => {
   await pool.execute<ResultSetHeader>(sql, params);
 };
 
-export { pool, queryOne, insertOne };
+export { pool, queryOne, queryList, insertOne };

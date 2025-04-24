@@ -44,6 +44,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import DeliveryBadge from "@/src/components/DeliveryBadge";
 // import NotificationButton from "@/src/components/Notification";
 
 const data = [
@@ -77,11 +78,6 @@ export default function ProductPage({
   const { id } = use(params); // ✅ 이렇게 unwrapping 필요
 
   const [productItem, setProductItem] = useState<any>({});
-
-  // 예시: 유효하지 않은 ID 처리
-  // if (!["1", "2", "3"].includes(id)) {
-  //   notFound(); // 404 처리
-  // }
 
   const handleNotify = () => {
     toast("최저가 알림받기가 설정되었습니다.", {
@@ -229,37 +225,7 @@ export default function ProductPage({
                       로켓배송
                     </th>
                     <td className="p-3 text-lg text-gray-800">
-                      {productItem.deliveryType === "1" ? (
-                        <Image
-                          src="https://image1.coupangcdn.com/image/badges/rocket/rocket_logo.png"
-                          width={80}
-                          height={20}
-                          alt="로켓배송"
-                        />
-                      ) : (
-                        ""
-                      )}
-                      {productItem.deliveryType === "2" ? (
-                        <Image
-                          src="https://image1.coupangcdn.com/image/coupang/rds/logo/iphone_2x/logoRocketMerchantLargeV3R3@2x.png"
-                          width={80}
-                          height={20}
-                          alt="판매자직구"
-                        />
-                      ) : (
-                        ""
-                      )}
-                      {productItem.deliveryType === "3" ? (
-                        <Image
-                          src="https://image1.coupangcdn.com/image/coupang/rds/logo/iphone_2x/logoRocketMerchantLargeV3R3@2x.png"
-                          width={80}
-                          height={20}
-                          alt="로켓직구"
-                        />
-                      ) : (
-                        ""
-                      )}
-                      {productItem.deliveryType === "0" ? "일반배송" : ""}
+                      <DeliveryBadge deliveryType={productItem.deliveryType} />
                     </td>
                   </tr>
                   <tr className="border-b border-gray-200">

@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 // import { getTodayDate } from "@/utils/utils";
-import { pool } from "@/lib/db";
+import { queryList } from "@/lib/db";
 // import axios from "axios";
 
 export async function GET(req: NextRequest) {
@@ -8,6 +8,7 @@ export async function GET(req: NextRequest) {
     // ✅ URL에서 id 파라미터 추출
     const { searchParams } = new URL(req.url);
     const categoryId = searchParams.get("categoryId");
+    const isRandom = searchParams.get("isRandom");
 
     if (!categoryId) {
       return new Response(
@@ -19,11 +20,38 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    const query = `SELECT * FROM products WHERE categoryId = ${categoryId}`;
-    const [rows] = await pool.query(query);
+    let query = "";
+    let categoryItems = [];
+    if (isRandom) {
+      query = `WITH RECURSIVE category_path AS (
+  SELECT categoryId, name
+  FROM categories
+  WHERE categoryId = ?
+
+  UNION ALL
+
+  SELECT c.categoryId, c.name
+  FROM categories c
+  JOIN category_path cp ON c.parentId = cp.categoryId
+),
+random_categories AS (
+  SELECT categoryId, name
+  FROM category_path
+  ORDER BY RAND()
+  LIMIT 10
+)
+
+SELECT p.*, rc.name
+FROM products p
+JOIN random_categories rc ON p.categoryId = rc.categoryId order by RAND() limit 100;`;
+      categoryItems = await queryList<any>(query, [categoryId]);
+    } else {
+      //    query = `SELECT * FROM products WHERE depth = ${categoryId}`;
+      // const [rows] = await pool.query(query);
+    }
 
     // ✅ 결과 반환
-    return new Response(JSON.stringify(rows), {
+    return new Response(JSON.stringify(categoryItems), {
       status: 200,
       headers: { "Content-Type": "application/json" },
     });
