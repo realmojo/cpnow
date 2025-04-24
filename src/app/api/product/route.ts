@@ -48,7 +48,7 @@ export async function GET(req: NextRequest) {
     });
   } catch (err) {
     const errorMessage = err instanceof Error ? err.message : String(err);
-
+    console.log(err);
     return new Response(
       JSON.stringify({ success: false, error: errorMessage }),
       {
