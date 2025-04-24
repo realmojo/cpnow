@@ -15,6 +15,7 @@ async function getCategoryById(id: string): Promise<any | null> {
   if (!res.ok) return null;
 
   const data = await res.json();
+  console.log(data);
   return data;
 }
 
@@ -29,7 +30,7 @@ export default function CategoryPage({
 
   const initData = async (id: string) => {
     const data = await getCategoryById(id);
-    console.log(data);
+    // console.log(data);
     setCategoryItem(data);
   };
 

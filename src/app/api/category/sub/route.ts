@@ -22,7 +22,7 @@ export async function GET(req: NextRequest) {
     const { data } = await axios.get(
       `https://api.mindpang.com/api/cpnow/getCategoryByDepth1.php?categoryId=${categoryId}`,
     );
-    console.log(data);
+    // console.log(data);
     // ✅ 결과 반환
     return new Response(JSON.stringify(data), {
       status: 200,

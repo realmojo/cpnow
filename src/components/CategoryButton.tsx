@@ -11,7 +11,6 @@ type CategoryButtonsProps = {
 
 // ✅ 실제 API 호출 함수
 async function getCategoryByCategoryId(id: string): Promise<any | null> {
-  console.log(id);
   const res = await fetch(`/api/category/sub?categoryId=${id}`, {
     cache: "no-store", // ← SSR 시 실시간 데이터 원할 경우
   });
@@ -33,9 +32,9 @@ export default function CategoryButtons({ categoryId }: CategoryButtonsProps) {
   };
 
   const initData = async (selectedId: string) => {
-    const data = await getCategoryByCategoryId(selectedId);
-    console.log(data);
-    setCategoryButtons(data);
+    // const data = await getCategoryByCategoryId(selectedId);
+    // console.log(data);
+    // setCategoryButtons(data);
   };
 
   useEffect(() => {
