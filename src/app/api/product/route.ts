@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { getTodayDate } from "@/utils/utils";
-import axios from "axios";
+import { queryOne, insertOne } from "@/lib/db";
 
 export async function GET(req: NextRequest) {
   try {
@@ -15,16 +15,13 @@ export async function GET(req: NextRequest) {
       });
     }
 
-    // ✅ 외부 API 호출
-    const { data } = await axios.get(
-      `https://api.mindpang.com/api/cpnow/getItemById.php?id=${id}`,
-    );
+    let query = "SELECT * FROM products WHERE id = ?";
+    const product = await queryOne(query, [id]);
 
-    const { lastUpdated } = data;
+    product.thumbnail = product.thumbnail.replace("230x230", "600x600");
 
-    data.thumbnail = data.thumbnail.replace("230x230", "600x600");
-
-    // 업데이트 시간이 다르면 크롤 웨잇에 추가
+    const { lastUpdated } = product;
+    // // 업데이트 시간이 다르면 크롤 웨잇에 추가
     if (!lastUpdated || getTodayDate() !== lastUpdated.substring(0, 10)) {
       // const nowPrice = coupangItem[0].moduleData[3].priceInfo.finalPrice.price
       //   ? coupangItem[0].moduleData[3].priceInfo.finalPrice.price
@@ -36,20 +33,19 @@ export async function GET(req: NextRequest) {
       //   highPrice: nowPrice >= price ? nowPrice : price,
       //   lowPrice: nowPrice <= price ? nowPrice : price,
       // };
-      const addCrawlWaitUrl = `https://api.mindpang.com/api/cpnow/addCoupangCrawlwait.php?cpId=${id}`;
-      await axios.get(addCrawlWaitUrl);
+      query = "SELECT id FROM crawl_wait WHERE cpId= ?";
+      const crawlWaitItem = await queryOne(query, [id]);
+
+      if (!crawlWaitItem) {
+        query = "INSERT INTO crawl_wait (id, cpId) VALUES (NULL, ?)";
+        await insertOne(query, [id]);
+      }
     }
     // ✅ 결과 반환
-
-    return new Response(
-      JSON.stringify({
-        ...data,
-      }),
-      {
-        status: 200,
-        headers: { "Content-Type": "application/json" },
-      },
-    );
+    return new Response(JSON.stringify(product), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
   } catch (err) {
     const errorMessage = err instanceof Error ? err.message : String(err);
 

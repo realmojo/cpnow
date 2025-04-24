@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 // import { getTodayDate } from "@/utils/utils";
-import pool from "@/lib/db";
+import { pool } from "@/lib/db";
 // import axios from "axios";
 
 export async function GET(req: NextRequest) {
@@ -20,13 +20,7 @@ export async function GET(req: NextRequest) {
     }
 
     const query = `SELECT * FROM products WHERE categoryId = ${categoryId}`;
-
     const [rows] = await pool.query(query);
-    // ✅ 외부 API 호출
-    // const { data } = await axios.get(
-    //   `https://api.mindpang.com/api/cpnow/getCategoryByCategoryId.php?categoryId=${categoryId}`,
-    // );
-    // console.log(data);
 
     // ✅ 결과 반환
     return new Response(JSON.stringify(rows), {

@@ -1,5 +1,6 @@
 // lib/db.js
-import mysql from "mysql2/promise";
+import mysql, { RowDataPacket } from "mysql2/promise";
+import { ResultSetHeader } from "mysql2";
 
 const pool = mysql.createPool({
   host: process.env.DB_HOST, // 예: your-db.xxxxxxx.rds.amazonaws.com
@@ -12,4 +13,16 @@ const pool = mysql.createPool({
   queueLimit: 0,
 });
 
-export default pool;
+const queryOne = async <T extends RowDataPacket = any>(
+  sql: string,
+  params: any[],
+): Promise<T | null> => {
+  const [rows] = await pool.execute<T[]>(sql, params);
+  return rows[0] || null;
+};
+
+const insertOne = async (sql: string, params: any[]) => {
+  await pool.execute<ResultSetHeader>(sql, params);
+};
+
+export { pool, queryOne, insertOne };
