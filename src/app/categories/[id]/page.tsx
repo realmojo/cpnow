@@ -40,7 +40,7 @@ export default function CategoryPage({
   return (
     <article className="container mx-auto py-10">
       <section className="flex justify-center py-10">
-        <div className="mx-auto w-full max-w-[800px] px-4">
+        <div className="mx-auto w-full max-w-[800px]">
           <h2 className="font-heading mt-16 scroll-m-20 pb-4 text-2xl font-bold tracking-tight first:mt-0">
             유아동 패션
           </h2>

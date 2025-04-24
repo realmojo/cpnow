@@ -62,7 +62,6 @@ async function getProductById(id: string): Promise<any | null> {
   const res = await fetch(`/api/product?id=${id}`, {
     cache: "no-store", // ← SSR 시 실시간 데이터 원할 경우
   });
-  // const res = await fetch(`/api/product?id=${id}`);
 
   if (!res.ok) return null;
 
@@ -119,7 +118,7 @@ export default function ProductPage({
     <article>
       {/* <NotificationButton /> */}
       <section className="flex justify-center py-10">
-        <div className="mx-auto w-full max-w-[800px] px-4">
+        <div className="mx-auto w-full max-w-[800px]">
           <h2 className="font-heading flex scroll-m-20 justify-between border-b pb-4 text-2xl font-bold tracking-tight first:mt-0">
             상품정보
             <div className="mt-3">

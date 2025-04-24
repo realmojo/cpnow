@@ -21,6 +21,7 @@ for (let i = 1; i <= 10; i += 1) {
 }
 const nextConfig: NextConfig = {
   /* config options here */
+  reactStrictMode: process.env.NODE_ENV === "production" ? true : false,
   images: {
     remotePatterns,
   },

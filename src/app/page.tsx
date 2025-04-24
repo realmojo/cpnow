@@ -137,7 +137,7 @@ export default function Home() {
   };
 
   return (
-    <div className="w-full px-4">
+    <div className="w-full">
       <div className="mx-auto max-w-[800px] px-4 py-10">
         <h1 className="text-center text-2xl leading-snug font-bold sm:text-3xl">
           지금 이 순간
@@ -171,14 +171,14 @@ export default function Home() {
 
         <article className="container mx-auto py-10">
           <section className="flex justify-center py-10">
-            <div className="mx-auto w-full max-w-[800px] px-4">
+            <div className="mx-auto w-full max-w-[800px]">
               <h2 className="font-heading mt-16 scroll-m-20 pb-4 text-2xl font-bold tracking-tight first:mt-0">
                 {category}
               </h2>
 
               {/* <CategoryTabs categoryId={id} /> */}
 
-              <div className="grid grid-cols-2 gap-4 p-4 sm:grid-cols-2 md:grid-cols-3">
+              <div className="grid grid-cols-2 gap-4 py-4 sm:grid-cols-2 md:grid-cols-3">
                 {randomProducts.map((item: any) => (
                   <div key={item.id}>
                     {/* <Link href={`/product/${idx + 1}`} className="block transition"> */}
