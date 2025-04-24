@@ -6,7 +6,7 @@ const pool = mysql.createPool({
   user: process.env.DB_USER, // 예: admin
   password: process.env.DB_PASSWORD, // 예: yourPassword
   database: process.env.DB_NAME, // 예: cpnow
-  port: 3306,
+  port: process.env.DB_PORT,
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,

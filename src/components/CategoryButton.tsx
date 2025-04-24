@@ -10,28 +10,29 @@ type CategoryButtonsProps = {
 };
 
 // ✅ 실제 API 호출 함수
-async function getCategoryByCategoryId(id: string): Promise<any | null> {
-  const res = await fetch(`/api/category/sub?categoryId=${id}`, {
-    cache: "no-store", // ← SSR 시 실시간 데이터 원할 경우
-  });
+// async function getCategoryByCategoryId(id: string): Promise<any | null> {
+//   const res = await fetch(`/api/category/sub?categoryId=${id}`, {
+//     cache: "no-store", // ← SSR 시 실시간 데이터 원할 경우
+//   });
 
-  if (!res.ok) return null;
+//   if (!res.ok) return null;
 
-  const data = await res.json();
-  return data;
-}
+//   const data = await res.json();
+//   return data;
+// }
 
 export default function CategoryButtons({ categoryId }: CategoryButtonsProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const selectedId = searchParams.get("category") || String(categoryId); // 또는 fallback
 
-  const [categoryButtons, setCategoryButtons] = useState<any>([]);
+  const [categoryButtons] = useState<any>([]);
   const handleClick = (id: string) => {
     router.push(`?category=${id}`);
   };
 
   const initData = async (selectedId: string) => {
+    console.log(selectedId);
     // const data = await getCategoryByCategoryId(selectedId);
     // console.log(data);
     // setCategoryButtons(data);

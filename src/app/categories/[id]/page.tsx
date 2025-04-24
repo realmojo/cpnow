@@ -4,7 +4,7 @@ import Link from "next/link";
 import { use, useState, useEffect } from "react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import CategoryTabs from "@/src/components/CategoryButton";
+// import CategoryTabs from "@/src/components/CategoryButton";
 
 // ✅ 실제 API 호출 함수
 async function getCategoryById(id: string): Promise<any | null> {
@@ -15,7 +15,6 @@ async function getCategoryById(id: string): Promise<any | null> {
   if (!res.ok) return null;
 
   const data = await res.json();
-  console.log(data);
   return data;
 }
 
@@ -46,7 +45,7 @@ export default function CategoryPage({
             유아동 패션
           </h2>
 
-          <CategoryTabs categoryId={id} />
+          {/* <CategoryTabs categoryId={id} /> */}
 
           <div className="grid grid-cols-2 gap-4 p-4 sm:grid-cols-2 md:grid-cols-3">
             {Array.from({ length: 24 }).map((_, idx) => (
