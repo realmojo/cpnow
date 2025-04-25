@@ -76,6 +76,7 @@ export default function NotiRegisterButton() {
       const res = await axios.post("/api/token", cpnowInfo);
       if (res.status === 200 && res.data.data === "ok") {
         localStorage.setItem("cpnow-auth", JSON.stringify(cpnowInfo));
+        setAuth(cpnowInfo);
       }
 
       if (deviceInfo.isDesktop) {
@@ -103,30 +104,30 @@ export default function NotiRegisterButton() {
     }
   };
 
-  const deleteFcmToken = async () => {
-    try {
-      const cpnowAuthItem = localStorage.getItem("cpnow-auth") || "";
-      const params = cpnowAuthItem
-        ? JSON.parse(cpnowAuthItem)
-        : {
-            userId: "",
-            fcmToken: "",
-          };
+  // const deleteFcmToken = async () => {
+  //   try {
+  //     const cpnowAuthItem = localStorage.getItem("cpnow-auth") || "";
+  //     const params = cpnowAuthItem
+  //       ? JSON.parse(cpnowAuthItem)
+  //       : {
+  //           userId: "",
+  //           fcmToken: "",
+  //         };
 
-      if (params.userId) {
-        const { data } = await axios.delete(
-          `/api/token?userId=${params.userId}&fcmToken=${params.fcmToken}`,
-        );
+  //     if (params.userId) {
+  //       const { data } = await axios.delete(
+  //         `/api/token?userId=${params.userId}&fcmToken=${params.fcmToken}`,
+  //       );
 
-        if (data === "ok") {
-          localStorage.removeItem("cpnow-auth");
-          location.href = "/";
-        }
-      }
-    } catch (e: any) {
-      console.log(e.message);
-    }
-  };
+  //       if (data.data === "ok") {
+  //         localStorage.removeItem("cpnow-auth");
+  //         location.href = "/";
+  //       }
+  //     }
+  //   } catch (e: any) {
+  //     console.log(e.message);
+  //   }
+  // };
 
   const initAuth = async () => {
     const item = localStorage.getItem("cpnow-auth") || "";
@@ -156,7 +157,7 @@ export default function NotiRegisterButton() {
         <Button onClick={handleRequestPermission}>알림 받기</Button>
       )}
       <Button onClick={sendNotificationTest}>테스트 알림</Button>
-      <Button onClick={() => deleteFcmToken()}>알림 토큰 삭제</Button>
+      {/* <Button onClick={() => deleteFcmToken()}>알림 토큰 삭제</Button> */}
       {permission === "denied" ? (
         <div className="fixed right-4 bottom-4 left-4 z-50 mx-auto max-w-md rounded-lg border border-red-300 bg-red-100 p-4 text-red-700 shadow-md">
           <h2 className="mb-1 text-sm font-bold">알림 권한이 꺼져 있어요 😢</h2>

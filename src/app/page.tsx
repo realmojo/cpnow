@@ -207,6 +207,9 @@ export default function Home() {
                           {/* 가격/할인 */}
                           <div className="text-sm text-gray-700">
                             <div className="flex items-center gap-2">
+                              <div className="text-lg font-bold text-black">
+                                {item.price.toLocaleString()}원
+                              </div>
                               {item.isDiscounted || item.isIncreased ? (
                                 <span
                                   className={`rounded-full px-2 py-0.5 text-xs font-bold ${
@@ -224,9 +227,6 @@ export default function Home() {
                                   할인 없음
                                 </span>
                               )}
-                              <div className="text-lg font-bold text-black">
-                                {item.price.toLocaleString()}원
-                              </div>
                             </div>
                           </div>
 
@@ -243,33 +243,36 @@ export default function Home() {
 
                           {/* 별점 */}
                           <div className="flex items-center text-sm">
-                            <div className="flex space-x-[1px]">
-                              {Array.from({ length: 5 }).map((_, i) => {
-                                const fill =
-                                  i + 1 <= Math.floor(item.rating ?? 0)
-                                    ? "fill-yellow-400 text-yellow-400"
-                                    : i < (item.rating ?? 0)
-                                      ? "fill-yellow-400 text-gray-300"
-                                      : "fill-gray-300 text-gray-300";
+                            {item.rating ? (
+                              <div className="flex space-x-[1px]">
+                                {Array.from({ length: 5 }).map((_, i) => {
+                                  const fill =
+                                    i + 1 <= Math.floor(item.rating ?? 0)
+                                      ? "fill-yellow-400 text-yellow-400"
+                                      : i < (item.rating ?? 0)
+                                        ? "fill-yellow-400 text-gray-300"
+                                        : "fill-gray-300 text-gray-300";
 
-                                return (
-                                  <svg
-                                    key={i}
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 24 24"
-                                    fill="currentColor"
-                                    className={`h-4 w-4 ${fill}`}
-                                  >
-                                    <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-                                  </svg>
-                                );
-                              })}
-                            </div>
-                            <span className="ml-1 text-xs text-gray-600">
-                              {item.reviewCount
-                                ? `(${item.reviewCount.toLocaleString()}`
-                                : null}
-                            </span>
+                                  return (
+                                    <svg
+                                      key={i}
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      viewBox="0 0 24 24"
+                                      fill="currentColor"
+                                      className={`h-4 w-4 ${fill}`}
+                                    >
+                                      <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                                    </svg>
+                                  );
+                                })}
+                              </div>
+                            ) : null}
+
+                            {item.reviewCount ? (
+                              <span className="ml-1 text-xs text-gray-600">
+                                ({item.reviewCount.toLocaleString()})
+                              </span>
+                            ) : null}
                           </div>
                           {/* 적립 혜택 */}
                           {/* <div className="flex items-center gap-1 text-sm text-gray-700">

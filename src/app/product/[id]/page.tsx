@@ -174,7 +174,7 @@ export default function ProductPage({
               <table className="w-full border-collapse text-base">
                 <tbody>
                   <tr className="border-b border-gray-200">
-                    <th className="w-[100px] p-3 text-left font-bold text-gray-700">
+                    <th className="w-[120px] p-3 text-left font-bold text-gray-700">
                       상품명
                     </th>
                     <td className="p-3 text-lg text-gray-800">
@@ -198,7 +198,11 @@ export default function ProductPage({
                       최저가
                     </th>
                     <td className="p-3 text-lg text-gray-800">
-                      {formatNumber(productItem.lowPrice ?? productItem.price)}
+                      {productItem.lowPrice === -1
+                        ? "품절"
+                        : formatNumber(
+                            productItem.lowPrice ?? productItem.price,
+                          )}
                       원
                     </td>
                   </tr>
@@ -232,8 +236,40 @@ export default function ProductPage({
                       평점(리뷰 수)
                     </th>
                     <td className="p-3 text-lg text-gray-800">
-                      {productItem.rating ?? 0} / 5 (
-                      {productItem.reviewCount ?? 0})
+                      <div className="flex space-x-[1px]">
+                        <div className="flex items-center text-sm">
+                          <div className="flex space-x-[1px]">
+                            {Array.from({ length: 5 }).map((_, i) => {
+                              const fill =
+                                i + 1 <= Math.floor(productItem.rating ?? 0)
+                                  ? "fill-yellow-400 text-yellow-400"
+                                  : i < (productItem.rating ?? 0)
+                                    ? "fill-yellow-400 text-gray-300"
+                                    : "fill-gray-300 text-gray-300";
+
+                              return (
+                                <svg
+                                  key={i}
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 0 24 24"
+                                  fill="currentColor"
+                                  className={`h-4 w-4 ${fill}`}
+                                >
+                                  <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                                </svg>
+                              );
+                            })}
+                          </div>
+
+                          <span className="ml-1 text-xs text-gray-600">
+                            (
+                            {productItem.reviewCount
+                              ? productItem.reviewCount.toLocaleString()
+                              : 0}
+                            )
+                          </span>
+                        </div>
+                      </div>
                     </td>
                   </tr>
                   <tr>

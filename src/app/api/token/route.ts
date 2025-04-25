@@ -1,22 +1,19 @@
 import { NextRequest } from "next/server";
-import axios from "axios";
+import { insertOne } from "@/lib/db";
 
 export async function DELETE(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
     const userId = searchParams.get("userId");
     const fcmToken = searchParams.get("fcmToken");
-    console.log(userId, fcmToken);
-    const url = "https://api.mindpang.com/api/cpnow/deleteUserFcmToken.php";
     if (!userId && !fcmToken) {
       throw new Error("no parameter");
     }
-    const { data: data } = await axios.post(url, {
-      userId,
-      fcmToken,
-    });
 
-    return new Response(JSON.stringify(data), {
+    const query = "DELETE FROM users WHERE userId= ? AND fcmToken= ?";
+    await insertOne(query, [userId, fcmToken]);
+
+    return new Response(JSON.stringify({ success: true, data: "ok" }), {
       status: 200,
       headers: { "Content-Type": "application/json" },
     });
@@ -37,10 +34,11 @@ export async function POST(req: NextRequest) {
   try {
     const params = await req.json();
 
-    const url = "https://api.mindpang.com/api/cpnow/addUserFcmToken.php";
-    const { data } = await axios.post(url, params);
+    const query =
+      "INSERT INTO users (userId, fcmToken, regdated) VALUES (?, ?, CONVERT_TZ(NOW(), 'UTC', '+09:00'))";
+    await insertOne(query, [params.userId, params.fcmToken]);
 
-    return new Response(JSON.stringify({ success: true, data }), {
+    return new Response(JSON.stringify({ success: true, data: "ok" }), {
       status: 200,
       headers: { "Content-Type": "application/json" },
     });
