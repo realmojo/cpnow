@@ -1,7 +1,5 @@
-import { NextRequest } from "next/server";
-// import { getTodayDate } from "@/utils/utils";
+import { NextRequest, NextResponse } from "next/server";
 import { queryList } from "@/lib/db";
-// import axios from "axios";
 
 export async function GET(req: NextRequest) {
   try {
@@ -9,6 +7,7 @@ export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
     const categoryId = searchParams.get("categoryId");
     const isRandom = searchParams.get("isRandom");
+    const withCategory = searchParams.get("withCategory") === "true";
 
     if (!categoryId) {
       return new Response(
@@ -21,7 +20,8 @@ export async function GET(req: NextRequest) {
     }
 
     let query = "";
-    let categoryItems = [];
+    let items = [];
+    let categories = [];
     if (isRandom) {
       query = `WITH RECURSIVE category_path AS (
   SELECT categoryId, name
@@ -44,27 +44,59 @@ random_categories AS (
 SELECT p.*, rc.name
 FROM products p
 JOIN random_categories rc ON p.categoryId = rc.categoryId order by RAND() limit 100;`;
-      categoryItems = await queryList<any>(query, [categoryId]);
+      items = await queryList<any>(query, [categoryId]);
     } else {
       query =
         "SELECT * FROM products WHERE categoryId = ? ORDER BY RAND() LIMIT 48";
-      categoryItems = await queryList<any>(query, [categoryId]);
+      items = await queryList<any>(query, [categoryId]);
     }
 
+    if (withCategory) {
+      query = `WITH RECURSIVE children AS (
+  -- 현재 카테고리 포함
+  SELECT categoryId, parentId, name, depth
+  FROM categories
+  WHERE categoryId = ?
+
+  UNION ALL
+
+  -- 자식 재귀 탐색
+  SELECT c.categoryId, c.parentId, c.name, c.depth
+  FROM categories c
+  JOIN children ch ON c.parentId = ch.categoryId
+),
+parents AS (
+  -- 현재 카테고리 포함
+  SELECT categoryId, parentId, name, depth
+  FROM categories
+  WHERE categoryId = ?
+
+  UNION ALL
+
+  -- 부모 재귀 탐색
+  SELECT c.categoryId, c.parentId, c.name, c.depth
+  FROM categories c
+  JOIN parents p ON p.parentId = c.categoryId
+)
+
+-- 전체: 상위 부모 + 현재 + 하위 자식
+SELECT * FROM parents
+UNION
+SELECT * FROM children ORDER BY depth ASC;`;
+      categories = await queryList<any>(query, [categoryId, categoryId]);
+    }
     // ✅ 결과 반환
-    return new Response(JSON.stringify(categoryItems), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
+    // return new Response(JSON.stringify(items), {
+    //   status: 200,
+    //   headers: { "Content-Type": "application/json" },
+    // });
+    return NextResponse.json({
+      items,
+      categories,
     });
   } catch (err) {
     const errorMessage = err instanceof Error ? err.message : String(err);
 
-    return new Response(
-      JSON.stringify({ success: false, error: errorMessage }),
-      {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      },
-    );
+    return NextResponse.json({ success: false, error: errorMessage });
   }
 }

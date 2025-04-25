@@ -146,8 +146,8 @@ export default function ProductPage({
           if (entry.isIntersecting && !isFetched) {
             try {
               if (categoryId) {
-                const data = await getProductListByCategoryId(categoryId);
-                setSimilarProductsItems(data);
+                const { items } = await getProductListByCategoryId(categoryId);
+                setSimilarProductsItems(items);
               }
               setIsFetched(true); // 다시 호출되지 않게 막기
             } catch (error) {

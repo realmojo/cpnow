@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ProductList from "../components/ProductList";
@@ -101,7 +101,7 @@ export default function Home() {
       setSelected(categoryId);
       setCategory(name);
 
-      const items = await getRandomProductsByCategoryId(categoryId);
+      const { items } = await getRandomProductsByCategoryId(categoryId);
       const reItems = items.map((item: any) => {
         const price = item.price || 0;
         const prevPrice = item.lowPrice ?? price;
@@ -129,57 +129,63 @@ export default function Home() {
   };
 
   return (
-    <div className="w-full">
-      <div className="mx-auto max-w-[800px] px-4 py-10">
-        <h1 className="text-center text-2xl leading-snug font-bold sm:text-3xl">
-          지금 이 순간
-          <br className="block sm:hidden" />
-          가장 똑똑하게 소비하는 방법
-        </h1>
+    <React.Fragment>
+      <main className="mx-auto w-full max-w-[800px] space-y-10 px-4 py-10">
+        {/* Hero Section */}
+        <section className="text-center">
+          <h1 className="text-2xl leading-snug font-bold sm:text-3xl">
+            지금 이 순간 <br className="block sm:hidden" />
+            가장 똑똑하게 소비하는 방법
+          </h1>
 
-        {/* <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:space-x-2">
-          <Input
-            type="text"
-            placeholder="찾고 싶은 상품은?"
-            className="w-full"
-          />
-          <Button size="icon" className="w-full sm:w-auto">
-            <Search />
-          </Button>
-        </div> */}
-
-        <div className="mt-6 flex flex-wrap gap-2">
-          {categories.map((cat) => (
-            <Button
-              key={cat.categoryId}
-              variant={selected === cat.categoryId ? "default" : "outline"}
-              onClick={() => getSubCategoryProdutItems(cat)}
-              className="rounded-2xl px-4 py-2 text-sm shadow-sm transition hover:shadow-md"
-            >
-              {cat.name}
+          {/* 🔍 검색 바: 추후 활성화 */}
+          {/* 
+          <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:space-x-2">
+            <Input
+              type="text"
+              placeholder="찾고 싶은 상품은?"
+              className="w-full"
+            />
+            <Button size="icon" className="w-full sm:w-auto">
+              <Search />
             </Button>
-          ))}
-        </div>
+          </div> 
+          */}
 
-        <article className="container mx-auto py-10">
-          <section className="flex justify-center py-10">
-            <div className="mx-auto w-full max-w-[800px]">
-              <h2 className="font-heading mt-16 scroll-m-20 pb-4 text-2xl font-bold tracking-tight first:mt-0">
+          {/* 카테고리 버튼 */}
+          <div className="mt-6 flex flex-wrap justify-center gap-2">
+            {categories.map((cat) => (
+              <Button
+                key={cat.categoryId}
+                variant={selected === cat.categoryId ? "default" : "outline"}
+                onClick={() => getSubCategoryProdutItems(cat)}
+                className="rounded-2xl px-4 py-2 text-sm shadow-sm transition hover:shadow-md"
+              >
+                {cat.name}
+              </Button>
+            ))}
+          </div>
+        </section>
+
+        {/* 상품 리스트 섹션 */}
+        <article>
+          <section className="flex justify-center">
+            <div className="w-full max-w-[800px]">
+              <h2 className="scroll-m-20 text-2xl font-bold tracking-tight">
                 {category}
               </h2>
-
-              {/* <CategoryTabs categoryId={id} /> */}
               <ProductList items={randomProducts} />
             </div>
           </section>
         </article>
-      </div>
-      {/* 전체화면 오버레이 로딩 */}
+      </main>
+
+      {/* 전체화면 로딩 오버레이 */}
       {loading && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
           <Loader2 className="h-10 w-10 animate-spin text-white" />
         </div>
       )}
-    </div>
+    </React.Fragment>
   );
 }
