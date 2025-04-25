@@ -129,7 +129,9 @@ export default async function ProductPage({ params }: any) {
     },
     aggregateRating: {
       "@type": "AggregateRating",
-      ratingValue: productItem.rating?.toFixed(1) || "0",
+      ratingValue: productItem.rating
+        ? Number(productItem.rating).toFixed(1)
+        : "0",
       reviewCount: productItem.reviewCount ?? 0,
     },
   };
