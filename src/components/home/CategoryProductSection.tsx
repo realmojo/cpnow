@@ -52,6 +52,7 @@ async function getRandomProductsByCategoryId(
 export default function CategoryProductSection({
   fisrtCategories,
   defaultCategory,
+  // randomProductList,
 }: Props) {
   const [category, setCategory] = useState<string | null>(null);
   const [selected, setSelected] = useState<number | null>(null);

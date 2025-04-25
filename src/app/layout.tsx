@@ -2,10 +2,12 @@ import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import { Toaster } from "@/components/ui/sonner";
 
+import Script from "next/script";
 import Header from "@/src/components/layouts/Header";
 import Footer from "@/src/components/layouts/Footer";
 import RegisterServiceWorker from "@/src/app/register-service-worker";
 import localFont from "next/font/local";
+import GoogleAnalytics from "@/src/components/GoogleAnalytics";
 
 import "./globals.css";
 
@@ -73,9 +75,34 @@ export default async function RootLayout({
   return (
     <html lang="en" className={`${pretendard.variable}`}>
       <head>
+        <meta
+          name="naver-site-verification"
+          content="80d6139455845cdbf1c9f9457d7dceef48681fb3"
+        />
+        <meta
+          name="google-site-verification"
+          content="FrevTocD5esK1kGfI3LURLhqx1zfKAcM-v_-WvAI9Qw"
+        />
+
+        {/* Google Analytics 삽입 */}
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}', {
+              page_path: window.location.pathname,
+            });
+          `}
+        </Script>
         <link rel="manifest" href="/manifest.json" />
       </head>
       <body className={pretendard.className}>
+        <GoogleAnalytics />
         {/* <ClientDefaultSeo /> */}
         <SidebarProvider defaultOpen={defaultOpen}>
           {/* <Header /> */}
