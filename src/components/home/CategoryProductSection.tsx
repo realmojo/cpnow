@@ -14,7 +14,7 @@ interface Category {
 interface Props {
   fisrtCategories: Category[];
   defaultCategory: Category;
-  randomProductList: any[] | null;
+  // randomProductList: any[] | null;
 }
 
 // ✅ 서버사이드 상품 불러오기 함수
@@ -24,7 +24,7 @@ async function getRandomProductsByCategoryId(
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/category?categoryId=${categoryId}&isRandom=true`,
-      { cache: "no-store" },
+      // { cache: "no-store" },
     );
     if (!res.ok) return null;
     const { items } = await res.json();
@@ -52,11 +52,11 @@ async function getRandomProductsByCategoryId(
 export default function CategoryProductSection({
   fisrtCategories,
   defaultCategory,
-  randomProductList,
+  // randomProductList,
 }: Props) {
   const [category, setCategory] = useState<string | null>(null);
   const [selected, setSelected] = useState<number | null>(null);
-  const [randomProducts, setRendomProducts] = useState<any>(randomProductList);
+  const [randomProducts, setRandomProducts] = useState<any>([]);
   const [loading, setLoading] = useState(false);
   const getSubCategoryProdutItems = async ({
     categoryId,
@@ -89,7 +89,7 @@ export default function CategoryProductSection({
           discountRate,
         };
       });
-      setRendomProducts(reItems);
+      setRandomProducts(reItems);
     } catch (e) {
       console.log(e);
     } finally {

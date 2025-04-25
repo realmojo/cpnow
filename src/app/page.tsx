@@ -133,43 +133,43 @@ import { fisrtCategories } from "@/utils/utils";
 import CategoryProductSection from "../components/home/CategoryProductSection";
 
 // ✅ 서버사이드 상품 불러오기 함수
-async function getRandomProductsByCategoryId(
-  categoryId: number,
-): Promise<any[] | null> {
-  try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/category?categoryId=${categoryId}&isRandom=true`,
-      { cache: "no-store" },
-    );
-    if (!res.ok) return null;
-    const { items } = await res.json();
+// async function getRandomProductsByCategoryId(
+//   categoryId: number,
+// ): Promise<any[] | null> {
+//   try {
+//     const res = await fetch(
+//       `${process.env.NEXT_PUBLIC_BASE_URL}/api/category?categoryId=${categoryId}&isRandom=true`,
+//       { cache: "no-store" },
+//     );
+//     if (!res.ok) return null;
+//     const { items } = await res.json();
 
-    return items.map((item: any) => {
-      const price = item.price || 0;
-      const prevPrice = item.lowPrice ?? price;
-      const discountRate = prevPrice
-        ? Math.round(((prevPrice - price) / prevPrice) * 100)
-        : 0;
+//     return items.map((item: any) => {
+//       const price = item.price || 0;
+//       const prevPrice = item.lowPrice ?? price;
+//       const discountRate = prevPrice
+//         ? Math.round(((prevPrice - price) / prevPrice) * 100)
+//         : 0;
 
-      return {
-        ...item,
-        isDiscounted: discountRate > 0,
-        isIncreased: discountRate < 0,
-        discountRate,
-      };
-    });
-  } catch (e) {
-    console.error("[ERROR] fetching products:", e);
-    return null;
-  }
-}
+//       return {
+//         ...item,
+//         isDiscounted: discountRate > 0,
+//         isIncreased: discountRate < 0,
+//         discountRate,
+//       };
+//     });
+//   } catch (e) {
+//     console.error("[ERROR] fetching products:", e);
+//     return null;
+//   }
+// }
 
 // ✅ 기본 카테고리 ID 하나로 예시 구성
 const defaultCategory = fisrtCategories[0];
 export default async function Home() {
-  const randomProducts = await getRandomProductsByCategoryId(
-    defaultCategory.categoryId,
-  );
+  // const randomProducts = await getRandomProductsByCategoryId(
+  //   defaultCategory.categoryId,
+  // );
 
   return (
     <main className="mx-auto w-full max-w-[800px] space-y-10 px-4 py-10">
@@ -183,7 +183,7 @@ export default async function Home() {
       <CategoryProductSection
         fisrtCategories={fisrtCategories}
         defaultCategory={defaultCategory}
-        randomProductList={randomProducts}
+        // randomProductList={randomProducts}
       />
     </main>
   );
