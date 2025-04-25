@@ -46,8 +46,9 @@ FROM products p
 JOIN random_categories rc ON p.categoryId = rc.categoryId order by RAND() limit 100;`;
       categoryItems = await queryList<any>(query, [categoryId]);
     } else {
-      //    query = `SELECT * FROM products WHERE depth = ${categoryId}`;
-      // const [rows] = await pool.query(query);
+      query =
+        "SELECT * FROM products WHERE categoryId = ? ORDER BY RAND() LIMIT 48";
+      categoryItems = await queryList<any>(query, [categoryId]);
     }
 
     // ✅ 결과 반환

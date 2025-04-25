@@ -18,9 +18,6 @@ export async function POST(req: NextRequest) {
     });
   } catch (err) {
     const errorMessage = err instanceof Error ? err.message : String(err);
-    // if (errorMessage === "Requested entity was not found") {
-
-    // }
     return new Response(
       JSON.stringify({ success: false, error: errorMessage }),
       {
