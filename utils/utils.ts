@@ -43,3 +43,16 @@ export const sendNotificationTest = async () => {
     alert("알림 권한이 필요합니다. 1");
   }
 };
+
+export const getUserAuth = () => {
+  const item = localStorage.getItem("cpnow-auth") || "";
+
+  if (item) {
+    return JSON.parse(item);
+  } else {
+    return {
+      userId: "",
+      fcmToken: "",
+    };
+  }
+};

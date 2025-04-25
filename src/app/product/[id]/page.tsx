@@ -45,6 +45,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import DeliveryBadge from "@/src/components/DeliveryBadge";
+import { getUserAuth } from "@/utils/utils";
 // import NotificationButton from "@/src/components/Notification";
 
 const data = [
@@ -69,6 +70,27 @@ async function getProductById(id: string): Promise<any | null> {
   return data;
 }
 
+// ✅ 알람등록
+async function addAlarm(params: any): Promise<any | null> {
+  // const res = await fetch(`/api/route?id=${id}`, {
+  //   cache: "no-store", // ← SSR 시 실시간 데이터 원할 경우
+  // });
+  const response = await fetch("/api/alarm", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(params),
+  });
+
+  const res = await response.json();
+
+  if (!res.ok) return null;
+
+  const data = await res.json();
+  return data;
+}
+
 export default function ProductPage({
   params,
 }: {
@@ -78,9 +100,17 @@ export default function ProductPage({
 
   const [productItem, setProductItem] = useState<any>({});
 
-  const handleNotify = () => {
+  const handleNotify = async (id: number) => {
+    const userInfo = await getUserAuth();
+    const params = {
+      userId: userInfo.userId,
+      productId: id,
+    };
+
+    await addAlarm(params);
+
     toast("최저가 알림받기가 설정되었습니다.", {
-      description: "Sunday, December 03, 2023 at 9:00 AM",
+      description: "ggg",
     });
   };
 
@@ -130,12 +160,12 @@ export default function ProductPage({
                     </BreadcrumbLink>
                   </BreadcrumbItem>
                   <BreadcrumbSeparator />
-                  <BreadcrumbItem>
+                  {/* <BreadcrumbItem>
                     <BreadcrumbLink href="/components">
                       {productItem.middleCategory ?? ""}
                     </BreadcrumbLink>
                   </BreadcrumbItem>
-                  <BreadcrumbSeparator />
+                  <BreadcrumbSeparator /> */}
                   <BreadcrumbItem>
                     <BreadcrumbPage>
                       <BreadcrumbLink
@@ -291,7 +321,7 @@ export default function ProductPage({
                         <Button
                           className="h-14 flex-1 px-0"
                           size="lg"
-                          onClick={handleNotify}
+                          onClick={() => handleNotify(productItem.id)}
                         >
                           알람받기
                         </Button>
