@@ -1,9 +1,7 @@
-"use client";
+import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { use, useState, useEffect, useRef } from "react";
-import { toast } from "sonner";
-// import { NextSeo } from "next-seo";
+import { notFound } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   Breadcrumb,
@@ -15,91 +13,78 @@ import {
 } from "@/components/ui/breadcrumb";
 
 import DeliveryBadge from "@/src/components/DeliveryBadge";
-import { getCategoryIdByName, getUserAuth } from "@/utils/utils";
-import ProductList from "@/src/components/ProductList";
+import { getCategoryIdByName } from "@/utils/utils";
 import PriceLineChart from "@/src/components/PriceLineChart";
-import Head from "next/head";
-
-// ✅ 상품 카테고리 랜덤호출 함수
-async function getProductListByCategoryId(
-  categoryId: number,
-): Promise<any | null> {
-  const res = await fetch(`/api/category?categoryId=${categoryId}`, {
-    cache: "no-store", // ← SSR 시 실시간 데이터 원할 경우
-  });
-
-  if (!res.ok) return null;
-
-  const data = await res.json();
-  return data;
+import AlarmButton from "@/src/components/product/AlarmButton";
+import SimilarProductSection from "@/src/components/product/SimilarProductSection";
+interface ProductPageProps {
+  params: { id: string };
 }
 
 // ✅ 상품 호출 함수
 async function getProductById(id: string): Promise<any | null> {
-  const res = await fetch(`/api/product?id=${id}`, {
-    cache: "no-store", // ← SSR 시 실시간 데이터 원할 경우
-  });
-
-  if (!res.ok) return null;
-
-  const data = await res.json();
-  return data;
-}
-
-// ✅ 알람등록
-async function addAlarm(params: any): Promise<any | null> {
-  const response = await fetch("/api/alarm", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/product?id=${id}`,
+    {
+      cache: "no-store", // ← SSR 시 실시간 데이터 원할 경우
     },
-    body: JSON.stringify(params),
-  });
-
-  const res = await response.json();
+  );
 
   if (!res.ok) return null;
 
   const data = await res.json();
   return data;
 }
+type Props = {
+  params: { id: string };
+};
 
-export default function ProductPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
-  const { id } = use(params); // ✅ 이렇게 unwrapping 필요
-  const targetRef = useRef<HTMLDivElement | null>(null);
-  const [isFetched, setIsFetched] = useState(false);
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { id } = await params;
+  const product = await getProductById(id);
 
-  const [productItem, setProductItem] = useState<any>({});
-  const [categoryId, setCategoryId] = useState<number>(0);
-  const [similarProductsItems, setSimilarProductsItems] = useState<any[]>([]);
-
-  const handleNotify = async (id: number) => {
-    const userInfo = await getUserAuth();
-    const params = {
-      userId: userInfo.userId,
-      productId: id,
+  if (!product) {
+    return {
+      title: "상품 정보를 찾을 수 없습니다",
+      description: "요청하신 상품 정보를 찾을 수 없습니다.",
     };
+  }
 
-    await addAlarm(params);
+  const title = `${product.title} | 쿠팡 가격 알리미 - CPNOW`;
+  const description = `${product.title}의 현재 최저가는 ${product.lowPrice ? product.lowPrice?.toLocaleString() : product.price.toLocaleString()}원입니다. 쿠팡 가격 추이를 한눈에 확인하세요.`;
 
-    toast("최저가 알림 설정 완료 🚀", {
-      description: (
-        <span className="font-semibold text-gray-400">
-          가격이 내려가면 바로 알려드릴게요!
-        </span>
-      ),
-    });
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      images: [
+        {
+          url: product.thumbnail || "/og-default.png",
+          width: 800,
+          height: 600,
+          alt: product.title,
+        },
+      ],
+      siteName: "CPNOW",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [product.thumbnail || "/og-default.png"],
+    },
+    alternates: {
+      canonical: `https://cpnow.kr/product/${id}`,
+    },
   };
+}
 
-  const initData = async (id: string) => {
-    const data = await getProductById(id);
-    setProductItem(data);
-    setCategoryId(data.categoryId);
-  };
+export default async function ProductPage({ params }: ProductPageProps) {
+  const { id } = await params;
+  const productItem = await getProductById(id);
+  if (!productItem) return notFound();
 
   const formatNumber = (num: number | string): string => {
     return num ? Number(num).toLocaleString("ko-KR") : "0";
@@ -122,73 +107,48 @@ export default function ProductPage({
     }
   };
 
-  useEffect(() => {
-    initData(id);
-  }, [id]);
-
-  useEffect(() => {
-    if (categoryId) {
-      const currentTarget = targetRef.current;
-      if (!currentTarget) return;
-
-      const observer = new IntersectionObserver(
-        async (entries) => {
-          const [entry] = entries;
-          if (entry.isIntersecting && !isFetched) {
-            try {
-              if (categoryId) {
-                const { items } = await getProductListByCategoryId(categoryId);
-                setSimilarProductsItems(items);
-              }
-              setIsFetched(true); // 다시 호출되지 않게 막기
-            } catch (error) {
-              console.error("API 호출 실패:", error);
-            }
-          }
-        },
-        {
-          threshold: 0.1, // 10% 정도 보이면 트리거
-        },
-      );
-
-      observer.observe(currentTarget);
-
-      return () => {
-        observer.unobserve(currentTarget);
-      };
-    }
-  }, [isFetched, categoryId]);
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: productItem.title,
+    image: [productItem.thumbnail],
+    description: `${productItem.title}의 실시간 최저가는 ${productItem.lowPrice?.toLocaleString()}원입니다.`,
+    brand: {
+      "@type": "Brand",
+      name: "쿠팡",
+    },
+    offers: {
+      "@type": "Offer",
+      url: productItem.shortUrl || productItem.link,
+      priceCurrency: "KRW",
+      price: productItem.lowPrice ?? productItem.price,
+      priceValidUntil: "2025-12-31",
+      itemCondition: "https://schema.org/NewCondition",
+      availability:
+        productItem.lowPrice === -1
+          ? "https://schema.org/OutOfStock"
+          : "https://schema.org/InStock",
+      seller: {
+        "@type": "Organization",
+        name: "쿠팡",
+      },
+    },
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: productItem.rating?.toFixed(1) || "0",
+      reviewCount: productItem.reviewCount ?? 0,
+    },
+  };
 
   return (
     <>
-      <Head>
-        <title>asdfasfd</title>
-      </Head>
-      {/* <NextSeo
-      openGraph={{
-        title: "Open Graph Profile Title",
-        description: "Description of open graph profile",
-        url: "https://www.example.com/@firstlast123",
-        type: "profile",
-        profile: {
-          firstName: "First",
-          lastName: "Last",
-          username: "firstlast123",
-          gender: "female",
-        },
-        images: [
-          {
-            url: "https://www.test.ie/images/profile.jpg",
-            width: 850,
-            height: 650,
-            alt: "Profile Photo",
-          },
-        ],
-      }}
-      /> */}
-
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd),
+        }}
+      />
       <article>
-        {/* <NotificationButton /> */}
         <section className="flex justify-center py-10">
           <div className="mx-auto w-full max-w-[800px] px-4">
             <h2 className="font-heading flex scroll-m-20 justify-between pb-4 text-2xl font-bold tracking-tight first:mt-0">
@@ -358,13 +318,7 @@ export default function ProductPage({
                               구매하기
                             </a>
                           </Button>
-                          <Button
-                            className="h-14 flex-1 px-0"
-                            size="lg"
-                            onClick={() => handleNotify(productItem.id)}
-                          >
-                            알람받기
-                          </Button>
+                          <AlarmButton productId={productItem.productId} />
                         </div>
                       </td>
                     </tr>
@@ -438,15 +392,8 @@ export default function ProductPage({
           </Carousel>
         </div>
       </section> */}
-        <section className="mt-16 flex justify-center" ref={targetRef}>
-          <div className="w-[800px] px-4">
-            <h2 className="font-heading scroll-m-20 text-2xl font-bold tracking-tight first:mt-0">
-              비슷한 상품 추천
-            </h2>
 
-            <ProductList items={similarProductsItems} />
-          </div>
-        </section>
+        <SimilarProductSection categoryId={productItem.categoryId} />
       </article>
     </>
   );

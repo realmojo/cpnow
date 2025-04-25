@@ -30,7 +30,6 @@ export async function POST(req: NextRequest) {
       errorMessage ===
       "The registration token is not a valid FCM registration token"
     ) {
-      console.log(111);
     } else if (errorMessage === "Requested entity was not found") {
     }
     return new Response(

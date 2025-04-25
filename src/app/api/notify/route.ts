@@ -22,7 +22,6 @@ export async function POST(req: NextRequest) {
         },
       },
     };
-    console.log(message);
 
     const response = await messaging.send(message);
 

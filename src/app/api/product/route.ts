@@ -21,7 +21,6 @@ const generateLast30DaysPrice = (
 
   // ✅ 날짜 → 가격 매핑
   rawPrices.forEach(({ date, price }) => {
-    console.log(date, price);
     priceMap.set(date, price);
   });
 
@@ -104,7 +103,6 @@ export async function GET(req: NextRequest) {
     query =
       "SELECT DATE_FORMAT(regdated, '%Y-%m-%d') AS date, price FROM product_prices WHERE productId = ? AND regdated >= CURDATE() - INTERVAL 30 DAY ORDER BY regdated ASC;";
     const priceItems = await queryList(query, [id]);
-    console.log(priceItems);
 
     const priceHistory = generateLast30DaysPrice(priceItems, product.price);
     product.priceHistory = priceHistory;
