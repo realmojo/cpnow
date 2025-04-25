@@ -8,7 +8,8 @@ import { MessagePayload } from "firebase/messaging";
 import { nanoid } from "nanoid";
 import axios from "axios";
 import Link from "next/link";
-import { detectDevice, sendNotificationTest } from "@/utils/utils";
+// import { detectDevice, sendNotificationTest } from "@/utils/utils";
+import { detectDevice } from "@/utils/utils";
 
 const openForegroundMessage = (messaging: any) => {
   console.log("✅ 포그라운드 메세지 수신", messaging);
@@ -156,7 +157,7 @@ export default function NotiRegisterButton() {
       ) : (
         <Button onClick={handleRequestPermission}>알림 받기</Button>
       )}
-      <Button onClick={sendNotificationTest}>테스트 알림</Button>
+      {/* <Button onClick={sendNotificationTest}>테스트 알림</Button> */}
       {/* <Button onClick={() => deleteFcmToken()}>알림 토큰 삭제</Button> */}
       {permission === "denied" ? (
         <div className="fixed right-4 bottom-4 left-4 z-50 mx-auto max-w-md rounded-lg border border-red-300 bg-red-100 p-4 text-red-700 shadow-md">
