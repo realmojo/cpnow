@@ -17,9 +17,6 @@ import { getCategoryIdByName } from "@/utils/utils";
 import PriceLineChart from "@/src/components/PriceLineChart";
 import AlarmButton from "@/src/components/product/AlarmButton";
 import SimilarProductSection from "@/src/components/product/SimilarProductSection";
-interface ProductPageProps {
-  params: { id: string };
-}
 
 // ✅ 상품 호출 함수
 async function getProductById(id: string): Promise<any | null> {
@@ -81,7 +78,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function ProductPage({ params }: ProductPageProps) {
+export default async function ProductPage({ params }: any) {
   const { id } = await params;
   const productItem = await getProductById(id);
   if (!productItem) return notFound();

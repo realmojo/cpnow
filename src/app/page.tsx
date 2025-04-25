@@ -183,7 +183,7 @@ export default async function Home() {
       <CategoryProductSection
         fisrtCategories={fisrtCategories}
         defaultCategory={defaultCategory}
-        randomProducts={randomProducts}
+        randomProductList={randomProducts}
       />
     </main>
   );
