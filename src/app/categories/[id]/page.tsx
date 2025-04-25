@@ -15,9 +15,7 @@ interface RandomCategoryButtonsProps {
   categories: Category[];
 }
 
-export function RandomCategoryButtons({
-  categories,
-}: RandomCategoryButtonsProps) {
+const RandomCategoryButtons = ({ categories }: RandomCategoryButtonsProps) => {
   const randomCategories = useMemo(() => {
     const shuffled = [...categories].sort(() => 0.5 - Math.random());
     return shuffled.slice(0, 10);
@@ -37,7 +35,7 @@ export function RandomCategoryButtons({
       ))}
     </div>
   );
-}
+};
 
 // ✅ 상품 카테고리 랜덤호출 함수
 async function getProductListByCategoryId(
