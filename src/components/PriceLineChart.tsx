@@ -1,7 +1,14 @@
 "use client";
 
 import { TrendingUp } from "lucide-react";
-import { CartesianGrid, Line, LineChart, XAxis, TooltipProps } from "recharts";
+import {
+  CartesianGrid,
+  Line,
+  LineChart,
+  XAxis,
+  YAxis,
+  TooltipProps,
+} from "recharts";
 
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import {
@@ -9,39 +16,14 @@ import {
   ChartContainer,
   ChartTooltip,
 } from "@/components/ui/chart";
-const chartData = [
-  { date: "03-25", price: 17900 },
-  { date: "03-26", price: 17900 },
-  { date: "03-27", price: 16500 },
-  { date: "03-28", price: 16500 },
-  { date: "03-29", price: 15800 },
-  { date: "03-30", price: 15800 },
-  { date: "03-31", price: 15800 },
-  { date: "04-01", price: 19900 },
-  { date: "04-02", price: 19900 },
-  { date: "04-03", price: 19200 },
-  { date: "04-04", price: 19200 },
-  { date: "04-05", price: 18900 },
-  { date: "04-06", price: 18900 },
-  { date: "04-07", price: 18900 },
-  { date: "04-08", price: 17900 },
-  { date: "04-09", price: 17900 },
-  { date: "04-10", price: 16900 },
-  { date: "04-11", price: 16900 },
-  { date: "04-12", price: 14900 },
-  { date: "04-13", price: 14900 },
-  { date: "04-14", price: 14900 },
-  { date: "04-15", price: 15500 },
-  { date: "04-16", price: 15500 },
-  { date: "04-17", price: 15900 },
-  { date: "04-18", price: 15900 },
-  { date: "04-19", price: 14900 },
-  { date: "04-20", price: 14900 },
-  { date: "04-21", price: 15500 },
-  { date: "04-22", price: 16500 },
-  { date: "04-23", price: 16500 },
-];
+interface PriceItem {
+  date: string; // e.g. "2025-04-25"
+  price: number;
+}
 
+interface PriceLineChartProps {
+  items: PriceItem[];
+}
 const chartConfig = {
   desktop: {
     label: "Desktop",
@@ -74,7 +56,8 @@ const CustomChartTooltipContent = ({
   );
 };
 
-export default function PriceLineChart() {
+export default function PriceLineChart({ items }: PriceLineChartProps) {
+  const chartData = items;
   return (
     <Card className="border-none shadow-none">
       <CardContent className="px-0">
@@ -88,7 +71,7 @@ export default function PriceLineChart() {
               tickMargin={8}
               tickFormatter={(value) => value.slice(0, 5)} // "04-12" 유지
             />
-            {/* <YAxis /> */}
+            <YAxis />
             <ChartTooltip content={<CustomChartTooltipContent />} />
             <Line
               type="monotone"

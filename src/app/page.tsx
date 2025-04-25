@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ProductList from "../components/ProductList";
+import { fisrtCategories } from "@/utils/utils";
 
 // ✅ 실제 API 호출 함수
 async function getRandomProductsByCategoryId(
@@ -22,68 +23,6 @@ async function getRandomProductsByCategoryId(
 }
 
 export default function Home() {
-  const categories = [
-    {
-      categoryId: 564653,
-      name: "패션의류/잡화",
-    },
-    {
-      categoryId: 176522,
-      name: "뷰티",
-    },
-    {
-      categoryId: 221934,
-      name: "출산/유아동",
-    },
-    {
-      categoryId: 194276,
-      name: "식품",
-    },
-    {
-      categoryId: 185669,
-      name: "주방용품",
-    },
-    {
-      categoryId: 115673,
-      name: "생활용품",
-    },
-    {
-      categoryId: 184555,
-      name: "홈인테리어",
-    },
-    {
-      categoryId: 178255,
-      name: "가전디지털",
-    },
-    {
-      categoryId: 317778,
-      name: "스포츠/레저",
-    },
-    {
-      categoryId: 184060,
-      name: "자동차용품",
-    },
-    {
-      categoryId: 317777,
-      name: "도서/음반/DVD",
-    },
-    {
-      categoryId: 317779,
-      name: "완구/취미",
-    },
-    {
-      categoryId: 177295,
-      name: "문구/오피스",
-    },
-    {
-      categoryId: 115674,
-      name: "반려동물용품",
-    },
-    {
-      categoryId: 305798,
-      name: "헬스/건강식품",
-    },
-  ];
   const [category, setCategory] = useState<string | null>(null);
   const [selected, setSelected] = useState<number | null>(null);
   const [randomProducts, setRendomProducts] = useState<any>([]);
@@ -154,7 +93,7 @@ export default function Home() {
 
           {/* 카테고리 버튼 */}
           <div className="mt-6 flex flex-wrap justify-center gap-2">
-            {categories.map((cat) => (
+            {fisrtCategories.map((cat) => (
               <Button
                 key={cat.categoryId}
                 variant={selected === cat.categoryId ? "default" : "outline"}

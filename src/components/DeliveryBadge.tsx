@@ -39,8 +39,8 @@ export default function DeliveryBadge({
   const badge = deliveryMap[deliveryType];
 
   // 일반배송 텍스트 출력
-  if (deliveryType === 0 || deliveryType === null) {
-    return <span className="text-xs font-medium text-gray-500">일반배송</span>;
+  if (Number(deliveryType) === 0 || deliveryType === null) {
+    return <span className="text-sm font-medium text-gray-500">일반배송</span>;
   }
 
   if (!badge) return null;

@@ -18,6 +18,11 @@ for (let i = 1; i <= 10; i += 1) {
     hostname: `img${i}a.coupangcdn.com`, // 이미지 도메인
     pathname: "/**",
   });
+  remotePatterns.push({
+    protocol: "https",
+    hostname: `t${i}a.coupangcdn.com`, // 이미지 도메인
+    pathname: "/**",
+  });
 }
 const nextConfig: NextConfig = {
   /* config options here */

@@ -20,7 +20,7 @@ export default function ProductList({ items = [] }: any) {
                     height={400}
                     className="aspect-square w-full object-cover"
                     placeholder="blur"
-                    blurDataURL="/placeholder.png"
+                    blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgdmlld0JveD0iMCAwIDYwMCA0MDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjYwMCIgaGVpZ2h0PSI0MDAiIGZpbGw9IiNlZWVlZWUiLz48L3N2Zz4="
                   />
                 </CardHeader>
 

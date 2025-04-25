@@ -1,7 +1,9 @@
 "use client";
 import Image from "next/image";
+import Link from "next/link";
 import { use, useState, useEffect, useRef } from "react";
 import { toast } from "sonner";
+// import { NextSeo } from "next-seo";
 import { Button } from "@/components/ui/button";
 import {
   Breadcrumb,
@@ -13,25 +15,10 @@ import {
 } from "@/components/ui/breadcrumb";
 
 import DeliveryBadge from "@/src/components/DeliveryBadge";
-import { getUserAuth } from "@/utils/utils";
+import { getCategoryIdByName, getUserAuth } from "@/utils/utils";
 import ProductList from "@/src/components/ProductList";
 import PriceLineChart from "@/src/components/PriceLineChart";
-// import {
-//   Carousel,
-//   CarouselContent,
-//   CarouselItem,
-//   CarouselNext,
-//   CarouselPrevious,
-// } from "@/components/ui/carousel";
-// import Link from "next/link";
-// import {
-//   Card,
-//   CardContent,
-//   CardDescription,
-//   CardHeader,
-//   CardTitle,
-// } from "@/components/ui/card";
-// import NotificationButton from "@/src/components/Notification";
+import Head from "next/head";
 
 // ✅ 상품 카테고리 랜덤호출 함수
 async function getProductListByCategoryId(
@@ -99,8 +86,12 @@ export default function ProductPage({
 
     await addAlarm(params);
 
-    toast("최저가 알림받기가 설정되었습니다.", {
-      description: "ggg",
+    toast("최저가 알림 설정 완료 🚀", {
+      description: (
+        <span className="font-semibold text-gray-400">
+          가격이 내려가면 바로 알려드릴게요!
+        </span>
+      ),
     });
   };
 
@@ -169,195 +160,230 @@ export default function ProductPage({
   }, [isFetched, categoryId]);
 
   return (
-    <article>
-      {/* <NotificationButton /> */}
-      <section className="flex justify-center py-10">
-        <div className="mx-auto w-full max-w-[800px] px-4">
-          <h2 className="font-heading flex scroll-m-20 justify-between pb-4 text-2xl font-bold tracking-tight first:mt-0">
-            상품정보
-            <div className="mt-3">
-              <Breadcrumb>
-                <BreadcrumbList>
-                  <BreadcrumbItem>
-                    <BreadcrumbLink href="/">
-                      {productItem.bigCategory ?? ""}
-                    </BreadcrumbLink>
-                  </BreadcrumbItem>
-                  <BreadcrumbSeparator />
-                  <BreadcrumbItem>
-                    <BreadcrumbPage>
-                      <BreadcrumbLink
-                        href={`/categories/${productItem.categoryId}`}
-                      >
-                        {productItem.category ?? ""}
+    <>
+      <Head>
+        <title>asdfasfd</title>
+      </Head>
+      {/* <NextSeo
+      openGraph={{
+        title: "Open Graph Profile Title",
+        description: "Description of open graph profile",
+        url: "https://www.example.com/@firstlast123",
+        type: "profile",
+        profile: {
+          firstName: "First",
+          lastName: "Last",
+          username: "firstlast123",
+          gender: "female",
+        },
+        images: [
+          {
+            url: "https://www.test.ie/images/profile.jpg",
+            width: 850,
+            height: 650,
+            alt: "Profile Photo",
+          },
+        ],
+      }}
+      /> */}
+
+      <article>
+        {/* <NotificationButton /> */}
+        <section className="flex justify-center py-10">
+          <div className="mx-auto w-full max-w-[800px] px-4">
+            <h2 className="font-heading flex scroll-m-20 justify-between pb-4 text-2xl font-bold tracking-tight first:mt-0">
+              상품정보
+              <div className="mt-3">
+                <Breadcrumb>
+                  <BreadcrumbList>
+                    <BreadcrumbItem>
+                      <BreadcrumbLink asChild>
+                        <Link
+                          href={`/categories/${getCategoryIdByName(productItem.bigCategory)}`}
+                        >
+                          {productItem.bigCategory ?? ""}
+                        </Link>
                       </BreadcrumbLink>
-                    </BreadcrumbPage>
-                  </BreadcrumbItem>
-                </BreadcrumbList>
-              </Breadcrumb>
-            </div>
-          </h2>
-          <div className="flex flex-col items-stretch overflow-hidden rounded-lg bg-white sm:flex-row">
-            <div className="flex items-center justify-center sm:flex-[3]">
-              <Image
-                src={
-                  productItem.thumbnail ||
-                  "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgdmlld0JveD0iMCAwIDYwMCA0MDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjYwMCIgaGVpZ2h0PSI0MDAiIGZpbGw9IiNlZWVlZWUiLz48L3N2Zz4="
-                }
-                alt={productItem.title ?? ""}
-                width={400}
-                height={400}
-                className="h-auto w-full rounded-md object-contain sm:w-[400px]"
-                placeholder="blur"
-                blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgdmlld0JveD0iMCAwIDYwMCA0MDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjYwMCIgaGVpZ2h0PSI0MDAiIGZpbGw9IiNlZWVlZWUiLz48L3N2Zz4="
-                priority
-              />
-            </div>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                      <BreadcrumbPage>
+                        <BreadcrumbLink asChild>
+                          <Link href={`/categories/${productItem.categoryId}`}>
+                            {productItem.category ?? ""}
+                          </Link>
+                        </BreadcrumbLink>
+                      </BreadcrumbPage>
+                    </BreadcrumbItem>
+                  </BreadcrumbList>
+                </Breadcrumb>
+              </div>
+            </h2>
+            <div className="flex flex-col items-stretch overflow-hidden rounded-lg bg-white sm:flex-row">
+              <div className="flex items-center justify-center sm:flex-[3]">
+                <Image
+                  src={
+                    productItem.thumbnail ||
+                    "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgdmlld0JveD0iMCAwIDYwMCA0MDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjYwMCIgaGVpZ2h0PSI0MDAiIGZpbGw9IiNlZWVlZWUiLz48L3N2Zz4="
+                  }
+                  alt={productItem.title ?? ""}
+                  width={400}
+                  height={400}
+                  className="h-auto w-full rounded-md object-contain sm:w-[400px]"
+                  placeholder="blur"
+                  blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgdmlld0JveD0iMCAwIDYwMCA0MDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjYwMCIgaGVpZ2h0PSI0MDAiIGZpbGw9IiNlZWVlZWUiLz48L3N2Zz4="
+                  priority
+                />
+              </div>
 
-            <div className="flex flex-col justify-center bg-white sm:flex-[4] sm:pl-8">
-              <table className="w-full border-collapse text-base">
-                <tbody>
-                  <tr className="border-b border-gray-200">
-                    <th className="w-[120px] p-3 text-left font-bold text-gray-700">
-                      상품명
-                    </th>
-                    <td className="p-3 text-lg text-gray-800">
-                      {productItem.title ?? ""}
-                    </td>
-                  </tr>
-                  <tr className="border-b border-gray-200">
-                    <th className="p-3 text-left font-bold text-gray-700">
-                      할인율
-                    </th>
-                    <td className="p-3 text-lg text-gray-800">
-                      {calculateDiscountRate(
-                        productItem.price,
-                        productItem.lowPrice ?? productItem.price,
-                      ) || 0}
-                      %
-                    </td>
-                  </tr>
-                  <tr className="border-b border-gray-200">
-                    <th className="p-3 text-left font-bold text-gray-700">
-                      최저가
-                    </th>
-                    <td className="p-3 text-lg text-gray-800">
-                      {productItem.lowPrice === -1
-                        ? "품절"
-                        : formatNumber(
-                            productItem.lowPrice ?? productItem.price,
-                          )}
-                      원
-                    </td>
-                  </tr>
-                  <tr className="border-b border-gray-200">
-                    <th className="p-3 text-left font-bold text-gray-700">
-                      최고가
-                    </th>
-                    <td className="p-3 text-lg text-gray-800">
-                      {formatNumber(productItem.highPrice ?? productItem.price)}
-                      원
-                    </td>
-                  </tr>
-                  <tr className="border-b border-gray-200">
-                    <th className="p-3 text-left font-bold text-gray-700">
-                      현재가
-                    </th>
-                    <td className="p-3 text-lg font-bold text-red-600">
-                      {formatNumber(productItem.price)}원
-                    </td>
-                  </tr>
-                  <tr className="border-b border-gray-200">
-                    <th className="p-3 text-left font-bold text-gray-700">
-                      로켓배송
-                    </th>
-                    <td className="p-3 text-lg text-gray-800">
-                      <DeliveryBadge deliveryType={productItem.deliveryType} />
-                    </td>
-                  </tr>
-                  <tr className="border-b border-gray-200">
-                    <th className="p-3 text-left font-bold text-gray-700">
-                      평점(리뷰 수)
-                    </th>
-                    <td className="p-3 text-lg text-gray-800">
-                      <div className="flex space-x-[1px]">
-                        <div className="flex items-center text-sm">
-                          <div className="flex space-x-[1px]">
-                            {Array.from({ length: 5 }).map((_, i) => {
-                              const fill =
-                                i + 1 <= Math.floor(productItem.rating ?? 0)
-                                  ? "fill-yellow-400 text-yellow-400"
-                                  : i < (productItem.rating ?? 0)
-                                    ? "fill-yellow-400 text-gray-300"
-                                    : "fill-gray-300 text-gray-300";
+              <div className="flex flex-col justify-center bg-white sm:flex-[4] sm:pl-8">
+                <table className="w-full border-collapse text-base">
+                  <tbody>
+                    <tr className="border-b border-gray-200">
+                      <th className="w-[120px] p-3 text-left font-bold text-gray-700">
+                        상품명
+                      </th>
+                      <td className="p-3 text-lg text-gray-800">
+                        {productItem.title ?? ""}
+                      </td>
+                    </tr>
+                    <tr className="border-b border-gray-200">
+                      <th className="p-3 text-left font-bold text-gray-700">
+                        할인율
+                      </th>
+                      <td className="p-3 text-lg text-gray-800">
+                        {calculateDiscountRate(
+                          productItem.price,
+                          productItem.lowPrice ?? productItem.price,
+                        ) || 0}
+                        %
+                      </td>
+                    </tr>
+                    <tr className="border-b border-gray-200">
+                      <th className="p-3 text-left font-bold text-gray-700">
+                        최저가
+                      </th>
+                      <td className="p-3 text-lg text-gray-800">
+                        {productItem.lowPrice === -1
+                          ? "품절"
+                          : formatNumber(
+                              productItem.lowPrice ?? productItem.price,
+                            )}
+                        원
+                      </td>
+                    </tr>
+                    <tr className="border-b border-gray-200">
+                      <th className="p-3 text-left font-bold text-gray-700">
+                        최고가
+                      </th>
+                      <td className="p-3 text-lg text-gray-800">
+                        {formatNumber(
+                          productItem.highPrice ?? productItem.price,
+                        )}
+                        원
+                      </td>
+                    </tr>
+                    <tr className="border-b border-gray-200">
+                      <th className="p-3 text-left font-bold text-gray-700">
+                        현재가
+                      </th>
+                      <td className="p-3 text-lg font-bold text-red-600">
+                        {formatNumber(productItem.price)}원
+                      </td>
+                    </tr>
+                    <tr className="border-b border-gray-200">
+                      <th className="p-3 text-left font-bold text-gray-700">
+                        로켓배송
+                      </th>
+                      <td className="p-3 text-lg text-gray-800">
+                        <DeliveryBadge
+                          deliveryType={productItem.deliveryType}
+                        />
+                      </td>
+                    </tr>
+                    <tr className="border-b border-gray-200">
+                      <th className="p-3 text-left font-bold text-gray-700">
+                        평점(리뷰 수)
+                      </th>
+                      <td className="p-3 text-lg text-gray-800">
+                        <div className="flex space-x-[1px]">
+                          <div className="flex items-center text-sm">
+                            <div className="flex space-x-[1px]">
+                              {Array.from({ length: 5 }).map((_, i) => {
+                                const fill =
+                                  i + 1 <= Math.floor(productItem.rating ?? 0)
+                                    ? "fill-yellow-400 text-yellow-400"
+                                    : i < (productItem.rating ?? 0)
+                                      ? "fill-yellow-400 text-gray-300"
+                                      : "fill-gray-300 text-gray-300";
 
-                              return (
-                                <svg
-                                  key={i}
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  viewBox="0 0 24 24"
-                                  fill="currentColor"
-                                  className={`h-4 w-4 ${fill}`}
-                                >
-                                  <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-                                </svg>
-                              );
-                            })}
+                                return (
+                                  <svg
+                                    key={i}
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    fill="currentColor"
+                                    className={`h-4 w-4 ${fill}`}
+                                  >
+                                    <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                                  </svg>
+                                );
+                              })}
+                            </div>
+
+                            <span className="ml-1 text-xs text-gray-600">
+                              (
+                              {productItem.reviewCount
+                                ? productItem.reviewCount.toLocaleString()
+                                : 0}
+                              )
+                            </span>
                           </div>
-
-                          <span className="ml-1 text-xs text-gray-600">
-                            (
-                            {productItem.reviewCount
-                              ? productItem.reviewCount.toLocaleString()
-                              : 0}
-                            )
-                          </span>
                         </div>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td colSpan={2} className="text-lg text-gray-800">
-                      <div className="mt-4 flex gap-2">
-                        <Button
-                          variant="secondary"
-                          className="h-14 flex-1 px-0"
-                          size="lg"
-                        >
-                          <a
-                            href={getShortUrl(productItem)}
-                            target="_blank"
-                            className="flex h-full w-full items-center justify-center text-center"
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colSpan={2} className="text-lg text-gray-800">
+                        <div className="mt-4 flex gap-2">
+                          <Button
+                            variant="secondary"
+                            className="h-14 flex-1 px-0"
+                            size="lg"
                           >
-                            구매하기
-                          </a>
-                        </Button>
-                        <Button
-                          className="h-14 flex-1 px-0"
-                          size="lg"
-                          onClick={() => handleNotify(productItem.id)}
-                        >
-                          알람받기
-                        </Button>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+                            <a
+                              href={getShortUrl(productItem)}
+                              target="_blank"
+                              className="flex h-full w-full items-center justify-center text-center"
+                            >
+                              구매하기
+                            </a>
+                          </Button>
+                          <Button
+                            className="h-14 flex-1 px-0"
+                            size="lg"
+                            onClick={() => handleNotify(productItem.id)}
+                          >
+                            알람받기
+                          </Button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
-      <section className="mt-16 flex justify-center">
-        <div className="w-[800px] px-4">
-          <h2 className="font-heading mt-16 scroll-m-20 text-2xl font-bold tracking-tight first:mt-0">
-            가격추이
-          </h2>
+        </section>
+        <section className="mt-16 flex justify-center">
+          <div className="w-[800px] px-4">
+            <h2 className="font-heading mt-16 scroll-m-20 text-2xl font-bold tracking-tight first:mt-0">
+              가격추이
+            </h2>
 
-          <PriceLineChart />
-        </div>
-      </section>
-      {/* <section className="mt-16 flex justify-center">
+            <PriceLineChart items={productItem.priceHistory} />
+          </div>
+        </section>
+        {/* <section className="mt-16 flex justify-center">
         <div className="w-[800px] px-4">
           <h2 className="font-heading mt-16 scroll-m-20 text-2xl font-bold tracking-tight first:mt-0">
             최근 최저가 변경 상품
@@ -412,15 +438,16 @@ export default function ProductPage({
           </Carousel>
         </div>
       </section> */}
-      <section className="mt-16 flex justify-center" ref={targetRef}>
-        <div className="w-[800px] px-4">
-          <h2 className="font-heading scroll-m-20 text-2xl font-bold tracking-tight first:mt-0">
-            비슷한 상품 추천
-          </h2>
+        <section className="mt-16 flex justify-center" ref={targetRef}>
+          <div className="w-[800px] px-4">
+            <h2 className="font-heading scroll-m-20 text-2xl font-bold tracking-tight first:mt-0">
+              비슷한 상품 추천
+            </h2>
 
-          <ProductList items={similarProductsItems} />
-        </div>
-      </section>
-    </article>
+            <ProductList items={similarProductsItems} />
+          </div>
+        </section>
+      </article>
+    </>
   );
 }
