@@ -166,7 +166,6 @@ async function getRandomProductsByCategoryId(
 
 // ✅ 기본 카테고리 ID 하나로 예시 구성
 const defaultCategory = fisrtCategories[0];
-
 export default async function Home() {
   const randomProducts = await getRandomProductsByCategoryId(
     defaultCategory.categoryId,
