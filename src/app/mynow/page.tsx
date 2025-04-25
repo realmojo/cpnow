@@ -58,7 +58,7 @@ export default function LocalAuthViewer() {
 
   return (
     <article>
-      <div className="mx-auto mt-6 max-w-md px-4">
+      {/* <div className="mx-auto mt-6 max-w-md px-4">
         <Card>
           <CardContent className="space-y-4 py-6">
             <h2 className="text-xl font-semibold text-gray-800">
@@ -85,7 +85,7 @@ export default function LocalAuthViewer() {
             )}
           </CardContent>
         </Card>
-      </div>
+      </div> */}
 
       <section className="mt-16 flex justify-center">
         <div className="w-[800px] px-4">
