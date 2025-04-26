@@ -16,7 +16,7 @@ async function getProductByUserId(userId: string): Promise<any | null> {
 }
 
 export default function LocalAuthViewer() {
-  const [myProductsItems, setMyProductsItems] = useState<any[]>(null);
+  const [myProductsItems, setMyProductsItems] = useState<any>(null);
 
   const initData = async () => {
     const stored = localStorage.getItem("cpnow-auth");
