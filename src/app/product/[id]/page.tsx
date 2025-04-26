@@ -224,7 +224,6 @@ export default async function ProductPage({ params }: any) {
                           productItem.price,
                           productItem.highPrice ?? productItem.price,
                         ) || 0}
-                        %
                       </td>
                     </tr>
                     <tr className="border-b border-gray-200">
