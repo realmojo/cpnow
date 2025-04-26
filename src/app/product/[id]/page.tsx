@@ -314,7 +314,7 @@ export default async function ProductPage({ params }: any) {
                               구매하기
                             </a>
                           </Button>
-                          <AlarmButton productId={productItem.productId} />
+                          <AlarmButton productId={productItem.id} />
                         </div>
                       </td>
                     </tr>
