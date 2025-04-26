@@ -8,7 +8,6 @@ import { MessagePayload } from "firebase/messaging";
 import { nanoid } from "nanoid";
 import axios from "axios";
 import Link from "next/link";
-// import { detectDevice, sendNotificationTest } from "@/utils/utils";
 import { detectDevice } from "@/utils/utils";
 
 const openForegroundMessage = (messaging: any) => {

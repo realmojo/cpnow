@@ -86,7 +86,7 @@ export default function NotificationButton() {
         const response = await axios.post("/api/notify", {
           token,
           title: "쿠팡 최저가 알림이 도달했습니다.",
-          body: "왜 안되는거야!!",
+          body: "실시간 최저가 가격을 받아보세요",
           link: "https://cpnow.kr",
         });
 
