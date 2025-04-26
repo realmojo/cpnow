@@ -1,9 +1,6 @@
 import admin from "firebase-admin";
 
 if (!admin.apps.length) {
-  console.log(process.env.PROJECT_ID);
-  console.log(process.env.CLIENT_EMAIL);
-  console.log(process.env.PRIVATE_KEY);
   admin.initializeApp({
     credential: admin.credential.cert({
       projectId: process.env.PROJECT_ID,
