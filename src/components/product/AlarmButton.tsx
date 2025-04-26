@@ -23,13 +23,13 @@ async function addAlarm(params: any): Promise<any | null> {
   return data;
 }
 
-export default function AlarmButton({ productId }: { productId: number }) {
+export default function AlarmButton({ pId }: { pId: number }) {
   const handleNotify = async () => {
     try {
       const userInfo = await getUserAuth();
       const params = {
         userId: userInfo.userId,
-        productId,
+        pId: pId,
       };
 
       await addAlarm(params);

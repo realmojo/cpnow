@@ -20,10 +20,8 @@ export async function GET(req: NextRequest) {
     let query = "";
     let items = [];
     query =
-      "SELECT * FROM products WHERE id IN (SELECT productId FROM user_alarms WHERE userId = ? ORDER BY regdated DESC);";
+      "SELECT * FROM products WHERE id IN (SELECT pId FROM user_alarms WHERE userId = ? ORDER BY regdated DESC);";
     items = await queryList<any>(query, [userId]);
-
-    console.log(items);
 
     // ✅ 결과 반환
     return new Response(JSON.stringify(items), {

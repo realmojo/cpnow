@@ -5,12 +5,16 @@ import { NextRequest } from "next/server";
 export async function POST(req: NextRequest) {
   try {
     const bodyItems = await req.json();
-    const { userId, productId } = bodyItems;
+    const { userId, pId } = bodyItems;
 
-    const query =
-      "INSERT INTO user_alarms (id, userId, productId, regdated) VALUES (NULL, ?, ?, CONVERT_TZ(NOW(), 'UTC', '+09:00'))";
+    let query =
+      "INSERT IGNORE INTO user_alarms (id, userId, pId, regdated) VALUES (NULL, ?, ?, CONVERT_TZ(NOW(), 'UTC', '+09:00'))";
+    await insertOne(query, [userId, pId]);
 
-    await insertOne(query, [userId, productId]);
+    // 대기 알람에도 넣어주기
+    query =
+      "INSERT INTO crawl_wait (pId, type, regdated) VALUES (?, 'alarm', CONVERT_TZ(NOW(), 'UTC', '+09:00')) ON DUPLICATE KEY UPDATE type = 'alarm';";
+    await insertOne(query, [pId]);
 
     return new Response(JSON.stringify({ success: true, data: "ok" }), {
       status: 200,

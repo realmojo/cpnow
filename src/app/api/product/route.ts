@@ -90,18 +90,20 @@ export async function GET(req: NextRequest) {
       //   highPrice: nowPrice >= price ? nowPrice : price,
       //   lowPrice: nowPrice <= price ? nowPrice : price,
       // };
-      query = "SELECT id FROM crawl_wait WHERE cpId= ?";
+      query = "SELECT pId FROM crawl_wait WHERE pId= ?";
       const crawlWaitItem = await queryOne(query, [id]);
 
+      console.log(crawlWaitItem);
       if (!crawlWaitItem) {
-        query = "INSERT INTO crawl_wait (id, cpId) VALUES (NULL, ?)";
+        query =
+          "INSERT INTO crawl_wait (pId, type, regdated) VALUES (?, 'product', CONVERT_TZ(NOW(), 'UTC', '+09:00'))";
         await insertOne(query, [id]);
       }
     }
 
     // 가격추이 가져오기
     query =
-      "SELECT DATE_FORMAT(regdated, '%Y-%m-%d') AS date, price FROM product_prices WHERE productId = ? AND regdated >= CURDATE() - INTERVAL 30 DAY ORDER BY regdated ASC;";
+      "SELECT DATE_FORMAT(regdated, '%Y-%m-%d') AS date, price FROM product_prices WHERE pId = ? AND regdated >= CURDATE() - INTERVAL 30 DAY ORDER BY regdated ASC;";
     const priceItems = await queryList(query, [id]);
 
     const priceHistory = generateLast30DaysPrice(priceItems, product.price);
@@ -114,7 +116,6 @@ export async function GET(req: NextRequest) {
     });
   } catch (err) {
     const errorMessage = err instanceof Error ? err.message : String(err);
-    console.log(err);
     return new Response(
       JSON.stringify({ success: false, error: errorMessage }),
       {
