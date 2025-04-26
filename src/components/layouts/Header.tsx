@@ -36,7 +36,6 @@ export default function Header() {
           />
         </Link>
       </div>
-
       {/* 오른쪽: 알림 버튼 */}
       <NotiRegisterButton />
     </header>
