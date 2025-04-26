@@ -15,7 +15,7 @@ const pool = mysql.createPool({
 
 const queryOne = async <T extends RowDataPacket = any>(
   sql: string,
-  params: any[],
+  params?: any[],
 ): Promise<T | null> => {
   const [rows] = await pool.execute<T[]>(sql, params);
   return rows[0] || null;

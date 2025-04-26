@@ -1,14 +1,14 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+// import { Card, CardContent } from "@/components/ui/card";
+// import { Badge } from "@/components/ui/badge";
 import ProductList from "@/src/components/ProductList";
 
-interface AuthInfo {
-  userId: string;
-  fcmToken: string;
-}
+// interface AuthInfo {
+//   userId: string;
+//   fcmToken: string;
+// }
 
 // ✅ 상품 호출 함수
 async function getProductByUserId(userId: string): Promise<any | null> {
@@ -23,37 +23,45 @@ async function getProductByUserId(userId: string): Promise<any | null> {
 }
 
 export default function LocalAuthViewer() {
-  const [auth, setAuth] = useState<AuthInfo | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  // const [auth, setAuth] = useState<AuthInfo | null>(null);
+  // const [error, setError] = useState<string | null>(null);
   const [myProductsItems, setMyProductsItems] = useState<any[]>([]);
 
-  const initData = async (userId: string) => {
-    const data = await getProductByUserId(userId);
-    setMyProductsItems(data);
+  const initData = async () => {
+    const stored = localStorage.getItem("cpnow-auth");
+    if (!stored) {
+      // setError("❌ cpnow-auth 값이 존재하지 않습니다.");
+      return;
+    }
+    const parsed = JSON.parse(stored);
+    if (parsed?.userId) {
+      const data = await getProductByUserId(parsed.userId);
+      setMyProductsItems(data);
+    }
   };
 
   useEffect(() => {
-    try {
-      const stored = localStorage.getItem("cpnow-auth");
-      if (!stored) {
-        setError("❌ cpnow-auth 값이 존재하지 않습니다.");
-        return;
-      }
+    initData();
+    //   const stored = localStorage.getItem("cpnow-auth");
+    //   if (!stored) {
+    //     setError("❌ cpnow-auth 값이 존재하지 않습니다.");
+    //     return;
+    //   }
 
-      const parsed = JSON.parse(stored);
-      if (parsed.userId && parsed.fcmToken) {
-        setAuth({
-          userId: parsed.userId,
-          fcmToken: parsed.fcmToken,
-        });
-        initData(parsed.userId);
-      } else {
-        setError("❗ userId 또는 fcmToken이 포함되어 있지 않습니다.");
-      }
-    } catch (e: unknown) {
-      console.log(e);
-      setError("❌ JSON 파싱 중 오류가 발생했습니다.");
-    }
+    //   const parsed = JSON.parse(stored);
+    //   if (parsed.userId && parsed.fcmToken) {
+    //     setAuth({
+    //       userId: parsed.userId,
+    //       fcmToken: parsed.fcmToken,
+    //     });
+    //     initData(parsed.userId);
+    //   } else {
+    //     setError("❗ userId 또는 fcmToken이 포함되어 있지 않습니다.");
+    //   }
+    // } catch (e: unknown) {
+    //   console.log(e);
+    //   setError("❌ JSON 파싱 중 오류가 발생했습니다.");
+    // }
   }, []);
 
   return (
@@ -62,7 +70,7 @@ export default function LocalAuthViewer() {
         <Card>
           <CardContent className="space-y-4 py-6">
             <h2 className="text-xl font-semibold text-gray-800">
-              🔐 cpnow-auth 정보
+              🔐 내 정보
             </h2>
 
             {auth ? (
@@ -87,13 +95,25 @@ export default function LocalAuthViewer() {
         </Card>
       </div> */}
 
-      <section className="mt-16 flex justify-center">
+      <section className="mt-8 flex justify-center">
         <div className="w-[800px] px-4">
-          <h2 className="font-heading scroll-m-20 border-b-0 text-2xl font-bold tracking-tight first:mt-0 sm:border-b">
-            최저가 알람 리스트
+          <h2 className="font-heading scroll-m-20 border-none text-2xl font-bold tracking-tight first:mt-0 sm:border-b">
+            내 알람 리스트
           </h2>
 
-          <ProductList items={myProductsItems} />
+          {myProductsItems && myProductsItems.length > 0 ? (
+            <ProductList items={myProductsItems} />
+          ) : (
+            <div className="flex flex-col items-center justify-center py-20">
+              <div className="mb-4 text-4xl">🔔</div>
+              <p className="text-lg font-semibold text-gray-700">
+                아직 등록된 알람이 없습니다.
+              </p>
+              <p className="mt-2 text-sm text-gray-500">
+                상품을 등록하고 가격 변동 알림을 받아보세요!
+              </p>
+            </div>
+          )}
         </div>
       </section>
     </article>
