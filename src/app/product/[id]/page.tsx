@@ -83,13 +83,25 @@ export default async function ProductPage({ params }: any) {
   const formatNumber = (num: number | string): string => {
     return num ? Number(num).toLocaleString("ko-KR") : "0";
   };
-  const calculateDiscountRate = (
-    originalPrice: number,
-    salePrice: number,
-  ): number => {
-    if (originalPrice <= 0) return 0; // 0원 이상이어야 나눗셈 가능
-    const discount = ((originalPrice - salePrice) / originalPrice) * 100;
-    return Math.round(discount); // 정수 반올림
+
+  const comparePriceDetail = (productPrice: number, crawlPrice: number) => {
+    if (productPrice === 0) return "기준 가격 오류"; // 0으로 나누는 오류 방지
+
+    const priceDifference = Math.abs(productPrice - crawlPrice); // 차액 계산
+
+    if (crawlPrice < productPrice) {
+      const discountPercent = (
+        ((productPrice - crawlPrice) / productPrice) *
+        100
+      ).toFixed(0);
+      return `🚀🚀🚀 ${priceDifference.toLocaleString()}원 할인됨 ${discountPercent}%`;
+    } else if (crawlPrice > productPrice) {
+      const increasePercent = (
+        ((crawlPrice - productPrice) / productPrice) *
+        100
+      ).toFixed(0);
+      return `${priceDifference.toLocaleString()}원 인상됨 ${increasePercent}%`;
+    }
   };
 
   const getShortUrl = (item: any) => {
@@ -208,9 +220,9 @@ export default async function ProductPage({ params }: any) {
                         할인율
                       </th>
                       <td className="p-3 text-lg text-gray-800">
-                        {calculateDiscountRate(
+                        {comparePriceDetail(
                           productItem.price,
-                          productItem.lowPrice ?? productItem.price,
+                          productItem.highPrice ?? productItem.price,
                         ) || 0}
                         %
                       </td>
