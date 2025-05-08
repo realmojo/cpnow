@@ -11,6 +11,7 @@ export default function Footer() {
             width={30}
             height={30}
             priority
+            unoptimized
           />
         </div>
         <p className="mt-1 leading-relaxed text-gray-600">

@@ -33,6 +33,7 @@ export default function Header() {
             alt="시피나우-로고"
             placeholder="blur"
             priority
+            unoptimized
           />
         </Link>
       </div>

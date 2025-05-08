@@ -46,6 +46,12 @@ export default function DeliveryBadge({
   if (!badge) return null;
 
   return (
-    <Image src={badge.src} width={width} height={height} alt={badge.alt} />
+    <Image
+      src={badge.src}
+      width={width}
+      height={height}
+      alt={badge.alt}
+      unoptimized
+    />
   );
 }
