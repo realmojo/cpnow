@@ -29,8 +29,8 @@ const nextConfig: NextConfig = {
   reactStrictMode: process.env.NODE_ENV === "production" ? true : false,
   images: {
     remotePatterns,
+    unoptimized: true,
   },
-  unoptimized: true,
 };
 
 export default nextConfig;
