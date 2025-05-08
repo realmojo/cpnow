@@ -42,7 +42,6 @@ export default function InstallPromptBanner() {
             alt="App Logo"
             width={40}
             height={40}
-            unoptimized
           />
           <div className="text-sm text-gray-800">
             <strong className="block text-base">
