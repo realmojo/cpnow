@@ -33,4 +33,8 @@ const insertOne = async (sql: string, params: any[]) => {
   await pool.execute<ResultSetHeader>(sql, params);
 };
 
-export { pool, queryOne, queryList, insertOne };
+const updateOne = async (sql: string, params: any[]) => {
+  await pool.execute<ResultSetHeader>(sql, params);
+};
+
+export { pool, queryOne, queryList, insertOne, updateOne };

@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { getTodayDate } from "@/utils/utils";
-import { queryOne, queryList, insertOne } from "@/lib/db";
+import { queryOne, queryList, insertOne, updateOne } from "@/lib/db";
 import { format, subDays } from "date-fns";
 interface PriceEntry {
   date: string; // "YYYY-MM-DD"
@@ -11,6 +11,10 @@ interface FilledPrice {
   date: string; // "MM-DD"
   price: number;
 }
+
+const hasValue = (value: any): boolean => {
+  return value !== undefined && value !== null;
+};
 
 const generateLast30DaysPrice = (
   rawPrices: PriceEntry[] = [],
@@ -130,6 +134,80 @@ export async function GET(req: NextRequest) {
     });
   } catch (err) {
     const errorMessage = err instanceof Error ? err.message : String(err);
+    return new Response(
+      JSON.stringify({ success: false, error: errorMessage }),
+      {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      },
+    );
+  }
+}
+
+export async function POST(req: NextRequest) {
+  try {
+    const item = await req.json();
+
+    const {
+      id,
+      lowPrice,
+      highPrice,
+      price,
+      deliveryType,
+      rating,
+      reviewCount,
+    } = item;
+
+    if (
+      !hasValue(id) ||
+      !hasValue(lowPrice) ||
+      !hasValue(highPrice) ||
+      !hasValue(price) ||
+      !hasValue(deliveryType) ||
+      !hasValue(rating) ||
+      !hasValue(reviewCount)
+    ) {
+      return new Response(
+        JSON.stringify({ success: false, error: "Invalid parameters" }),
+        {
+          status: 400,
+          headers: { "Content-Type": "application/json" },
+        },
+      );
+    }
+
+    const query = `
+      UPDATE products
+      SET
+        price = ?,
+        lowPrice = ?,
+        highPrice = ?,
+        deliveryType = ?,
+        rating = ?,
+        reviewCount = ?,
+        lastUpdated = CONVERT_TZ(NOW(), 'UTC', '+09:00')
+      WHERE id = ?
+    `;
+
+    const params = [
+      price,
+      lowPrice,
+      highPrice,
+      deliveryType,
+      rating,
+      reviewCount,
+      id,
+    ];
+
+    await updateOne(query, params);
+
+    return new Response(JSON.stringify({ success: true }), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
+  } catch (err) {
+    const errorMessage = err instanceof Error ? err.message : String(err);
+
     return new Response(
       JSON.stringify({ success: false, error: errorMessage }),
       {
