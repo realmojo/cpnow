@@ -45,7 +45,6 @@ const addProductPrice = async (pId, price) => {
       requestOptions,
     );
     const result = await response.json();
-    console.log(result);
   } catch (error) {
     console.error("updateCrawl 대기열 업데이트 오류:", error);
   }
@@ -106,7 +105,6 @@ const getProductItem = async (productId, itemId, vendorItemId) => {
         requestOptions,
       );
       const result = await response.json();
-      console.log(result);
       return result;
     } catch (error) {
       console.error("getProductItem 에러 발생:", error);
@@ -131,7 +129,6 @@ const updateCrawl = async (pId) => {
       requestOptions,
     );
     const result = await response.json();
-    console.log(result);
   } catch (error) {
     console.error("updateCrawl 대기열 업데이트 오류:", error);
   }
@@ -249,8 +246,6 @@ const run = async () => {
     highPrice = highPrice || price;
     lowPrice = lowPrice || price;
 
-    console.log(lowPrice);
-    // location.href = link;
     console.log("잠시 기다림... 5초");
     await sleepRandom30to60(); // 잠시 기다림
     let isSoldout = false;
@@ -370,7 +365,7 @@ const run = async () => {
 
         // 2. 가격 알람 하기
         console.log("✅ 가격이 변동되어 사용자에게 푸시알람을 보냅니다.");
-        await alarmNotify(productItem, crawlPrice);
+        await alarmNotify(item, crawlPrice);
       } else {
         console.log("✋ 가격 변동없음");
       }
@@ -384,10 +379,86 @@ const run = async () => {
     }
   }
 
+  console.log("5초 후에 닫힙니다.");
   setTimeout(() => {
-    console.log("3초 후에 닫힙니다.");
     window.close();
-  }, 3000);
+  }, 5000);
 };
+
+// ✅ 사이드 로그 패널 스타일 추가
+const style = document.createElement("style");
+style.textContent = `
+    #tm-console-panel {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 300px;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.85);
+      color: #0f0;
+      font-family: monospace;
+      font-size: 12px;
+      overflow-y: auto;
+      padding: 10px;
+      z-index: 999999;
+      white-space: pre-wrap;
+    }
+    #tm-console-toggle {
+      position: fixed;
+      top: 10px;
+      right: 310px;
+      background: #111;
+      color: #0f0;
+      padding: 5px 10px;
+      font-size: 12px;
+      z-index: 1000000;
+      cursor: pointer;
+    }
+    .tm-log-line {
+      margin-bottom: 5px;
+    }
+  `;
+document.head.appendChild(style);
+
+// ✅ 사이드바 DOM 요소 추가
+const panel = document.createElement("div");
+panel.id = "tm-console-panel";
+document.body.appendChild(panel);
+
+const toggle = document.createElement("div");
+toggle.id = "tm-console-toggle";
+toggle.textContent = "👁️ 로그 보기";
+toggle.onclick = () => {
+  panel.style.display = panel.style.display === "none" ? "block" : "none";
+};
+document.body.appendChild(toggle);
+
+// ✅ 기존 console.log 저장
+const originalConsoleLog = console.log;
+
+// ✅ console.log 재정의
+console.log = (...args) => {
+  // 원래 로그도 출력
+  originalConsoleLog(...args);
+
+  // 로그 문자열화
+  const logText = args
+    .map((arg) =>
+      typeof arg === "object" ? JSON.stringify(arg, null, 2) : String(arg),
+    )
+    .join(" ");
+
+  // 패널에 추가
+  const line = document.createElement("div");
+  line.className = "tm-log-line";
+  line.textContent = "🟢 " + logText;
+  panel.appendChild(line);
+
+  // 스크롤 아래로
+  panel.scrollTop = panel.scrollHeight;
+};
+
+// ✅ 첫 메시지
+console.log("✅ Tampermonkey 로그 패널 시작됨");
 
 run();
