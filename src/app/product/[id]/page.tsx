@@ -84,23 +84,42 @@ export default async function ProductPage({ params }: any) {
     return num ? Number(num).toLocaleString("ko-KR") : "0";
   };
 
-  const comparePriceDetail = (productPrice: number, crawlPrice: number) => {
-    if (productPrice === 0) return "기준 가격 오류"; // 0으로 나누는 오류 방지
+  const comparePriceDetail = (crawlPrice: number, productPrice: number) => {
+    if (productPrice === 0) {
+      return <span style={{ color: "#888" }}>기준 가격 오류</span>;
+    }
 
-    const priceDifference = Math.abs(productPrice - crawlPrice); // 차액 계산
+    const priceDifference = Math.abs(productPrice - crawlPrice);
+    const formattedPrice = priceDifference.toLocaleString();
 
     if (crawlPrice < productPrice) {
       const discountPercent = (
         ((productPrice - crawlPrice) / productPrice) *
         100
       ).toFixed(0);
-      return `🚀🚀🚀 ${priceDifference.toLocaleString()}원 할인됨 ${discountPercent}%`;
+
+      return (
+        <span style={{ color: "green", fontWeight: "bold", fontSize: "0.9em" }}>
+          🚀 {formattedPrice}원 할인됨 ({discountPercent}% ↓)
+        </span>
+      );
     } else if (crawlPrice > productPrice) {
       const increasePercent = (
         ((crawlPrice - productPrice) / productPrice) *
         100
       ).toFixed(0);
-      return `${priceDifference.toLocaleString()}원 인상됨 ${increasePercent}%`;
+
+      return (
+        <span style={{ color: "red", fontWeight: "bold", fontSize: "0.9em" }}>
+          ⬆ {formattedPrice}원 인상됨 (+{increasePercent}%)
+        </span>
+      );
+    } else {
+      return (
+        <span style={{ color: "#666", fontSize: "0.9em" }}>
+          가격 변동 없음 (0%)
+        </span>
+      );
     }
   };
 
@@ -233,10 +252,9 @@ export default async function ProductPage({ params }: any) {
                       <td className="p-3 text-lg text-gray-800">
                         {productItem.lowPrice === -1
                           ? "품절"
-                          : formatNumber(
+                          : `${formatNumber(
                               productItem.lowPrice ?? productItem.price,
-                            )}
-                        원
+                            )}원`}
                       </td>
                     </tr>
                     <tr className="border-b border-gray-200">

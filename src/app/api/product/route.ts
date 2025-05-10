@@ -15,9 +15,21 @@ interface FilledPrice {
 const generateLast30DaysPrice = (
   rawPrices: PriceEntry[] = [],
   defaultPrice: number,
+  highPrice: number,
   endDateStr = format(new Date(), "yyyy-MM-dd"), // today by default
 ): FilledPrice[] => {
   const priceMap = new Map<string, number>();
+
+  if (rawPrices.length) {
+    const onlyItem = rawPrices[0];
+
+    const prevDate = format(subDays(new Date(onlyItem.date), 1), "yyyy-MM-dd");
+
+    rawPrices.unshift({
+      date: prevDate,
+      price: highPrice,
+    });
+  }
 
   // ✅ 날짜 → 가격 매핑
   rawPrices.forEach(({ date, price }) => {
@@ -93,7 +105,6 @@ export async function GET(req: NextRequest) {
       query = "SELECT pId FROM crawl_wait WHERE pId= ?";
       const crawlWaitItem = await queryOne(query, [id]);
 
-      console.log(crawlWaitItem);
       if (!crawlWaitItem) {
         query =
           "INSERT INTO crawl_wait (pId, type, regdated) VALUES (?, 'product', CONVERT_TZ(NOW(), 'UTC', '+09:00'))";
@@ -105,8 +116,11 @@ export async function GET(req: NextRequest) {
     query =
       "SELECT DATE_FORMAT(regdated, '%Y-%m-%d') AS date, price FROM product_prices WHERE pId = ? AND regdated >= CURDATE() - INTERVAL 30 DAY ORDER BY regdated ASC;";
     const priceItems = await queryList(query, [id]);
-
-    const priceHistory = generateLast30DaysPrice(priceItems, product.price);
+    const priceHistory = generateLast30DaysPrice(
+      priceItems,
+      product.price,
+      product.highPrice,
+    );
     product.priceHistory = priceHistory;
 
     // ✅ 결과 반환

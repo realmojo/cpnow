@@ -60,8 +60,12 @@ export default function PriceLineChart({ items }: PriceLineChartProps) {
   const chartData = items;
   return (
     <Card className="border-none shadow-none">
-      <CardContent className="px-0">
-        <ChartContainer config={chartConfig}>
+      <CardContent className="h-[250px] overflow-hidden px-0">
+        {/* 여기 추가 */}
+        <ChartContainer
+          config={chartConfig}
+          style={{ width: "100%", height: "100%" }}
+        >
           <LineChart accessibilityLayer data={chartData}>
             <CartesianGrid vertical={false} />
             <XAxis
@@ -69,7 +73,7 @@ export default function PriceLineChart({ items }: PriceLineChartProps) {
               tickLine={false}
               axisLine={false}
               tickMargin={8}
-              tickFormatter={(value) => value.slice(0, 5)} // "04-12" 유지
+              tickFormatter={(value) => value.slice(0, 5)}
             />
             <YAxis />
             <ChartTooltip content={<CustomChartTooltipContent />} />
@@ -79,6 +83,7 @@ export default function PriceLineChart({ items }: PriceLineChartProps) {
               stroke="#2563eb"
               strokeWidth={2}
               dot={false}
+              height={200}
             />
           </LineChart>
         </ChartContainer>

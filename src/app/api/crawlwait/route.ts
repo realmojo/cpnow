@@ -38,7 +38,6 @@ export async function POST(req: NextRequest) {
     const query =
       "UPDATE crawl_wait SET lastUpdated = CONVERT_TZ(NOW(), 'UTC', '+09:00') WHERE pId = ?";
 
-    console.log(query);
     await insertOne(query, [pId]);
 
     // ✅ 결과 반환
