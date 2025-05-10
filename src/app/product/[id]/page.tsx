@@ -354,7 +354,7 @@ export default async function ProductPage({ params }: any) {
           </div>
         </section>
         <section className="mt-16 flex justify-center">
-          <div className="w-full px-4 md:w-[800px]">
+          <div className="w-full max-w-[800px] px-4">
             <h2 className="font-heading mt-16 scroll-m-20 text-2xl font-bold tracking-tight first:mt-0">
               가격추이
             </h2>
