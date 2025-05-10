@@ -4,7 +4,7 @@
 // @version      2025-05-10
 // @description  try to take over the world!
 // @author       You
-// @match        https://www.coupang.com/*
+// @match        https://www.coupang.com/vp/products/*
 // @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
 // @grant        none
 // ==/UserScript==
@@ -18,6 +18,7 @@ const getDeliveryType = (src) => {
   if (src.includes("logoRocketMerchant")) return 2;
   if (src.includes("global_b")) return 3;
   if (src.includes("rocket-fresh")) return 4;
+  if (src.includes("rocket_install")) return 5;
   return 0;
 };
 const hasValue = (value) => {
@@ -44,7 +45,7 @@ const addProductPrice = async (pId, price) => {
       "https://cpnow.kr/api/productPrice",
       requestOptions,
     );
-    const result = await response.json();
+    await response.json();
   } catch (error) {
     console.error("updateCrawl 대기열 업데이트 오류:", error);
   }
@@ -85,8 +86,7 @@ const updateCoupangData = async (item) => {
         "https://cpnow.kr/api/product",
         requestOptions,
       );
-      const result = await response.json();
-      console.log(result);
+      await response.json();
     }
   } catch (e) {
     console.log("updateCoupangData 오류: ", e);
@@ -128,7 +128,7 @@ const updateCrawl = async (pId) => {
       "https://cpnow.kr/api/crawlwait",
       requestOptions,
     );
-    const result = await response.json();
+    await response.json();
   } catch (error) {
     console.error("updateCrawl 대기열 업데이트 오류:", error);
   }
@@ -261,8 +261,23 @@ const run = async () => {
         const text = soldoutEl.innerText;
         isSoldout = text.includes("품절");
       }
+
+      const soldoutEl2 = document.querySelector(
+        ".prod-not-find-known__buy__btn",
+      );
+      if (soldoutEl2) {
+        const text = soldoutEl2.innerText;
+        isSoldout = text.includes("품절");
+      }
+
+      const soldoutEl3 = document.querySelector(".prod-not-find-unknown__p");
+      if (soldoutEl3) {
+        const text = soldoutEl3.innerText;
+        isSoldout = text.includes("종료");
+      }
     } catch (e) {
       isSoldout = false;
+      console.error("❌ 품절 오류:", e);
     }
 
     // 가격
@@ -346,7 +361,6 @@ const run = async () => {
         rating: Number(crawlRating),
         reviewCount: Number(crawlReviewCount),
       };
-      console.log(params);
 
       try {
         if (highPrice !== 0 && lowPrice !== 0 && price !== 0) {
@@ -359,7 +373,9 @@ const run = async () => {
 
       // 가격 변동이 있으면?
       // 1. 가격 추이 등록
-      if (price !== crawlPrice) {
+      if (isSoldout) {
+        console.log("✅ 품절되어서 아무것도 하지 않습니다.");
+      } else if (price !== crawlPrice) {
         console.log("✅ 가격이 변동되어 가격추이에 등록됩니다.");
         await addProductPrice(pId, crawlPrice);
 
@@ -382,7 +398,7 @@ const run = async () => {
   console.log("5초 후에 닫힙니다.");
   setTimeout(() => {
     window.close();
-  }, 5000);
+  }, 60000);
 };
 
 // ✅ 사이드 로그 패널 스타일 추가

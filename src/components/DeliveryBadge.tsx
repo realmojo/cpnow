@@ -3,7 +3,7 @@
 
 import Image from "next/image";
 
-type DeliveryType = 0 | 1 | 2 | 3 | 4;
+type DeliveryType = 0 | 1 | 2 | 3 | 4 | 5;
 
 interface Props {
   deliveryType: DeliveryType;
@@ -28,6 +28,10 @@ const deliveryMap: Record<DeliveryType, { src: string; alt: string } | null> = {
   4: {
     src: "https://image6.coupangcdn.com/image/badges/falcon/v1/web/rocket-fresh@2x.png",
     alt: "로켓프레스",
+  },
+  5: {
+    src: "https://image7.coupangcdn.com/image/badges/rocket-install/v3/aos_2/rocket_install_xhdpi.png",
+    alt: "로켓설치",
   },
 };
 
