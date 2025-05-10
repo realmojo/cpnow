@@ -5,7 +5,7 @@ import { insertOne, queryList } from "@/lib/db";
 export async function GET() {
   try {
     const query =
-      "SELECT * FROM crawl_wait WHERE lastUpdated IS NULL OR DATE(lastUpdated) != CURRENT_DATE() ORDER BY lastUpdated ASC";
+      "SELECT * FROM crawl_wait WHERE lastUpdated IS NULL OR DATE(lastUpdated) != CURRENT_DATE() ORDER BY type, lastUpdated ASC";
     const items = await queryList<any>(query);
 
     // ✅ 결과 반환

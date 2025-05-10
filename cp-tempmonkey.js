@@ -1,0 +1,393 @@
+// ==UserScript==
+// @name         쿠팡 수집기
+// @namespace    http://tampermonkey.net/
+// @version      2025-05-10
+// @description  try to take over the world!
+// @author       You
+// @match        https://www.coupang.com/*
+// @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
+// @grant        none
+// ==/UserScript==
+// 문자열 가격에서 숫자 추출
+const extractPrice = (priceStr) =>
+  parseInt(priceStr.replace(/[^\d]/g, ""), 10) || 0;
+
+// 배송 이미지 URL에 따른 배송 타입 추출
+const getDeliveryType = (src) => {
+  if (src.includes("rocket_logo")) return 1;
+  if (src.includes("logoRocketMerchant")) return 2;
+  if (src.includes("global_b")) return 3;
+  if (src.includes("rocket-fresh")) return 4;
+  return 0;
+};
+const hasValue = (value) => {
+  return (
+    value !== undefined &&
+    value !== null &&
+    value !== "" &&
+    !Number.isNaN(value)
+  );
+};
+
+const addProductPrice = async (pId, price) => {
+  try {
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ pId, price }), // 전송할 pId 값
+      redirect: "follow",
+    };
+
+    const response = await fetch(
+      "https://cpnow.kr/api/productPrice",
+      requestOptions,
+    );
+    const result = await response.json();
+    console.log(result);
+  } catch (error) {
+    console.error("updateCrawl 대기열 업데이트 오류:", error);
+  }
+};
+
+const updateCoupangData = async (item) => {
+  const { id, lowPrice, highPrice, price, deliveryType, rating, reviewCount } =
+    item;
+
+  try {
+    if (
+      hasValue(id) &&
+      hasValue(lowPrice) &&
+      hasValue(highPrice) &&
+      hasValue(price) &&
+      hasValue(deliveryType) &&
+      hasValue(rating) &&
+      hasValue(reviewCount)
+    ) {
+      const requestOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id,
+          lowPrice,
+          highPrice,
+          price,
+          deliveryType,
+          rating,
+          reviewCount,
+        }),
+        redirect: "follow",
+      };
+
+      const response = await fetch(
+        "https://cpnow.kr/api/product",
+        requestOptions,
+      );
+      const result = await response.json();
+      console.log(result);
+    }
+  } catch (e) {
+    console.log("updateCoupangData 오류: ", e);
+  }
+};
+
+const getProductItem = async (productId, itemId, vendorItemId) => {
+  if (productId && itemId && vendorItemId) {
+    try {
+      const requestOptions = {
+        method: "GET",
+        redirect: "follow",
+      };
+      const response = await fetch(
+        `https://cpnow.kr/api/product/piv?productId=${productId}&itemId=${itemId}&vendorItemId=${vendorItemId}`,
+        requestOptions,
+      );
+      const result = await response.json();
+      console.log(result);
+      return result;
+    } catch (error) {
+      console.error("getProductItem 에러 발생:", error);
+    }
+  }
+  return "";
+};
+
+const updateCrawl = async (pId) => {
+  try {
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ pId }), // 전송할 pId 값
+      redirect: "follow",
+    };
+
+    const response = await fetch(
+      "https://cpnow.kr/api/crawlwait",
+      requestOptions,
+    );
+    const result = await response.json();
+    console.log(result);
+  } catch (error) {
+    console.error("updateCrawl 대기열 업데이트 오류:", error);
+  }
+};
+
+const comparePriceDetail = (productPrice, crawlPrice) => {
+  if (productPrice === 0) return "기준 가격 오류"; // 0으로 나누는 오류 방지
+
+  const priceDifference = Math.abs(productPrice - crawlPrice); // 차액 계산
+
+  if (crawlPrice < productPrice) {
+    const discountPercent = (
+      ((productPrice - crawlPrice) / productPrice) *
+      100
+    ).toFixed(0);
+    return `🚀🚀🚀 ${priceDifference.toLocaleString()}원 할인됨 ${discountPercent}%`;
+  } else if (crawlPrice > productPrice) {
+    const increasePercent = (
+      ((crawlPrice - productPrice) / productPrice) *
+      100
+    ).toFixed(0);
+    return `${priceDifference.toLocaleString()}원 인상됨 ${increasePercent}%`;
+  }
+};
+
+const alarmNotify = async (productItem, crawlPrice) => {
+  const { id, price, title } = productItem;
+  try {
+    const requestOptions = {
+      method: "GET",
+      redirect: "follow",
+    };
+    const response = await fetch(
+      `https://cpnow.kr/api/alarm/users?id=${id}`,
+      requestOptions,
+    );
+    const items = await response.json();
+
+    if (items.length === 0) {
+      console.log("아무도 등록을 해놓은 사람이 없습니다.");
+    }
+
+    for (const item of items) {
+      if (item.fcmToken) {
+        const params = {
+          token: item.fcmToken,
+          title: `[${title}]`,
+          body: `${comparePriceDetail(price, crawlPrice)}`,
+          link: `https://cpnow.kr/product/${id}`,
+        };
+
+        console.log(`🔔 ${item.fcmToken} 유저에게 발송`);
+
+        try {
+          const response = await fetch("https://cpnow.kr/api/notify", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(params),
+          });
+
+          const result = await response.json();
+          console.log("📬 알림 응답:", result);
+        } catch (error) {
+          console.error("❌ 알림 발송 오류:", error);
+        }
+      }
+    }
+  } catch (e) {
+    console.log("alarmNotify 오류: ", e);
+  }
+};
+
+const sleepRandom30to60 = () => {
+  const minMs = 2000; // 30초
+  const maxMs = 2000; // 60초
+  const delay = Math.floor(Math.random() * (maxMs - minMs + 1)) + minMs;
+
+  return new Promise((resolve) => setTimeout(resolve, delay));
+};
+
+const parseCoupangUrl = (url) => {
+  try {
+    const urlObj = new URL(url);
+
+    // 1. productId 추출: /products/숫자
+    const productMatch = urlObj.pathname.match(/\/products\/(\d+)/);
+    const productId = productMatch ? productMatch[1] : null;
+
+    // 2. itemId, vendorItemId 추출: 쿼리 파라미터에서
+    const itemId = urlObj.searchParams.get("itemId");
+    const vendorItemId = urlObj.searchParams.get("vendorItemId");
+
+    return {
+      productId,
+      itemId,
+      vendorItemId,
+    };
+  } catch (error) {
+    console.error("❌ 유효하지 않은 URL입니다:", error);
+    return null;
+  }
+};
+
+const run = async () => {
+  sleepRandom30to60();
+  const { productId, itemId, vendorItemId } = parseCoupangUrl(location.href);
+
+  const productItems = await getProductItem(productId, itemId, vendorItemId);
+
+  if (productItems.length > 0) {
+    let { highPrice, lowPrice, price } = productItems[0];
+
+    highPrice = highPrice || price;
+    lowPrice = lowPrice || price;
+
+    console.log(lowPrice);
+    // location.href = link;
+    console.log("잠시 기다림... 5초");
+    await sleepRandom30to60(); // 잠시 기다림
+    let isSoldout = false;
+    let crawlPrice = 0;
+    let crawlDeliveryType = 0;
+    let crawlRating = 0;
+    let crawlReviewCount = 0;
+
+    // 품절 체크
+    try {
+      const soldoutEl = document.querySelector(".out-of-stock-label");
+      if (soldoutEl) {
+        const text = soldoutEl.innerText;
+        isSoldout = text.includes("품절");
+      }
+    } catch (e) {
+      isSoldout = false;
+    }
+
+    // 가격
+    try {
+      const priceEl = document.querySelector(".final-price-amount");
+      const priceText = priceEl.innerText;
+      crawlPrice = extractPrice(priceText);
+      console.log("✅ 가격 추출 성공:", crawlPrice);
+    } catch (e) {
+      crawlPrice = 0;
+      console.error("❌ 가격 오류:", e);
+    }
+
+    // 배송 타입
+    try {
+      const imgEl = document.querySelector(".price-badge img");
+
+      if (imgEl) {
+        const src = imgEl.src;
+        crawlDeliveryType = getDeliveryType(src);
+        console.log("✅ 배송타입 추출 성공:", crawlDeliveryType);
+      } else {
+        console.warn("배송 이미지 요소를 찾을 수 없습니다.");
+      }
+    } catch (e) {
+      crawlDeliveryType = 0;
+      console.error("❌ 배송타입 오류:", e);
+    }
+
+    // 별점
+    try {
+      const el = document.querySelector(".product-buy-header .rating-star-num");
+      if (el) {
+        const style = el.getAttribute("style") || "";
+        const widthMatch = style.match(/width:\s*([\d.]+)%/);
+        const width = widthMatch ? parseFloat(widthMatch[1]) : 0;
+        crawlRating = width / 20; // 100% = 5점
+        console.log("✅ 별점 추출 성공:", crawlRating);
+      } else {
+        console.warn("별점 요소를 찾을 수 없습니다.");
+      }
+    } catch (e) {
+      crawlRating = 0;
+      console.error("❌ 별점 오류:", e);
+    }
+
+    // 리뷰 수
+    try {
+      const el = document.querySelector(
+        ".product-buy-header .rating-count-txt",
+      );
+      if (el) {
+        const countText = el.innerText;
+        crawlReviewCount = parseInt(countText.replace(/[^0-9]/g, ""), 10) || 0;
+        console.log("✅ 리뷰 수 추출 성공:", crawlReviewCount);
+      } else {
+        console.warn("리뷰 수 요소를 찾을 수 없습니다.");
+      }
+    } catch (e) {
+      crawlReviewCount = 0;
+      console.error("❌ 리뷰 수 오류:", e);
+    }
+
+    for (const item of productItems) {
+      if (isSoldout) {
+        lowPrice = -1;
+      } else if (lowPrice > crawlPrice) {
+        lowPrice = crawlPrice;
+      } else {
+        lowPrice = lowPrice;
+      }
+
+      const pId = item.id;
+
+      const params = {
+        id: pId,
+        highPrice: highPrice < crawlPrice ? crawlPrice : highPrice,
+        lowPrice,
+        price: Number(crawlPrice) || Number(price),
+        deliveryType: Number(crawlDeliveryType),
+        rating: Number(crawlRating),
+        reviewCount: Number(crawlReviewCount),
+      };
+      console.log(params);
+
+      try {
+        if (highPrice !== 0 && lowPrice !== 0 && price !== 0) {
+          await updateCoupangData(params);
+          console.log("✅ 값 업데이트 완료:", params);
+        }
+      } catch (e) {
+        console.error("❌ 업데이트 실패:", e);
+      }
+
+      // 가격 변동이 있으면?
+      // 1. 가격 추이 등록
+      if (price !== crawlPrice) {
+        console.log("✅ 가격이 변동되어 가격추이에 등록됩니다.");
+        await addProductPrice(pId, crawlPrice);
+
+        // 2. 가격 알람 하기
+        console.log("✅ 가격이 변동되어 사용자에게 푸시알람을 보냅니다.");
+        await alarmNotify(productItem, crawlPrice);
+      } else {
+        console.log("✋ 가격 변동없음");
+      }
+
+      // 대기열 업데이트
+      if (pId) {
+        // 삭제
+        console.log(`✅ 대기열 업데이트(${pId})`);
+        await updateCrawl(pId);
+      }
+    }
+  }
+
+  setTimeout(() => {
+    console.log("3초 후에 닫힙니다.");
+    window.close();
+  }, 3000);
+};
+
+run();
