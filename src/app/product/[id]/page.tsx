@@ -338,11 +338,20 @@ export default async function ProductPage({ params }: any) {
                             <a
                               href={getShortUrl(productItem)}
                               target="_blank"
-                              className="flex h-full w-full items-center justify-center text-center"
+                              className="flex h-full w-full items-center justify-center rounded-lg bg-blue-600 text-center font-bold text-white"
                             >
                               구매하기
                             </a>
                           </Button>
+                          {/* <Button className="h-14 w-full rounded-lg bg-blue-600 text-lg font-bold text-white shadow-lg transition duration-200 hover:bg-blue-700">
+                            <a
+                              href={getShortUrl(productItem)}
+                              target="_blank"
+                              className="text-centerblock flex h-full w-full items-center justify-center"
+                            >
+                              구매하기
+                            </a>
+                          </Button> */}
                           <AlarmButton pId={productItem.id} />
                         </div>
                       </td>
