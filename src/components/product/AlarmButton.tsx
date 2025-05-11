@@ -50,7 +50,11 @@ export default function AlarmButton({ pId }: { pId: number }) {
   };
 
   return (
-    <Button className="h-14 flex-1 px-0" size="lg" onClick={handleNotify}>
+    <Button
+      className="h-14 w-full flex-1 px-0"
+      size="lg"
+      onClick={handleNotify}
+    >
       알람받기
     </Button>
   );

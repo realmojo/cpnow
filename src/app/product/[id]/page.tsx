@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Button } from "@/components/ui/button";
+// import { Button } from "@/components/ui/button";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -15,8 +15,9 @@ import {
 import DeliveryBadge from "@/src/components/DeliveryBadge";
 import { getCategoryIdByName } from "@/utils/utils";
 import PriceLineChart from "@/src/components/PriceLineChart";
-import AlarmButton from "@/src/components/product/AlarmButton";
+// import AlarmButton from "@/src/components/product/AlarmButton";
 import SimilarProductSection from "@/src/components/product/SimilarProductSection";
+import StickyActionBar from "@/src/components/product/StickyActionBar";
 
 // ✅ 상품 호출 함수
 async function getProductById(id: string): Promise<any | null> {
@@ -176,7 +177,7 @@ export default async function ProductPage({ params }: any) {
         }}
       />
       <article>
-        <section className="flex justify-center py-10">
+        <section className="flex justify-center pt-8">
           <div className="mx-auto w-full max-w-[800px] px-4">
             <h2 className="font-heading flex scroll-m-20 justify-between pb-4 text-2xl font-bold tracking-tight first:mt-0">
               상품정보
@@ -327,7 +328,7 @@ export default async function ProductPage({ params }: any) {
                         </div>
                       </td>
                     </tr>
-                    <tr>
+                    {/* <tr>
                       <td colSpan={2} className="text-lg text-gray-800">
                         <div className="mt-4 flex gap-2">
                           <Button
@@ -343,19 +344,10 @@ export default async function ProductPage({ params }: any) {
                               구매하기
                             </a>
                           </Button>
-                          {/* <Button className="h-14 w-full rounded-lg bg-blue-600 text-lg font-bold text-white shadow-lg transition duration-200 hover:bg-blue-700">
-                            <a
-                              href={getShortUrl(productItem)}
-                              target="_blank"
-                              className="text-centerblock flex h-full w-full items-center justify-center"
-                            >
-                              구매하기
-                            </a>
-                          </Button> */}
                           <AlarmButton pId={productItem.id} />
                         </div>
                       </td>
-                    </tr>
+                    </tr> */}
                   </tbody>
                 </table>
               </div>
@@ -429,6 +421,10 @@ export default async function ProductPage({ params }: any) {
 
         <SimilarProductSection categoryId={productItem.categoryId} />
       </article>
+      <StickyActionBar
+        productItem={productItem}
+        getShortUrl={getShortUrl(productItem)}
+      />
     </>
   );
 }
