@@ -1,13 +1,14 @@
 // ==UserScript==
 // @name         쿠팡 수집기
-// @namespace    http://tampermonkey.net/
+// @match        https://www.coupang.com/vp/products/*
 // @version      2025-05-10
 // @description  try to take over the world!
 // @author       You
-// @match        https://www.coupang.com/vp/products/*
 // @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
+// @run-at       document-end
 // @grant        none
 // ==/UserScript==
+
 // 문자열 가격에서 숫자 추출
 const extractPrice = (priceStr) =>
   parseInt(priceStr.replace(/[^\d]/g, ""), 10) || 0;
@@ -234,6 +235,75 @@ const parseCoupangUrl = (url) => {
   }
 };
 
+// DOM이 준비된 후 실행
+const initSidebarLogger = () => {
+  const style = document.createElement("style");
+  style.textContent = `
+    #tm-console-panel {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 300px;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.85);
+      color: #0f0;
+      font-family: monospace;
+      font-size: 12px;
+      overflow-y: auto;
+      padding: 10px;
+      z-index: 999999;
+      white-space: pre-wrap;
+    }
+    #tm-console-toggle {
+      position: fixed;
+      top: 10px;
+      right: 310px;
+      background: #111;
+      color: #0f0;
+      padding: 5px 10px;
+      font-size: 12px;
+      z-index: 1000000;
+      cursor: pointer;
+    }
+    .tm-log-line {
+      margin-bottom: 5px;
+    }
+  `;
+  document.head.appendChild(style);
+
+  const panel = document.createElement("div");
+  panel.id = "tm-console-panel";
+  document.body.appendChild(panel);
+
+  const toggle = document.createElement("div");
+  toggle.id = "tm-console-toggle";
+  toggle.textContent = "👁️ 로그 보기";
+  toggle.onclick = () => {
+    panel.style.display = panel.style.display === "none" ? "block" : "none";
+  };
+  document.body.appendChild(toggle);
+
+  // ✅ console.log 가로채기 (페이지 context에 반영됨)
+  const originalLog = window.console.log;
+  window.console.log = (...args) => {
+    originalLog(...args); // 원래 로그 출력
+
+    const logText = args
+      .map((arg) =>
+        typeof arg === "object" ? JSON.stringify(arg, null, 2) : String(arg),
+      )
+      .join(" ");
+
+    const line = document.createElement("div");
+    line.className = "tm-log-line";
+    line.textContent = "🟢 " + logText;
+    panel.appendChild(line);
+    panel.scrollTop = panel.scrollHeight;
+  };
+
+  console.log("✅ 콘솔 재정의 및 사이드 로그 패널 초기화 완료");
+};
+
 const run = async () => {
   console.log(123);
   const { productId, itemId, vendorItemId } = parseCoupangUrl(location.href);
@@ -282,7 +352,9 @@ const run = async () => {
 
     // 가격
     try {
-      const priceEl = document.querySelector(".final-price-amount");
+      const priceEl = document.querySelector(
+        ".major-price-coupon .total-price",
+      );
       const priceText = priceEl.innerText;
       crawlPrice = extractPrice(priceText);
       console.log("✅ 가격 추출 성공:", crawlPrice);
@@ -293,7 +365,7 @@ const run = async () => {
 
     // 배송 타입
     try {
-      const imgEl = document.querySelector(".price-badge img");
+      const imgEl = document.querySelector(".delivery-badge-img");
 
       if (imgEl) {
         const src = imgEl.src;
@@ -326,9 +398,7 @@ const run = async () => {
 
     // 리뷰 수
     try {
-      const el = document.querySelector(
-        ".product-buy-header .rating-count-txt",
-      );
+      const el = document.querySelector(".product-buy-header .count");
       if (el) {
         const countText = el.innerText;
         crawlReviewCount = parseInt(countText.replace(/[^0-9]/g, ""), 10) || 0;
@@ -409,80 +479,5 @@ const run = async () => {
   }, 60000);
 };
 
-// ✅ 사이드 로그 패널 스타일 추가
-const style = document.createElement("style");
-style.textContent = `
-    #tm-console-panel {
-      position: fixed;
-      top: 0;
-      right: 0;
-      width: 300px;
-      height: 100vh;
-      background: rgba(0, 0, 0, 0.85);
-      color: #0f0;
-      font-family: monospace;
-      font-size: 12px;
-      overflow-y: auto;
-      padding: 10px;
-      z-index: 999999;
-      white-space: pre-wrap;
-    }
-    #tm-console-toggle {
-      position: fixed;
-      top: 10px;
-      right: 310px;
-      background: #111;
-      color: #0f0;
-      padding: 5px 10px;
-      font-size: 12px;
-      z-index: 1000000;
-      cursor: pointer;
-    }
-    .tm-log-line {
-      margin-bottom: 5px;
-    }
-  `;
-document.head.appendChild(style);
-
-// ✅ 사이드바 DOM 요소 추가
-const panel = document.createElement("div");
-panel.id = "tm-console-panel";
-document.body.appendChild(panel);
-
-const toggle = document.createElement("div");
-toggle.id = "tm-console-toggle";
-toggle.textContent = "👁️ 로그 보기";
-toggle.onclick = () => {
-  panel.style.display = panel.style.display === "none" ? "block" : "none";
-};
-document.body.appendChild(toggle);
-
-// ✅ 기존 console.log 저장
-const originalConsoleLog = console.log;
-
-// ✅ console.log 재정의
-console.log = (...args) => {
-  // 원래 로그도 출력
-  originalConsoleLog(...args);
-
-  // 로그 문자열화
-  const logText = args
-    .map((arg) =>
-      typeof arg === "object" ? JSON.stringify(arg, null, 2) : String(arg),
-    )
-    .join(" ");
-
-  // 패널에 추가
-  const line = document.createElement("div");
-  line.className = "tm-log-line";
-  line.textContent = "🟢 " + logText;
-  panel.appendChild(line);
-
-  // 스크롤 아래로
-  panel.scrollTop = panel.scrollHeight;
-};
-
-// ✅ 첫 메시지
-console.log("✅ Tampermonkey 로그 패널 시작됨");
-
+initSidebarLogger();
 run();
