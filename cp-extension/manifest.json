@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "쿠팡 최저가 알림 버튼",
+  "version": "1.0",
+  "description": "쿠팡 상품에 '최저가 알림'을 받아 보실 수 있습니다.",
+  "permissions": [],
+  "host_permissions": ["https://www.coupang.com/*"],
+  "content_scripts": [
+    {
+      "matches": ["https://www.coupang.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "icons": {
+    "48": "icon.png"
+  }
+}
