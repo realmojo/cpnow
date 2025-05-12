@@ -45,11 +45,7 @@ export default function ProductList({ items = [] }: any) {
                           {item.isDiscounted ? "▲" : "▼"}{" "}
                           {Math.abs(item.discountRate ?? 0)}%
                         </span>
-                      ) : (
-                        <span className="rounded-full border border-gray-300 px-2 py-0.5 text-xs font-medium text-gray-400">
-                          할인 없음
-                        </span>
-                      )}
+                      ) : null}
                     </div>
                   </div>
 
