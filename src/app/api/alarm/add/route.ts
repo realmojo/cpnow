@@ -7,9 +7,9 @@ const getProduct = async (
   vendorItemId: string,
   categoryId: string,
 ) => {
-  let query =
+  const query =
     "SELECT * FROM products WHERE productId = ? AND itemId = ? AND vendorItemId = ? AND categoryId = ?";
-  let product = await queryOne(query, [
+  const product = await queryOne(query, [
     productId,
     itemId,
     vendorItemId,
@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
       try {
         query =
           "INSERT INTO products (id, bigCategory, category, productId, vendorItemId, itemId, categoryId, title, thumbnail, link, price, lowPrice, highPrice, deliveryType, rating, reviewCount, lastUpdated) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
-        const pId = await insertOne(query, [
+        await insertOne(query, [
           bigCategory,
           category,
           productId,

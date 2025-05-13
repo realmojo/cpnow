@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useSearchParams } from "next/navigation";
 import ProductList from "@/src/components/ProductList";
 import { Button } from "@/components/ui/button";
@@ -120,13 +120,11 @@ export default function LocalAuthViewer() {
     location.href = "/mynow";
   };
 
-  const initData = async () => {
+  const initData = useCallback(async () => {
     const stored = localStorage.getItem("cpnow-auth");
-    if (!stored) {
-      return;
-    }
-    const parsed = JSON.parse(stored);
+    if (!stored) return;
 
+    const parsed = JSON.parse(stored);
     const item = searchParams.get("item");
     const parsedItem = JSON.parse(item || "{}");
 
@@ -135,7 +133,6 @@ export default function LocalAuthViewer() {
       parsedItem.highPrice = parsedItem.price;
       parsedItem.link = `https://www.coupang.com/vp/products/${parsedItem.productId}?itemId=${parsedItem.itemId}&vendorItemId=${parsedItem.vendorItemId}`;
 
-      // 파라미터가 모두 있으면 API 호출
       if (
         parsedItem.productId &&
         parsedItem.itemId &&
@@ -152,11 +149,11 @@ export default function LocalAuthViewer() {
       const data = await getProductByUserId(parsed.userId);
       setMyProductsItems(data);
     }
-  };
+  }, [searchParams]);
 
   useEffect(() => {
     initData();
-  }, []);
+  }, [initData]);
 
   return (
     <article>

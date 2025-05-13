@@ -152,7 +152,7 @@ setTimeout(() => {
           // console.log("vendorItemId:", vendorItemId);
           // console.log("categoryId:", categoryId);
 
-          const url = `http://localhost:3000/mynow?item=${encodeURIComponent(JSON.stringify(res))}`;
+          const url = `https://cpnow.kr/mynow?item=${encodeURIComponent(JSON.stringify(res))}`;
           window.open(url, "_blank");
         });
         figure.appendChild(button);
@@ -186,7 +186,7 @@ setTimeout(() => {
           console.log("상품 ID 정보:");
           console.log(res);
 
-          const url = `http://localhost:3000/mynow?item=${encodeURIComponent(JSON.stringify(res))}`;
+          const url = `https://cpnow.kr/mynow?item=${encodeURIComponent(JSON.stringify(res))}`;
           window.open(url, "_blank");
         });
         imageContainer.appendChild(button);
