@@ -159,6 +159,16 @@ export default async function ProductPage({ params }: any) {
         name: "쿠팡",
       },
     },
+    review: {
+      "@type": "Review",
+      reviewRating: {
+        "@type": "Rating",
+        ratingValue: productItem.rating
+          ? Number(productItem.rating).toFixed(1)
+          : "0",
+        bestRating: "5",
+      },
+    },
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: productItem.rating
