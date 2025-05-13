@@ -35,8 +35,7 @@ export async function POST(req: NextRequest) {
       throw new Error("no parameter");
     }
 
-    const query =
-      "UPDATE crawl_wait SET lastUpdated = CONVERT_TZ(NOW(), 'UTC', '+09:00') WHERE pId = ?";
+    const query = "UPDATE crawl_wait SET lastUpdated = NOW() WHERE pId = ?";
 
     await insertOne(query, [pId]);
 

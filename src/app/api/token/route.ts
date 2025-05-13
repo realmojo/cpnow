@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
     const params = await req.json();
 
     const query =
-      "INSERT INTO users (userId, fcmToken, regdated) VALUES (?, ?, CONVERT_TZ(NOW(), 'UTC', '+09:00'))";
+      "INSERT INTO users (userId, fcmToken, regdated) VALUES (?, ?, NOW())";
     await insertOne(query, [params.userId, params.fcmToken]);
 
     return new Response(JSON.stringify({ success: true, data: "ok" }), {

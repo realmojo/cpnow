@@ -111,7 +111,7 @@ export async function GET(req: NextRequest) {
 
       if (!crawlWaitItem) {
         query =
-          "INSERT INTO crawl_wait (pId, type, regdated) VALUES (?, 'product', CONVERT_TZ(NOW(), 'UTC', '+09:00'))";
+          "INSERT INTO crawl_wait (pId, type, regdated) VALUES (?, 'product', NOW())";
         await insertOne(query, [id]);
       }
     }
@@ -185,7 +185,7 @@ export async function POST(req: NextRequest) {
         deliveryType = ?,
         rating = ?,
         reviewCount = ?,
-        lastUpdated = CONVERT_TZ(NOW(), 'UTC', '+09:00')
+        lastUpdated = NOW()
       WHERE id = ?
     `;
 

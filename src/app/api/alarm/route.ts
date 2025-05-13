@@ -8,12 +8,12 @@ export async function POST(req: NextRequest) {
     const { userId, pId } = bodyItems;
 
     let query =
-      "INSERT IGNORE INTO user_alarms (id, userId, pId, regdated) VALUES (NULL, ?, ?, CONVERT_TZ(NOW(), 'UTC', '+09:00'))";
+      "INSERT IGNORE INTO user_alarms (id, userId, pId, regdated) VALUES (NULL, ?, ?, NOW())";
     await insertOne(query, [userId, pId]);
 
     // 대기 알람에도 넣어주기
     query =
-      "INSERT INTO crawl_wait (pId, type, regdated) VALUES (?, 'alarm', CONVERT_TZ(NOW(), 'UTC', '+09:00')) ON DUPLICATE KEY UPDATE type = 'alarm';";
+      "INSERT INTO crawl_wait (pId, type, regdated) VALUES (?, 'alarm', NOW()) ON DUPLICATE KEY UPDATE type = 'alarm';";
     await insertOne(query, [pId]);
 
     return new Response(JSON.stringify({ success: true, data: "ok" }), {

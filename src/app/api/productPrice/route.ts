@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
 
     const query = `
       INSERT INTO product_prices (id, pId, price, regdated)
-      VALUES (NULL, ?, ?, CONVERT_TZ(NOW(), 'UTC', '+09:00'))
+      VALUES (NULL, ?, ?, NOW())
     `;
 
     await insertOne(query, [pId, price]);

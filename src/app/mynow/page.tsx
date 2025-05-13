@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import ProductList from "@/src/components/ProductList";
 import { Button } from "@/components/ui/button";
 import { detectDevice } from "@/utils/utils";
@@ -42,7 +43,28 @@ const openForegroundMessage = (messaging: any) => {
   }
 };
 
+const sendProductInfo = async (parsedItem: any, parsed: any) => {
+  try {
+    const res = await fetch("/api/alarm/add", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ...parsedItem,
+        userId: parsed.userId,
+      }),
+    });
+
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.error("❌ API 호출 실패:", error);
+  }
+};
+
 export default function LocalAuthViewer() {
+  const searchParams = useSearchParams();
   const [myProductsItems, setMyProductsItems] = useState<any>(null);
   const [open, setOpen] = useState(false);
 
@@ -104,6 +126,28 @@ export default function LocalAuthViewer() {
       return;
     }
     const parsed = JSON.parse(stored);
+
+    const item = searchParams.get("item");
+    const parsedItem = JSON.parse(item || "{}");
+
+    if (parsedItem) {
+      parsedItem.lowPrice = parsedItem.price;
+      parsedItem.highPrice = parsedItem.price;
+      parsedItem.link = `https://www.coupang.com/vp/products/${parsedItem.productId}?itemId=${parsedItem.itemId}&vendorItemId=${parsedItem.vendorItemId}`;
+
+      // 파라미터가 모두 있으면 API 호출
+      if (
+        parsedItem.productId &&
+        parsedItem.itemId &&
+        parsedItem.vendorItemId &&
+        parsedItem.categoryId &&
+        parsed.userId
+      ) {
+        const data = await sendProductInfo(parsedItem, parsed);
+        setMyProductsItems(data);
+      }
+    }
+
     if (parsed?.userId) {
       const data = await getProductByUserId(parsed.userId);
       setMyProductsItems(data);
