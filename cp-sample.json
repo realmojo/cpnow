@@ -1,0 +1,553 @@
+{
+  "abFlags": {
+    "applyExtremeProminenceFreeDeliveryMessages": "A",
+    "ab54632": "B"
+  },
+  "appliedCoupon": null,
+  "benefitDisplayType": null,
+  "bundleOption": { "optionDetails": null, "options": [], "viewType": null },
+  "cashBackSummary": {
+    "basicCashBackList": [
+      {
+        "amount": 150,
+        "benefit": "쿠페이 머니 결제 시 1% 적립",
+        "expired": false,
+        "i18nAmount": {
+          "amount": "150",
+          "currency": "KRW",
+          "fractionDigits": 0,
+          "rawAmount": 150
+        },
+        "leftDays": null,
+        "rate": "1",
+        "type": "BASIC",
+        "validity": "월 최대 1만원"
+      }
+    ],
+    "basicRocketPayCashAmt": 150,
+    "basicRocketPayRate": "1",
+    "cashBackTitle": "캐시적립 혜택",
+    "cashIconUrl": "https://image6.coupangcdn.com/image/badges/cashback/web/list-cash-icon@2x.png",
+    "cashWidgetIconUrl": "https://image6.coupangcdn.com/image/badges/sdp/cashback/web/cash-icon@2x.png",
+    "clubMemberCashAmt": null,
+    "clubMemberRate": null,
+    "clubMemberRewardExpires": null,
+    "clubMemberRewardExpiryTime": null,
+    "clubMemberRewardLeftDays": null,
+    "couPayBankAmt": 300,
+    "couPayBankExpires": false,
+    "couPayBankLeftDays": 2114,
+    "couPayBankRate": "2",
+    "couPayMoneyAmt": 600,
+    "couPayMoneyExpires": false,
+    "couPayMoneyLeftDays": 2114,
+    "couPayMoneyRate": "4",
+    "extraCashBackList": [
+      {
+        "amount": 300,
+        "benefit": "[로켓와우 + 쿠페이 계좌이체] 결제 시 2% 적립",
+        "expired": false,
+        "i18nAmount": {
+          "amount": "300",
+          "currency": "KRW",
+          "fractionDigits": 0,
+          "rawAmount": 300
+        },
+        "leftDays": 2114,
+        "rate": "2",
+        "type": "COU_BANK",
+        "validity": "이벤트 기간 30일, 최대 2만원"
+      },
+      {
+        "amount": 600,
+        "benefit": "[로켓와우 + 쿠페이 머니] 결제 시 4% 추가적립",
+        "expired": false,
+        "i18nAmount": {
+          "amount": "600",
+          "currency": "KRW",
+          "fractionDigits": 0,
+          "rawAmount": 600
+        },
+        "leftDays": 2114,
+        "rate": "4",
+        "type": "COU_MONEY",
+        "validity": "이벤트 기간 30일, 최대 4만원"
+      }
+    ],
+    "finalCashBackAmt": 750,
+    "finalCashBackAmtIncludeRewardCashAmount": 750,
+    "i18nBasicRocketPayCashAmt": {
+      "amount": "150",
+      "currency": "KRW",
+      "fractionDigits": 0,
+      "rawAmount": 150
+    },
+    "i18nClubMemberCashAmt": null,
+    "i18nCouPayBankAmt": {
+      "amount": "300",
+      "currency": "KRW",
+      "fractionDigits": 0,
+      "rawAmount": 300
+    },
+    "i18nCouPayMoneyAmt": {
+      "amount": "600",
+      "currency": "KRW",
+      "fractionDigits": 0,
+      "rawAmount": 600
+    },
+    "i18nFinalCashBackAmt": {
+      "amount": "750",
+      "currency": "KRW",
+      "fractionDigits": 0,
+      "rawAmount": 750
+    },
+    "i18nFinalCashBackAmtIncludeRewardCashAmount": {
+      "amount": "750",
+      "currency": "KRW",
+      "fractionDigits": 0,
+      "rawAmount": 750
+    },
+    "i18nRewardCashAmount": null,
+    "luxuryItem": false,
+    "popupType": "WITHEXTRA",
+    "rewardCashAmount": null,
+    "targetedPromotionBanner": null
+  },
+  "delivery": {
+    "badgeUrl": "https://image7.coupangcdn.com/image/coupang/rds/logo/iphone_2x/logoRocketMerchantLargeV3R3@2x.png",
+    "company": null,
+    "companyLabel": null,
+    "countDownMessage": null,
+    "countDownMillisecond": null,
+    "delayMessage": "",
+    "deliveryExtraInfo": null,
+    "deliveryNotice": null,
+    "deliveryReminderMessage": null,
+    "descriptionBadge": null,
+    "descriptionIcon": null,
+    "descriptions": "<em class='prod-txt-onyx prod-txt-green-2'>내일(토) 5/17</em><em class='prod-txt-onyx  prod-txt-green-normal'> 도착 보장</em><em class='prod-txt-onyx'> (</em><em class='prod-txt-onyx'>23시간 33분</em><em class='prod-txt-onyx'>  내 주문 시</em><em class='prod-txt-onyx'> / 서울⋅경기 기준</em><em class='prod-txt-onyx'>)</em>",
+    "extremeDescriptions": null,
+    "hideQuestionMark": false,
+    "logistics": false,
+    "loyaltyButtonText": null,
+    "rocketWowQuestionMark": false,
+    "speedType": "STANDARD",
+    "title": null,
+    "type": "ROCKET_MERCHANT"
+  },
+  "deliveryList": [
+    {
+      "badgeUrl": "https://image7.coupangcdn.com/image/coupang/rds/logo/iphone_2x/logoRocketMerchantLargeV3R3@2x.png",
+      "company": null,
+      "companyLabel": null,
+      "countDownMessage": null,
+      "countDownMillisecond": null,
+      "delayMessage": "",
+      "deliveryExtraInfo": null,
+      "deliveryNotice": null,
+      "deliveryReminderMessage": null,
+      "descriptionBadge": null,
+      "descriptionIcon": null,
+      "descriptions": "<em class='prod-txt-onyx prod-txt-green-2'>내일(토) 5/17</em><em class='prod-txt-onyx  prod-txt-green-normal'> 도착 보장</em><em class='prod-txt-onyx'> (</em><em class='prod-txt-onyx'>23시간 33분</em><em class='prod-txt-onyx'>  내 주문 시</em><em class='prod-txt-onyx'> / 서울⋅경기 기준</em><em class='prod-txt-onyx'>)</em>",
+      "extremeDescriptions": null,
+      "hideQuestionMark": false,
+      "logistics": false,
+      "loyaltyButtonText": null,
+      "rocketWowQuestionMark": false,
+      "speedType": "STANDARD",
+      "title": null,
+      "type": "ROCKET_MERCHANT"
+    },
+    {
+      "badgeUrl": "https://image7.coupangcdn.com/image/coupang/rds/logo/iphone_2x/logoRocketMerchantLargeV3R3@2x.png",
+      "company": null,
+      "companyLabel": null,
+      "countDownMessage": "<em class='prod-txt-onyx'>오전 10시 전 주문 시</em>",
+      "countDownMillisecond": null,
+      "delayMessage": null,
+      "deliveryExtraInfo": [
+        {
+          "alpha": null,
+          "bold": null,
+          "color": "",
+          "expectedLineBreak": null,
+          "helpUrl": null,
+          "size": 0,
+          "strikethrough": null,
+          "text": "서울⋅경기 기준"
+        }
+      ],
+      "deliveryNotice": null,
+      "deliveryReminderMessage": null,
+      "descriptionBadge": null,
+      "descriptionIcon": null,
+      "descriptions": "<em class='prod-txt-onyx prod-txt-green-2'>오늘(금)</em><em class='prod-txt-onyx  prod-txt-green-normal'> 도착 보장</em>",
+      "extremeDescriptions": null,
+      "hideQuestionMark": false,
+      "logistics": false,
+      "loyaltyButtonText": null,
+      "rocketWowQuestionMark": false,
+      "speedType": "SAMEDAY",
+      "title": null,
+      "type": "ROCKET_MERCHANT"
+    }
+  ],
+  "freebieBenefit": null,
+  "moduleData": [
+    {
+      "abFlags": {
+        "displayTwoPricesWow": "A",
+        "sdpCartUpdateNewPmcPolicy": "false",
+        "deliveryFeeToggleShow": "false"
+      },
+      "detailPriceBundle": {
+        "finalPrice": {
+          "bestPriceInfo": {
+            "currency": "KRW",
+            "discountRate": 42.0,
+            "discountRateValid": true,
+            "doubleElevenPromoted": false,
+            "firstPurchase": false,
+            "goldbox": false,
+            "hasEligibilityConditions": false,
+            "lightning": false,
+            "lightningOrGoldbox": false,
+            "memberPrice": false,
+            "notExpired": true,
+            "percentageDiscount": false,
+            "price": 14990,
+            "priceBasedDiscountRate": 42.0,
+            "priceType": "FINAL_PRICE",
+            "priceWithDeliveryFee": 14990,
+            "unitCCIDuration": 1,
+            "unitPrice": {
+              "amount": 1,
+              "extendedPrice": {
+                "money": { "amount": 14990, "currency": "KRW" },
+                "offset": 0
+              },
+              "priceEx": { "amount": 14990, "currency": "KRW" },
+              "unit": "개"
+            },
+            "unitPriceAmount": 14990,
+            "unitPriceAmountWithDeliveryFee": 14990,
+            "unitPriceDescription": "(1개당 14,990원)",
+            "unitPriceDescriptionWithoutParenthesis": "1개당 14,990원",
+            "unitPriceIncludeDeliveryFeeDescription": "(1개당 14,990원)",
+            "unitPriceIncludeDeliveryFeeDescriptionWithoutParenthesis": "1개당 14,990원",
+            "unitPriceWithDeliveryFee": {
+              "amount": 1,
+              "extendedPrice": {
+                "money": { "amount": 14990, "currency": "KRW" },
+                "offset": 0
+              },
+              "unit": "개"
+            },
+            "valid": true
+          },
+          "displayType": "FINAL",
+          "downloadCouponType": "NONE",
+          "downloadDiscountAmount": 0,
+          "instantDiscountAmount": 0,
+          "instantDiscountType": "NONE",
+          "memberPrice": false,
+          "price": 14990,
+          "priceBaseDiscountRate": 42,
+          "priceWithDeliveryFee": 14990,
+          "realType": "SALES",
+          "unitPriceAmount": 14990,
+          "unitPriceAmountWithDeliveryFee": 14990,
+          "unitPriceDescription": "(1개당 14,990원)",
+          "unitPriceDescriptionWithoutParenthesis": "1개당 14,990원",
+          "unitPriceIncludeDeliveryFeeDescription": "(1개당 14,990원)"
+        },
+        "finalPriceDiscountRate": 42,
+        "nonWowMemberPrice": { "price": 14990, "priceWithDeliveryFee": 14990 },
+        "originalPrice": {
+          "displayType": "ORIGINAL",
+          "downloadCouponType": "NONE",
+          "instantDiscountType": "NONE",
+          "memberPrice": false,
+          "price": 26000,
+          "priceWithDeliveryFee": 26000,
+          "realType": "ORIGINAL",
+          "unitPriceDescription": "(1개당 26,000원)"
+        },
+        "wowMemberPrice": { "price": 14990, "priceWithDeliveryFee": 14990 }
+      },
+      "logging": {},
+      "normalCouponDiscount": false,
+      "normalInstantDiscount": false,
+      "pricePolicies": [
+        {
+          "currency": "원",
+          "description": "업체의 권장소비자가 또는 공식 판매처 판매가 또는 도서 정가(도서 정가제 대상인 경우)입니다. 해당 가격이 없는 경우 90일 내 쿠팡에서 판매된 가격 중 가장 높은 가격을 표시합니다.",
+          "discountRate": 42,
+          "formattedPrice": "26,000원",
+          "price": "26,000",
+          "priceWithDeliveryFee": "26,000",
+          "type": "ORIGINAL"
+        }
+      ],
+      "priceWithDeliveryFee": false,
+      "targetedDiscount": false,
+      "viewType": "PRODUCT_DETAIL_PRICE_INFO",
+      "wowCouponDiscount": false,
+      "wowDiscountAndNormalOtAndNonWowMember": false,
+      "wowInstantDiscount": false
+    },
+    {
+      "title": "라라펫 강아지 반려견 애착인형 삑삑이 세트",
+      "viewType": "PRODUCT_DETAIL_PRODUCT_INFO"
+    },
+    { "viewType": "PRODUCT_WEB_DATA_AB_FLAGS" },
+    {
+      "deliveryInfo": {
+        "nonMemberDelivery": {
+          "arrivalMessage": [
+            { "color": "#00891A", "size": 14, "text": "내일(토) 5/17" },
+            { "color": "#00891A", "size": 14, "text": " 도착 보장" }
+          ],
+          "deliveryBadge": {
+            "height": 16,
+            "url": "https://image10.coupangcdn.com/image/coupang/rds/logo/hdpi/logo_rocket_merchant_medium_v3_r3.png",
+            "width": 79
+          },
+          "shippingFeeTag": [
+            {
+              "bold": true,
+              "color": "#212B36",
+              "size": 14,
+              "text": "무료배송"
+            },
+            { "color": "#222222", "size": 14, "text": " " },
+            {
+              "color": "#212B36",
+              "size": 14,
+              "text": "(로켓배송 상품 19,800원 이상 구매 시 구매 가능)"
+            }
+          ]
+        },
+        "wowMemberDelivery": {
+          "arrivalMessage": [
+            { "color": "#00891A", "size": 14, "text": "오늘(금)" },
+            { "color": "#00891A", "size": 14, "text": " 도착 보장" }
+          ],
+          "deliveryBadge": {
+            "height": 16,
+            "url": "https://image10.coupangcdn.com/image/coupang/rds/logo/hdpi/logo_rocket_merchant_medium_v3_r3.png",
+            "width": 79
+          },
+          "shippingFeeTag": [
+            {
+              "bold": true,
+              "color": "#212B36",
+              "size": 14,
+              "text": "무료배송"
+            },
+            { "color": "#222222", "size": 14, "text": " " },
+            {
+              "color": "#212B36",
+              "size": 14,
+              "text": "(로켓배송 상품 19,800원 이상 구매 시 구매 가능)"
+            }
+          ]
+        }
+      },
+      "itemInfo": {
+        "itemId": 19796824806,
+        "itemName": "라라펫 강아지 반려견 애착인형 삑삑이 세트",
+        "productId": 7535557148,
+        "thumbnailImage": {
+          "height": 60,
+          "url": "https://image10.coupangcdn.com/image/vendor_inventory/e2fd/43835f4c9255e4e29f4cbd963ced85c1cddb450bc68a6df6125f5deb826e.png",
+          "width": 60
+        },
+        "vendorItemId": 86776466577
+      },
+      "priceInfo": {
+        "finalPrice": {
+          "applicable": true,
+          "displayPrice": "14,990원",
+          "price": 14990
+        },
+        "finalPriceDiscountRate": 42,
+        "originalPrice": {
+          "applicable": true,
+          "displayPrice": "26,000원",
+          "price": 26000
+        }
+      },
+      "viewType": "PRODUCT_DETAIL_HANDLEBAR_BASE_INFO"
+    },
+    {
+      "pddList": [
+        {
+          "arrivalMessage": "내일(토) 5/17 도착 보장",
+          "arrivalMessagePostfix": "(서울·경기 기준)",
+          "deliveryBadge": {
+            "height": 20,
+            "url": "https://image10.coupangcdn.com/image/coupang/rds/logo/hdpi/logo_rocket_merchant_symbol_large_v3.png",
+            "width": 20
+          },
+          "deliveryBadgeLabel": "판매자로켓",
+          "deliveryBadgeV2": {
+            "height": 16,
+            "url": "https://image10.coupangcdn.com/image/coupang/rds/logo/hdpi/logo_rocket_merchant_medium_v3_r3.png",
+            "width": 79
+          },
+          "deliveryType": "ROCKET_MERCHANT"
+        }
+      ],
+      "viewType": "PRODUCT_DETAIL_DELIVERY_INFO"
+    }
+  ],
+  "price": {
+    "cashPromotionMessage": null,
+    "couponDiscountAmount": null,
+    "couponPrice": "14,990",
+    "couponPriceTitle": "",
+    "couponUnitPrice": "1개당 14,990원",
+    "description": null,
+    "discountRate": "42",
+    "finalPrice": "14,990",
+    "gppuPricePolicy": [
+      {
+        "description": "업체의 권장소비자가 또는 공식 판매처 판매가 또는 도서 정가(도서 정가제 대상인 경우)입니다. 해당 가격이 없는 경우 90일 내 쿠팡에서 판매된 가격 중 가장 높은 가격을 표시합니다.",
+        "priceInfo": "<span class='discount-rate'>42%</span><span class='origin-price'>26,000원</span>"
+      }
+    ],
+    "hasNormalCouponDiscount": false,
+    "hasNormalInstantDiscount": false,
+    "hasWowCouponDiscount": false,
+    "hasWowInstantDiscount": false,
+    "i18nCouponDiscountAmount": null,
+    "i18nCouponPrice": {
+      "amount": "14990",
+      "currency": "KRW",
+      "fractionDigits": 0,
+      "rawAmount": null
+    },
+    "i18nOriginPrice": {
+      "amount": "26000",
+      "currency": "KRW",
+      "fractionDigits": 0,
+      "rawAmount": null
+    },
+    "i18nPriceAmount": null,
+    "i18nSalePrice": {
+      "amount": "14990",
+      "currency": "KRW",
+      "fractionDigits": 0,
+      "rawAmount": null
+    },
+    "instantDiscount": false,
+    "instantPriceType": null,
+    "loyaltyButtonText": null,
+    "loyaltyRegistrationUrl": null,
+    "originPrice": "26,000",
+    "originalPriceDesc": null,
+    "priceAmount": null,
+    "salePrice": "14,990",
+    "salePriceTitle": "",
+    "saleUnitPrice": "1개당 14,990원",
+    "title": null,
+    "type": null,
+    "unitDiscountRate": null,
+    "unitPrice": null,
+    "wowCouponDiscount": false
+  },
+  "priceList": [
+    {
+      "cashPromotionMessage": null,
+      "couponDiscountAmount": null,
+      "couponPrice": null,
+      "couponPriceTitle": null,
+      "couponUnitPrice": null,
+      "description": null,
+      "discountRate": null,
+      "finalPrice": null,
+      "gppuPricePolicy": null,
+      "hasNormalCouponDiscount": false,
+      "hasNormalInstantDiscount": false,
+      "hasWowCouponDiscount": false,
+      "hasWowInstantDiscount": false,
+      "i18nCouponDiscountAmount": null,
+      "i18nCouponPrice": null,
+      "i18nOriginPrice": null,
+      "i18nPriceAmount": {
+        "amount": "14990",
+        "currency": "KRW",
+        "fractionDigits": 0,
+        "rawAmount": null
+      },
+      "i18nSalePrice": null,
+      "instantDiscount": null,
+      "instantPriceType": null,
+      "loyaltyButtonText": null,
+      "loyaltyRegistrationUrl": null,
+      "originPrice": null,
+      "originalPriceDesc": null,
+      "priceAmount": "14,990",
+      "salePrice": null,
+      "salePriceTitle": null,
+      "saleUnitPrice": null,
+      "title": "쿠팡판매가",
+      "type": "SALES",
+      "unitDiscountRate": null,
+      "unitPrice": "1개당 14,990원",
+      "wowCouponDiscount": false
+    }
+  ],
+  "priceUnit": "원",
+  "quantity": 1,
+  "quantityLimitationVO": null,
+  "selectedIndex": 0,
+  "shipmentDisplayType": "NORMAL",
+  "shippingFee": {
+    "dividerIcon": null,
+    "extremeMessage": null,
+    "freeShippingConditionMessage": null,
+    "message": "<em class='prod-txt-bold'>무료배송</em><em class='prod-txt-black'> (로켓배송 상품 19,800원 이상 구매 시)</em>",
+    "popupFreeShippingConditionMessage": null,
+    "returnFeeMessage": null,
+    "shippingFee": "2,500",
+    "shippingFeeIcon": null,
+    "shippingFeeType": "ROCKET",
+    "title": null,
+    "titleIcon": null
+  },
+  "shippingFeeList": [
+    {
+      "dividerIcon": null,
+      "extremeMessage": null,
+      "freeShippingConditionMessage": null,
+      "message": "<em class='prod-txt-bold'>무료배송</em><em class='prod-txt-black'> (로켓배송 상품 19,800원 이상 구매 시)</em>",
+      "popupFreeShippingConditionMessage": null,
+      "returnFeeMessage": null,
+      "shippingFee": null,
+      "shippingFeeIcon": null,
+      "shippingFeeType": "ROCKET",
+      "title": null,
+      "titleIcon": null
+    },
+    {
+      "dividerIcon": null,
+      "extremeMessage": null,
+      "freeShippingConditionMessage": null,
+      "message": "<em class='prod-txt-bold'>무료배송</em>",
+      "popupFreeShippingConditionMessage": null,
+      "returnFeeMessage": null,
+      "shippingFee": null,
+      "shippingFeeIcon": null,
+      "shippingFeeType": "FREE",
+      "title": null,
+      "titleIcon": null
+    }
+  ],
+  "subscriptionDelivery": null,
+  "subscriptionDiscountRate": -1,
+  "subscriptionPrice": null,
+  "subscriptionPriceList": [],
+  "wowOnlyInstantDiscountRate": 0
+}
