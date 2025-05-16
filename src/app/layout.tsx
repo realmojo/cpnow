@@ -8,6 +8,7 @@ import Footer from "@/src/components/layouts/Footer";
 import RegisterServiceWorker from "@/src/app/register-service-worker";
 import localFont from "next/font/local";
 import GoogleAnalytics from "@/src/components/GoogleAnalytics";
+import NaverAnalyticsTracker from "@/components/NaverAnalyticsTracker";
 
 import "./globals.css";
 
@@ -118,6 +119,7 @@ export default async function RootLayout({
         <link rel="manifest" href="/manifest.json" />
       </head>
       <body className={pretendard.className}>
+        <NaverAnalyticsTracker />
         <GoogleAnalytics />
         {/* <ClientDefaultSeo /> */}
         <SidebarProvider defaultOpen={defaultOpen}>
