@@ -99,20 +99,22 @@ export default async function RootLayout({
             });
           `}
         </Script>
-        <Script type="text/javascript" src="//wcs.naver.net/wcslog.js" />
         <Script
           type="text/javascript"
+          src="//wcs.naver.net/wcslog.js"
+          strategy="afterInteractive"
+        />
+        <Script
           id="naver-analytics"
           strategy="afterInteractive"
-        >
-          {`
-            if(!wcs_add) var wcs_add = {};
-            wcs_add["wa"] = "4f989b4b54c848";
-            if(window.wcs) {
+          dangerouslySetInnerHTML={{
+            __html: `
+              if (!wcs_add) var wcs_add = {};
+              wcs_add["wa"] = "4f989b4b54c848";
               wcs_do();
-            }
-          `}
-        </Script>
+            `,
+          }}
+        />
         <link rel="manifest" href="/manifest.json" />
       </head>
       <body className={pretendard.className}>
