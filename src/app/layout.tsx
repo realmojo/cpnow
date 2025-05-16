@@ -8,7 +8,7 @@ import Footer from "@/src/components/layouts/Footer";
 import RegisterServiceWorker from "@/src/app/register-service-worker";
 import localFont from "next/font/local";
 import GoogleAnalytics from "@/src/components/GoogleAnalytics";
-import NaverAnalyticsTracker from "@/components/NaverAnalyticsTracker";
+import NaverAnalyticsTracker from "@/src/components/NaverAnalyticsTracker";
 
 import "./globals.css";
 
