@@ -100,11 +100,13 @@ export default async function RootLayout({
             });
           `}
         </Script>
-        <Script src="//wcs.naver.net/wcslog.js" strategy="beforeInteractive" />
-        <Script id="naver-analytics">{`
-              if (!wcs_add) var wcs_add = {};
+        <Script type="text/javascript" src="//wcs.naver.net/wcslog.js" />
+        <Script id="naver-analytics" type="text/javascript">{`
+             if(!wcs_add) var wcs_add = {};
               wcs_add["wa"] = "4f989b4b54c848";
+              if(window.wcs) {
               wcs_do();
+            }
             `}</Script>
         <link rel="manifest" href="/manifest.json" />
       </head>
