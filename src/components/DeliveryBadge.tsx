@@ -50,6 +50,12 @@ export default function DeliveryBadge({
   if (!badge) return null;
 
   return (
-    <Image src={badge.src} width={width} height={height} alt={badge.alt} />
+    <Image
+      src={badge.src}
+      alt={badge.alt}
+      width={width}
+      height={height}
+      style={{ width: "auto", height: 16 }}
+    />
   );
 }

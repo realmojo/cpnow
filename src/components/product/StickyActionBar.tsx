@@ -19,7 +19,7 @@ export default function StickyActionBar({ productItem, getShortUrl }: Props) {
             구매하기
           </a>
           <div className="w-1/2 bg-gray-800 text-center text-lg font-bold text-white">
-            <AlarmButton pId={productItem.id} />
+            <AlarmButton productItem={productItem} />
           </div>
         </div>
       </div>

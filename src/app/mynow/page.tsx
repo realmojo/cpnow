@@ -1,11 +1,11 @@
 "use client";
-
 import React, { useEffect, useState, useCallback } from "react";
 import { useSearchParams } from "next/navigation";
 import ProductList from "@/src/components/ProductList";
 import { Button } from "@/components/ui/button";
 import { detectDevice } from "@/utils/utils";
 import { messaging, getToken, onMessage } from "@/lib/firebase";
+import { useAppStore } from "@/src/store/useAppStore";
 import { MessagePayload } from "firebase/messaging";
 import { nanoid } from "nanoid";
 import axios from "axios";
@@ -17,18 +17,6 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
-
-// ✅ 상품 호출 함수
-async function getProductByUserId(userId: string): Promise<any | null> {
-  const res = await fetch(`/api/alarm/my?userId=${userId}`, {
-    cache: "no-store", // ← SSR 시 실시간 데이터 원할 경우
-  });
-
-  if (!res.ok) return null;
-
-  const data = await res.json();
-  return data;
-}
 
 const openForegroundMessage = (messaging: any) => {
   console.log("✅ 포그라운드 메세지 수신", messaging);
@@ -67,12 +55,17 @@ export default function LocalAuthViewer() {
   const searchParams = useSearchParams();
   const [myProductsItems, setMyProductsItems] = useState<any>(null);
   const [open, setOpen] = useState(false);
+  const { loginInfo, myAlarmList } = useAppStore();
 
   const handleConfirm = () => {
     loginInit();
     setOpen(false); // 모달 닫기
   };
   const loginInit = async () => {
+    const { userId } = loginInfo;
+    await fetch("/api/alarm/delete?all=true&userId=" + userId, {
+      method: "DELETE",
+    });
     localStorage.removeItem("cpnow-auth");
 
     const deviceInfo = detectDevice();
@@ -146,10 +139,9 @@ export default function LocalAuthViewer() {
     }
 
     if (parsed?.userId) {
-      const data = await getProductByUserId(parsed.userId);
-      setMyProductsItems(data);
+      setMyProductsItems(myAlarmList);
     }
-  }, [searchParams]);
+  }, [searchParams, myAlarmList]);
 
   useEffect(() => {
     initData();
@@ -174,11 +166,11 @@ export default function LocalAuthViewer() {
           ) : myProductsItems.length > 0 ? (
             // ✅ 데이터 있음
             <>
-              <ProductList items={myProductsItems} />
+              <ProductList items={myProductsItems} type="list" />
 
               <Dialog open={open} onOpenChange={setOpen}>
                 <DialogTrigger asChild>
-                  <Button variant="default" className="w-full">
+                  <Button variant="destructive" className="w-full">
                     알림 초기화 하기
                   </Button>
                 </DialogTrigger>
@@ -193,7 +185,7 @@ export default function LocalAuthViewer() {
                     <Button variant="outline" onClick={() => setOpen(false)}>
                       취소
                     </Button>
-                    <Button variant="default" onClick={handleConfirm}>
+                    <Button variant="destructive" onClick={handleConfirm}>
                       확인
                     </Button>
                   </DialogFooter>

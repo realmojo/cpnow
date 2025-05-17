@@ -17,6 +17,7 @@ import SendAuthToSW from "../components/SendAuthToSW";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import InstallPromptBanner from "../components/InstallPromptBanner";
 import { AppSidebar } from "../components/Sidebar";
+import ClientOnly from "../components/ClientOnly";
 
 export const metadata: Metadata = {
   title: "CPNOW - 쿠팡 최저가 알림 서비스",
@@ -111,6 +112,7 @@ export default async function RootLayout({
         <link rel="manifest" href="/manifest.json" />
       </head>
       <body className={pretendard.className}>
+        <ClientOnly />
         <NaverAnalyticsTracker />
         <GoogleAnalytics />
         {/* <ClientDefaultSeo /> */}
@@ -135,7 +137,18 @@ export default async function RootLayout({
             {children}
             <Footer />
           </main>
-          <Toaster />
+          <Toaster
+            position="bottom-center"
+            toastOptions={{
+              className: "mb-12", // 하단에서 살짝 위
+              style: {
+                backgroundColor: "#e6ffed", // 연한 초록 배경
+                color: "#065f46", // 진한 초록 텍스트
+                border: "1px solid rgb(141, 229, 197)", // 테두리 색상
+                fontWeight: "600",
+              },
+            }}
+          />
           <RegisterServiceWorker />
           <SendAuthToSW />
           {/* <ConsoleOverlay /> */}

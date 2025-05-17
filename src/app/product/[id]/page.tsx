@@ -15,7 +15,6 @@ import {
 import DeliveryBadge from "@/src/components/DeliveryBadge";
 import { getCategoryIdByName } from "@/utils/utils";
 import PriceLineChart from "@/src/components/PriceLineChart";
-// import AlarmButton from "@/src/components/product/AlarmButton";
 import SimilarProductSection from "@/src/components/product/SimilarProductSection";
 import StickyActionBar from "@/src/components/product/StickyActionBar";
 
@@ -338,26 +337,6 @@ export default async function ProductPage({ params }: any) {
                         </div>
                       </td>
                     </tr>
-                    {/* <tr>
-                      <td colSpan={2} className="text-lg text-gray-800">
-                        <div className="mt-4 flex gap-2">
-                          <Button
-                            variant="secondary"
-                            className="h-14 flex-1 px-0"
-                            size="lg"
-                          >
-                            <a
-                              href={getShortUrl(productItem)}
-                              target="_blank"
-                              className="flex h-full w-full items-center justify-center rounded-lg bg-blue-600 text-center font-bold text-white"
-                            >
-                              구매하기
-                            </a>
-                          </Button>
-                          <AlarmButton pId={productItem.id} />
-                        </div>
-                      </td>
-                    </tr> */}
                   </tbody>
                 </table>
               </div>

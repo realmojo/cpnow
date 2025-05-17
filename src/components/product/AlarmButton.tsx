@@ -4,7 +4,7 @@
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { getUserAuth } from "@/utils/utils"; // 클라이언트에서 작동해야 함
-
+import { useAppStore } from "@/src/store/useAppStore";
 // ✅ 알람등록
 async function addAlarm(params: any): Promise<any | null> {
   const response = await fetch(`/api/alarm`, {
@@ -23,17 +23,19 @@ async function addAlarm(params: any): Promise<any | null> {
   return data;
 }
 
-export default function AlarmButton({ pId }: { pId: number }) {
+export default function AlarmButton({ productItem }: { productItem: any }) {
+  const { setMyAlarmList } = useAppStore();
+
   const handleNotify = async () => {
     try {
       const userInfo = await getUserAuth();
       const params = {
         userId: userInfo.userId,
-        pId: pId,
+        pId: productItem.id,
       };
 
       await addAlarm(params);
-
+      setMyAlarmList(productItem);
       toast("최저가 알림 설정 완료 🚀", {
         description: (
           <span className="font-semibold text-gray-400">
