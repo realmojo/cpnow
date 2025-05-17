@@ -58,7 +58,7 @@ export default function ProductList({ items = [], type = "grid" }: any) {
   return (
     <>
       {type === "grid" ? (
-        <div className="grid grid-cols-2 gap-4 py-4 sm:grid-cols-2 md:grid-cols-3">
+        <div className="grid grid-cols-2 gap-4 py-4 sm:grid-cols-3">
           {Array.isArray(productItems) &&
             productItems.length > 0 &&
             productItems.map((item: any) => (

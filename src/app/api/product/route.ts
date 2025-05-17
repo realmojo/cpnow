@@ -116,6 +116,14 @@ export async function GET(req: NextRequest) {
       }
     }
 
+    query =
+      "SELECT * FROM products p WHERE productId = ? AND id IN (SELECT MIN(id) FROM products WHERE productId = ? GROUP BY title) ORDER BY price;";
+    const productItemOptions = await queryList(query, [
+      product.productId,
+      product.productId,
+    ]);
+    product.options = productItemOptions ? productItemOptions : [];
+
     // 가격추이 가져오기
     query =
       "SELECT DATE_FORMAT(regdated, '%Y-%m-%d') AS date, price FROM product_prices WHERE pId = ? AND regdated >= CURDATE() - INTERVAL 30 DAY ORDER BY regdated ASC;";
