@@ -43,7 +43,7 @@ export const metadata: Metadata = {
         url: "https://cpnow.kr/icons/android-icon-512x512.png",
         width: 1200,
         height: 630,
-        alt: "CPNOW 최저가 알림",
+        alt: "시피나우(CPNOW) 최저가 알림",
       },
     ],
     locale: "ko_KR",
