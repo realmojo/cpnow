@@ -22,9 +22,25 @@ async function addAlarm(params: any): Promise<any | null> {
   const data = await res.json();
   return data;
 }
+// ✅ 알람 삭제 함수
+async function removeAlarm(params: any): Promise<any | null> {
+  const response = await fetch(
+    `/api/alarm/delete?userId=${params.userId}&pId=${params.pId}`,
+    {
+      method: "DELETE",
+    },
+  );
+
+  const res = await response.json();
+  if (!res.ok) return null;
+  return res.data;
+}
 
 export default function AlarmButton({ productItem }: { productItem: any }) {
-  const { setMyAlarmList } = useAppStore();
+  const { myAlarmList, setMyAlarmList } = useAppStore();
+  const isAlarmed = myAlarmList.some(
+    (alarm: any) => alarm.id === productItem.id,
+  );
 
   const handleNotify = async () => {
     try {
@@ -34,17 +50,37 @@ export default function AlarmButton({ productItem }: { productItem: any }) {
         pId: productItem.id,
       };
 
-      await addAlarm(params);
-      setMyAlarmList(productItem);
-      toast("최저가 알림 설정 완료 🚀", {
-        description: (
-          <span className="font-semibold text-gray-400">
-            가격이 내려가면 바로 알려드릴게요!
-          </span>
-        ),
-      });
+      if (isAlarmed) {
+        // ✅ 알림 취소 로직
+        await removeAlarm(params);
+
+        // 상태에서 해당 항목 제거
+        const updatedList = myAlarmList.filter(
+          (item: any) => item.id !== productItem.id,
+        );
+        useAppStore.setState({ myAlarmList: updatedList });
+
+        toast("🔕  알림이 취소되었습니다.", {
+          description: (
+            <span className="font-semibold text-gray-400">
+              더 이상 이 상품의 가격 알림을 받지 않습니다.
+            </span>
+          ),
+        });
+      } else {
+        // ✅ 알림 등록 로직
+        await addAlarm(params);
+        setMyAlarmList(productItem);
+
+        toast("🔔  최저가 알림 설정 완료", {
+          description: (
+            <span className="font-semibold text-gray-400">
+              가격이 내려가면 바로 알려드릴게요!
+            </span>
+          ),
+        });
+      }
     } catch (error) {
-      console.log(error);
       toast("알람 등록에 실패했습니다.", {
         description: "다시 시도해 주세요.",
       });
@@ -57,7 +93,7 @@ export default function AlarmButton({ productItem }: { productItem: any }) {
       size="lg"
       onClick={handleNotify}
     >
-      알람받기
+      {isAlarmed ? "알림취소" : "알림받기"}
     </Button>
   );
 }
