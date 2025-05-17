@@ -249,10 +249,12 @@ export default async function ProductPage({ params }: any) {
                         할인율
                       </th>
                       <td className="p-3 text-lg text-gray-800">
-                        {comparePriceDetail(
-                          productItem.price,
-                          productItem.highPrice ?? productItem.price,
-                        ) || 0}
+                        {productItem.price === -1
+                          ? "품절"
+                          : comparePriceDetail(
+                              productItem.price,
+                              productItem.highPrice ?? productItem.price,
+                            )}
                       </td>
                     </tr>
                     <tr className="border-b border-gray-200">
@@ -283,7 +285,9 @@ export default async function ProductPage({ params }: any) {
                         현재가
                       </th>
                       <td className="p-3 text-lg font-bold text-red-600">
-                        {formatNumber(productItem.price)}원
+                        {productItem.price === -1
+                          ? "품절"
+                          : `${formatNumber(productItem.price)}원`}
                       </td>
                     </tr>
                     <tr className="border-b border-gray-200">
