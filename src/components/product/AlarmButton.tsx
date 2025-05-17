@@ -94,7 +94,7 @@ export default function AlarmButton({ productItem }: { productItem: any }) {
       size="lg"
       onClick={handleNotify}
     >
-      {isAlarmed ? "알림취소" : "알림받기"}
+      {isAlarmed ? "🔕 알림취소" : "🔔 알림받기"}
     </Button>
   );
 }
