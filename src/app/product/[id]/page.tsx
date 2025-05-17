@@ -44,7 +44,7 @@ export async function generateMetadata({ params }: any): Promise<Metadata> {
     };
   }
 
-  const title = `${product.title} | 쿠팡 가격 알리미 - CPNOW`;
+  const title = `${product.title} | 쿠팡 가격 알리미 - 시피나우`;
   const description = `${product.title}의 현재 최저가는 ${product.lowPrice ? product.lowPrice?.toLocaleString() : product.price.toLocaleString()}원입니다. 쿠팡 가격 추이를 한눈에 확인하세요.`;
 
   return {
@@ -61,7 +61,7 @@ export async function generateMetadata({ params }: any): Promise<Metadata> {
           alt: product.title,
         },
       ],
-      siteName: "CPNOW",
+      siteName: "시피나우",
     },
     twitter: {
       card: "summary_large_image",

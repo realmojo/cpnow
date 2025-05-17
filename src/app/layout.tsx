@@ -20,11 +20,12 @@ import { AppSidebar } from "../components/Sidebar";
 import ClientOnly from "../components/ClientOnly";
 
 export const metadata: Metadata = {
-  title: "CPNOW - 쿠팡 최저가 알림 서비스",
+  title: "시피나우 - 쿠팡 최저가 알림 서비스(실시간 가격 알림)",
   description:
-    "실시간 쿠팡 가격 추이와 최저가 정보를 알려주는 스마트한 가격 알림 서비스입니다.",
+    "시피나우(CPNOW)는 실시간 쿠팡 가격 추이와 최저가 정보를 알려주는 스마트한 가격 알림 서비스입니다.",
   keywords: [
     "CPNOW",
+    "시피나우",
     "쿠팡 가격 알림",
     "최저가 추적",
     "쿠팡 최저가",
@@ -32,11 +33,11 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "CPNOW", url: "https://cpnow.kr" }],
   openGraph: {
-    title: "CPNOW - 쿠팡 최저가 알림 서비스",
+    title: "시피나우 - 쿠팡 최저가 알림 서비스(실시간 가격 알림)",
     description:
-      "실시간 쿠팡 가격 추이와 최저가 정보를 알려주는 스마트한 가격 알림 서비스입니다.",
+      "시피나우(CPNOW)는 실시간 쿠팡 가격 추이와 최저가 정보를 알려주는 스마트한 가격 알림 서비스입니다.",
     url: "https://cpnow.kr",
-    siteName: "CPNOW",
+    siteName: "시피나우",
     images: [
       {
         url: "https://cpnow.kr/icons/android-icon-512x512.png",
@@ -50,7 +51,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "CPNOW - 쿠팡 최저가 알림",
+    title: "시피나우 - 쿠팡 최저가 알림 서비스(실시간 가격 알림)",
     description:
       "실시간 쿠팡 가격 추이와 최저가 정보를 알려주는 스마트한 가격 알림 서비스입니다.",
     site: "@cpnow_official",

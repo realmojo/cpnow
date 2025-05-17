@@ -14,7 +14,7 @@ export default function Footer() {
           />
         </div>
         <p className="mt-1 leading-relaxed text-gray-600">
-          <strong>CPNOW</strong>는 쿠팡 상품의 가격 변동을 실시간으로
+          <strong>시피나우(CPNOW)</strong>는 쿠팡 상품의 가격 변동을 실시간으로
           모니터링하고
           <br />
           소비자에게 가장 유리한 시점을 안내하는 스마트 쇼핑 알림 서비스입니다.{" "}
@@ -23,7 +23,7 @@ export default function Footer() {
           제공받습니다.
         </p>
         <p className="mt-2 text-gray-400">
-          © 2024 CPNOW. All rights reserved.
+          © 2025 시피나우(CPNOW). All rights reserved.
         </p>
       </div>
     </footer>
