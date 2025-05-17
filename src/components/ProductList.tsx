@@ -243,20 +243,21 @@ export default function ProductList({ items = [], type = "grid" }: any) {
               ))}
             <AlertDialogContent>
               <AlertDialogHeader>
-                <AlertDialogTitle>정말 삭제하시겠습니까?</AlertDialogTitle>
+                <AlertDialogTitle>선택한 알림을 삭제합니다</AlertDialogTitle>
                 <AlertDialogDescription>
-                  <strong>[{item.title}]</strong> 알람을 삭제합니다.
+                  <strong>[{item.title}]</strong>
                   <br />
-                  계속하시겠습니까?
+                  삭제 후 복구는 불가능합니다.
                 </AlertDialogDescription>
               </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>취소</AlertDialogCancel>
+              <AlertDialogFooter className="mt-4 flex flex-row gap-2">
+                <AlertDialogCancel className="w-1/2">취소</AlertDialogCancel>
                 <AlertDialogAction
                   onClick={() => {
                     onDelete(item.id);
                     setShowModal(false);
                   }}
+                  className="w-1/2 bg-red-600 text-white hover:bg-red-700"
                 >
                   삭제하기
                 </AlertDialogAction>

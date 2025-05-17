@@ -13,7 +13,7 @@ interface Category {
 
 interface Props {
   fisrtCategories: Category[];
-  defaultCategory: Category;
+  // defaultCategory: Category;
   // randomProductList: any[] | null;
 }
 
@@ -51,7 +51,6 @@ async function getRandomProductsByCategoryId(
 
 export default function CategoryProductSection({
   fisrtCategories,
-  defaultCategory,
   // randomProductList,
 }: Props) {
   const [category, setCategory] = useState<string | null>(null);
@@ -69,6 +68,8 @@ export default function CategoryProductSection({
       setLoading(true);
       setSelected(categoryId);
       setCategory(name);
+
+      localStorage.setItem("preferred-category", categoryId.toString());
 
       const items: any = await getRandomProductsByCategoryId(categoryId);
       const reItems = items.map((item: any) => {
@@ -98,9 +99,19 @@ export default function CategoryProductSection({
   };
 
   useEffect(() => {
+    const storedCategoryId = localStorage.getItem("preferred-category");
+    const found = fisrtCategories.find(
+      (cat) => cat.categoryId === Number(storedCategoryId),
+    );
+
+    let defaultCategory = fisrtCategories[0];
+    if (found) {
+      defaultCategory = found;
+    }
+
     setSelected(defaultCategory.categoryId);
     getSubCategoryProdutItems(defaultCategory);
-  }, [defaultCategory]);
+  }, [fisrtCategories]);
 
   return (
     <article className="mt-6">
@@ -121,7 +132,7 @@ export default function CategoryProductSection({
       <section className="flex justify-center">
         <div className="w-full max-w-[800px]">
           <h2 className="scroll-m-20 text-2xl font-bold tracking-tight">
-            {category ? category : defaultCategory.name}
+            {category ? category : ""}
           </h2>
           <Suspense fallback={<div>로딩 중...</div>}>
             <ProductList items={randomProducts ?? []} />
