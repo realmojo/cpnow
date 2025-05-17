@@ -26,7 +26,7 @@ export const ComparePriceDetail = ({
     ).toFixed(0);
     return (
       <Badge
-        variant="success"
+        variant="default"
         className="bg-green-100 font-semibold text-green-700"
       >
         🚀 {priceDifference}원 할인됨 ({discountPercent}% ↓)
@@ -41,7 +41,7 @@ export const ComparePriceDetail = ({
     ).toFixed(0);
     return (
       <Badge
-        variant="destructive"
+        variant="default"
         className="bg-red-100 font-semibold text-red-700"
       >
         ⬆ {priceDifference}원 인상됨 (+{increasePercent}%)
