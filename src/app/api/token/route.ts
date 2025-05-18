@@ -35,8 +35,8 @@ export async function POST(req: NextRequest) {
     const params = await req.json();
 
     const query =
-      "INSERT INTO users (userId, fcmToken, regdated) VALUES (?, ?, NOW())";
-    await insertOne(query, [params.userId, params.fcmToken]);
+      "INSERT INTO users (userId, fcmToken, joinType, regdated) VALUES (?, ?, ?, NOW())";
+    await insertOne(query, [params.userId, params.fcmToken, params.joinType]);
 
     return new Response(JSON.stringify({ success: true, data: "ok" }), {
       status: 200,

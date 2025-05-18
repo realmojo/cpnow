@@ -78,6 +78,7 @@ export default function LocalAuthViewer() {
 
       const cpnowInfo = {
         userId,
+        joinType: "web",
         fcmToken,
       };
       const res = await axios.post("/api/token", cpnowInfo);

@@ -71,6 +71,7 @@ export default function NotiRegisterButton() {
 
       const cpnowInfo = {
         userId,
+        joinType: "web",
         fcmToken,
       };
       const res = await axios.post("/api/token", cpnowInfo);
