@@ -1,4 +1,4 @@
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { getTodayDate } from "@/utils/utils";
 import { queryOne, queryList, insertOne, updateOne } from "@/lib/db";
 import { format, subDays } from "date-fns";
@@ -82,10 +82,10 @@ export async function GET(req: NextRequest) {
     const id = searchParams.get("id");
 
     if (!id) {
-      return new Response(JSON.stringify({ error: "Missing id parameter" }), {
-        status: 400,
-        headers: { "Content-Type": "application/json" },
-      });
+      return NextResponse.json(
+        { error: "Missing id parameter" },
+        { status: 400 },
+      );
     }
 
     let query = "SELECT * FROM products WHERE id = ?";
@@ -136,19 +136,10 @@ export async function GET(req: NextRequest) {
     product.priceHistory = priceHistory;
 
     // ✅ 결과 반환
-    return new Response(JSON.stringify(product), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
+    return NextResponse.json(product);
   } catch (err) {
     const errorMessage = err instanceof Error ? err.message : String(err);
-    return new Response(
-      JSON.stringify({ success: false, error: errorMessage }),
-      {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      },
-    );
+    return NextResponse.json({ success: false, error: errorMessage });
   }
 }
 
@@ -175,12 +166,9 @@ export async function POST(req: NextRequest) {
       !hasValue(rating) ||
       !hasValue(reviewCount)
     ) {
-      return new Response(
-        JSON.stringify({ success: false, error: "Invalid parameters" }),
-        {
-          status: 400,
-          headers: { "Content-Type": "application/json" },
-        },
+      return NextResponse.json(
+        { success: false, error: "Invalid parameters" },
+        { status: 400 },
       );
     }
 
@@ -209,19 +197,10 @@ export async function POST(req: NextRequest) {
 
     await updateOne(query, params);
 
-    return new Response(JSON.stringify({ success: true }), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
+    return NextResponse.json({ success: true });
   } catch (err) {
     const errorMessage = err instanceof Error ? err.message : String(err);
 
-    return new Response(
-      JSON.stringify({ success: false, error: errorMessage }),
-      {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      },
-    );
+    return NextResponse.json({ success: false, error: errorMessage });
   }
 }

@@ -87,7 +87,7 @@ export default function CategoryPage({
   }, [id]);
 
   return (
-    <main className="mx-auto w-full max-w-[800px] space-y-10 px-4 py-10">
+    <main className="mx-auto w-full max-w-[800px] space-y-10 px-4 py-6">
       <section className="text-center">
         <h1 className="text-2xl leading-snug font-bold sm:text-3xl">
           {Array.isArray(items) && items.length > 0 && items[0].category}

@@ -1,4 +1,3 @@
-// components/CategoryProductSection.tsx
 "use client";
 import React, { useState, Suspense, useEffect } from "react";
 
@@ -13,8 +12,6 @@ interface Category {
 
 interface Props {
   fisrtCategories: Category[];
-  // defaultCategory: Category;
-  // randomProductList: any[] | null;
 }
 
 // ✅ 서버사이드 상품 불러오기 함수
@@ -24,7 +21,6 @@ async function getRandomProductsByCategoryId(
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/category?categoryId=${categoryId}&isRandom=true`,
-      // { cache: "no-store" },
     );
     if (!res.ok) return null;
     const { items } = await res.json();
@@ -49,10 +45,7 @@ async function getRandomProductsByCategoryId(
   }
 }
 
-export default function CategoryProductSection({
-  fisrtCategories,
-  // randomProductList,
-}: Props) {
+export default function CategoryProductSection({ fisrtCategories }: Props) {
   const [category, setCategory] = useState<string | null>(null);
   const [selected, setSelected] = useState<number | null>(null);
   const [randomProducts, setRandomProducts] = useState<any>([]);

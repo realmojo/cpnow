@@ -27,9 +27,9 @@ export const ComparePriceDetail = ({
     return (
       <Badge
         variant="default"
-        className="bg-green-100 font-semibold text-green-700"
+        className="rounded-md bg-green-100 px-3 py-1 text-sm font-semibold text-green-700"
       >
-        🚀 {priceDifference}원 할인됨 ({discountPercent}% ↓)
+        {priceDifference}원 할인 ({discountPercent}% ↓)
       </Badge>
     );
   }
@@ -42,15 +42,18 @@ export const ComparePriceDetail = ({
     return (
       <Badge
         variant="default"
-        className="bg-red-100 font-semibold text-red-700"
+        className="rounded-md bg-red-100 px-3 py-1 text-sm font-semibold text-red-700"
       >
-        ⬆ {priceDifference}원 인상됨 (+{increasePercent}%)
+        {priceDifference}원 인상 (+{increasePercent}%)
       </Badge>
     );
   }
 
   return (
-    <Badge variant="outline" className="border-gray-300 text-gray-500">
+    <Badge
+      variant="outline"
+      className="rounded-md border-gray-300 px-3 py-1 text-sm text-gray-500"
+    >
       가격 변동 없음
     </Badge>
   );

@@ -1,4 +1,4 @@
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { queryList } from "@/lib/db";
 
 // ✅ 내 알람
@@ -8,12 +8,9 @@ export async function GET(req: NextRequest) {
     const userId = searchParams.get("userId");
 
     if (!userId) {
-      return new Response(
-        JSON.stringify({ error: "Missing userId parameter" }),
-        {
-          status: 400,
-          headers: { "Content-Type": "application/json" },
-        },
+      return NextResponse.json(
+        { error: "Missing userId parameter" },
+        { status: 400 },
       );
     }
 
@@ -24,19 +21,13 @@ export async function GET(req: NextRequest) {
     items = await queryList<any>(query, [userId]);
 
     // ✅ 결과 반환
-    return new Response(JSON.stringify(items), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
+    return NextResponse.json(items);
   } catch (err) {
     const errorMessage = err instanceof Error ? err.message : String(err);
 
-    return new Response(
-      JSON.stringify({ success: false, error: errorMessage }),
-      {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      },
+    return NextResponse.json(
+      { success: false, error: errorMessage },
+      { status: 500 },
     );
   }
 }

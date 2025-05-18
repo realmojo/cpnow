@@ -1,4 +1,4 @@
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { queryList } from "@/lib/db";
 
 export async function GET(req: NextRequest) {
@@ -8,28 +8,22 @@ export async function GET(req: NextRequest) {
     const id = searchParams.get("id");
 
     if (!id) {
-      return new Response(JSON.stringify({ error: "Missing id parameter" }), {
-        status: 400,
-        headers: { "Content-Type": "application/json" },
-      });
+      return NextResponse.json(
+        { error: "Missing id parameter" },
+        { status: 400 },
+      );
     }
 
     const query = `SELECT * FROM user_alarms ua LEFT JOIN users u ON ua.userId = u.userId WHERE ua.pId = ?`;
     const product = await queryList(query, [id]);
 
     // ✅ 결과 반환
-    return new Response(JSON.stringify(product), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
+    return NextResponse.json(product);
   } catch (err) {
     const errorMessage = err instanceof Error ? err.message : String(err);
-    return new Response(
-      JSON.stringify({ success: false, error: errorMessage }),
-      {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      },
+    return NextResponse.json(
+      { success: false, error: errorMessage },
+      { status: 500 },
     );
   }
 }

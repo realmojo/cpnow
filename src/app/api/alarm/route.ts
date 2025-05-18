@@ -1,5 +1,5 @@
 import { insertOne } from "@/lib/db";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 // ✅ POST 요청 처리
 export async function POST(req: NextRequest) {
@@ -16,18 +16,12 @@ export async function POST(req: NextRequest) {
       "INSERT INTO crawl_wait (pId, type, regdated) VALUES (?, 'alarm', NOW()) ON DUPLICATE KEY UPDATE type = 'alarm';";
     await insertOne(query, [pId]);
 
-    return new Response(JSON.stringify({ success: true, data: "ok" }), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
+    return NextResponse.json({ success: true, data: "ok" });
   } catch (err) {
     const errorMessage = err instanceof Error ? err.message : String(err);
-    return new Response(
-      JSON.stringify({ success: false, error: errorMessage }),
-      {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      },
+    return NextResponse.json(
+      { success: false, error: errorMessage },
+      { status: 500 },
     );
   }
 }

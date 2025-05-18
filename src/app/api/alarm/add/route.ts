@@ -1,5 +1,5 @@
 import { insertOne, queryList, queryOne } from "@/lib/db";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 const getProduct = async (
   productId: string,
@@ -86,18 +86,12 @@ export async function POST(req: NextRequest) {
       "SELECT * FROM products WHERE id IN (SELECT pId FROM user_alarms WHERE userId = ? ORDER BY regdated DESC);";
     const items = await queryList<any>(query, [userId]);
 
-    return new Response(JSON.stringify(items), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
+    return NextResponse.json(items);
   } catch (err) {
     const errorMessage = err instanceof Error ? err.message : String(err);
-    return new Response(
-      JSON.stringify({ success: false, error: errorMessage }),
-      {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      },
+    return NextResponse.json(
+      { success: false, error: errorMessage },
+      { status: 500 },
     );
   }
 }

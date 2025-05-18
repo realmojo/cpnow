@@ -10,12 +10,9 @@ export async function GET(req: NextRequest) {
     const withCategory = searchParams.get("withCategory") === "true";
 
     if (!categoryId) {
-      return new Response(
-        JSON.stringify({ error: "Missing categoryid parameter" }),
-        {
-          status: 400,
-          headers: { "Content-Type": "application/json" },
-        },
+      return NextResponse.json(
+        { error: "Missing categoryid parameter" },
+        { status: 400 },
       );
     }
 
@@ -86,10 +83,6 @@ SELECT * FROM children ORDER BY depth ASC;`;
       categories = await queryList<any>(query, [categoryId, categoryId]);
     }
     // ✅ 결과 반환
-    // return new Response(JSON.stringify(items), {
-    //   status: 200,
-    //   headers: { "Content-Type": "application/json" },
-    // });
     return NextResponse.json({
       items,
       categories,

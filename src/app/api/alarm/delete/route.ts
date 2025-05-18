@@ -1,4 +1,4 @@
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { queryOne } from "@/lib/db";
 
 // ✅ 내 알람
@@ -29,12 +29,9 @@ export async function DELETE(req: NextRequest) {
       await queryOne<any>(query, [userId]);
     } else {
       if (!userId || !pId) {
-        return new Response(
-          JSON.stringify({ error: "Missing userId or pId parameter" }),
-          {
-            status: 400,
-            headers: { "Content-Type": "application/json" },
-          },
+        return NextResponse.json(
+          { error: "Missing userId or pId parameter" },
+          { status: 400 },
         );
       }
 
@@ -44,19 +41,12 @@ export async function DELETE(req: NextRequest) {
     }
 
     // ✅ 결과 반환
-    return new Response(JSON.stringify({ success: true }), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
+    return NextResponse.json({ success: true });
   } catch (err) {
     const errorMessage = err instanceof Error ? err.message : String(err);
-
-    return new Response(
-      JSON.stringify({ success: false, error: errorMessage }),
-      {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      },
+    return NextResponse.json(
+      { success: false, error: errorMessage },
+      { status: 500 },
     );
   }
 }

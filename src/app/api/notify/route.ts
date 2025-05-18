@@ -1,4 +1,4 @@
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { messaging } from "@/lib/firebase-admin"; // firebase-admin 초기화된 인스턴스
 
 // ✅ POST 요청 처리
@@ -25,24 +25,9 @@ export async function POST(req: NextRequest) {
 
     const response = await messaging.send(message);
 
-    return new Response(
-      JSON.stringify({ success: true, messageId: response }),
-      {
-        status: 200,
-        headers: { "Content-Type": "application/json" },
-      },
-    );
+    return NextResponse.json({ success: true, messageId: response });
   } catch (err) {
     const errorMessage = err instanceof Error ? err.message : String(err);
-    // if (errorMessage === "Requested entity was not found") {
-
-    // }
-    return new Response(
-      JSON.stringify({ success: false, error: errorMessage }),
-      {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      },
-    );
+    return NextResponse.json({ success: false, error: errorMessage });
   }
 }

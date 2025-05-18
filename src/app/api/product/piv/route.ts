@@ -1,4 +1,4 @@
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { queryList } from "@/lib/db";
 
 export async function GET(req: NextRequest) {
@@ -10,10 +10,7 @@ export async function GET(req: NextRequest) {
     const vendorItemId = searchParams.get("vendorItemId");
 
     if (!productId || !itemId || !vendorItemId) {
-      return new Response(JSON.stringify({ error: "Missing parameter" }), {
-        status: 400,
-        headers: { "Content-Type": "application/json" },
-      });
+      return NextResponse.json({ error: "Missing parameter" }, { status: 400 });
     }
 
     const query =
@@ -21,18 +18,9 @@ export async function GET(req: NextRequest) {
     const product = await queryList(query, [productId, itemId, vendorItemId]);
 
     // ✅ 결과 반환
-    return new Response(JSON.stringify(product), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
+    return NextResponse.json(product);
   } catch (err) {
     const errorMessage = err instanceof Error ? err.message : String(err);
-    return new Response(
-      JSON.stringify({ success: false, error: errorMessage }),
-      {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      },
-    );
+    return NextResponse.json({ success: false, error: errorMessage });
   }
 }

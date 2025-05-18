@@ -1,4 +1,4 @@
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { insertOne, queryList } from "@/lib/db";
 
 // ✅ 크롤링 대기
@@ -9,19 +9,13 @@ export async function GET() {
     const items = await queryList<any>(query);
 
     // ✅ 결과 반환
-    return new Response(JSON.stringify(items), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
+    return NextResponse.json(items);
   } catch (err) {
     const errorMessage = err instanceof Error ? err.message : String(err);
 
-    return new Response(
-      JSON.stringify({ success: false, error: errorMessage }),
-      {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      },
+    return NextResponse.json(
+      { success: false, error: errorMessage },
+      { status: 500 },
     );
   }
 }
@@ -40,19 +34,13 @@ export async function POST(req: NextRequest) {
     await insertOne(query, [pId]);
 
     // ✅ 결과 반환
-    return new Response(JSON.stringify({ success: true, data: "ok" }), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
+    return NextResponse.json({ success: true, data: "ok" });
   } catch (err) {
     const errorMessage = err instanceof Error ? err.message : String(err);
 
-    return new Response(
-      JSON.stringify({ success: false, error: errorMessage }),
-      {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      },
+    return NextResponse.json(
+      { success: false, error: errorMessage },
+      { status: 500 },
     );
   }
 }
@@ -68,18 +56,12 @@ export async function DELETE(req: NextRequest) {
     const query = "DELETE FROM crawl_wait WHERE pId= ?";
     await insertOne(query, [pId]);
 
-    return new Response(JSON.stringify({ success: true, data: "ok" }), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
+    return NextResponse.json({ success: true, data: "ok" });
   } catch (err) {
     const errorMessage = err instanceof Error ? err.message : String(err);
-    return new Response(
-      JSON.stringify({ success: false, error: errorMessage }),
-      {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      },
+    return NextResponse.json(
+      { success: false, error: errorMessage },
+      { status: 500 },
     );
   }
 }

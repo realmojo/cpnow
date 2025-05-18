@@ -1,5 +1,20 @@
-import { NextRequest } from "next/server";
-import { insertOne } from "@/lib/db";
+import { NextRequest, NextResponse } from "next/server";
+import { insertOne, queryList } from "@/lib/db";
+
+export async function GET() {
+  try {
+    const query = `SELECT p.* FROM product_prices pp INNER JOIN products p ON pp.pId = p.id ORDER BY pp.id DESC LIMIT 10;`;
+
+    const result = await queryList(query);
+    return NextResponse.json(result);
+  } catch (error) {
+    console.error("Error fetching recently discounted products:", error);
+    return NextResponse.json(
+      { error: "Failed to fetch products" },
+      { status: 500 },
+    );
+  }
+}
 
 export async function POST(req: NextRequest) {
   try {
@@ -7,12 +22,9 @@ export async function POST(req: NextRequest) {
     const { pId, price } = body;
 
     if (!pId || !price) {
-      return new Response(
-        JSON.stringify({ success: false, error: "pId 또는 price 누락" }),
-        {
-          status: 400,
-          headers: { "Content-Type": "application/json" },
-        },
+      return NextResponse.json(
+        { success: false, error: "pId 또는 price 누락" },
+        { status: 400 },
       );
     }
 
@@ -23,23 +35,14 @@ export async function POST(req: NextRequest) {
 
     await insertOne(query, [pId, price]);
 
-    return new Response(
-      JSON.stringify({ success: true, message: "가격 기록 완료" }),
-      {
-        status: 200,
-        headers: { "Content-Type": "application/json" },
-      },
-    );
+    return NextResponse.json({
+      success: true,
+      message: "가격 기록 완료",
+    });
   } catch (e) {
     const errorMessage = e instanceof Error ? e.message : String(e);
     console.error("addProductPrice 오류:", errorMessage);
 
-    return new Response(
-      JSON.stringify({ success: false, error: errorMessage }),
-      {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      },
-    );
+    return NextResponse.json({ success: false, error: errorMessage });
   }
 }

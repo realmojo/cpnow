@@ -110,30 +110,30 @@ export default function NotiRegisterButton() {
     }
   };
 
-  const deleteFcmToken = async () => {
-    try {
-      const cpnowAuthItem = localStorage.getItem("cpnow-auth") || "";
-      const params = cpnowAuthItem
-        ? JSON.parse(cpnowAuthItem)
-        : {
-            userId: "",
-            fcmToken: "",
-          };
+  // const deleteFcmToken = async () => {
+  //   try {
+  //     const cpnowAuthItem = localStorage.getItem("cpnow-auth") || "";
+  //     const params = cpnowAuthItem
+  //       ? JSON.parse(cpnowAuthItem)
+  //       : {
+  //           userId: "",
+  //           fcmToken: "",
+  //         };
 
-      if (params.userId) {
-        const { data } = await axios.delete(
-          `/api/token?userId=${params.userId}&fcmToken=${params.fcmToken}`,
-        );
+  //     if (params.userId) {
+  //       const { data } = await axios.delete(
+  //         `/api/token?userId=${params.userId}&fcmToken=${params.fcmToken}`,
+  //       );
 
-        if (data.data === "ok") {
-          localStorage.removeItem("cpnow-auth");
-          location.href = "/";
-        }
-      }
-    } catch (e: any) {
-      console.log(e.message);
-    }
-  };
+  //       if (data.data === "ok") {
+  //         localStorage.removeItem("cpnow-auth");
+  //         location.href = "/";
+  //       }
+  //     }
+  //   } catch (e: any) {
+  //     console.log(e.message);
+  //   }
+  // };
 
   const initAuth = async () => {
     const item = localStorage.getItem("cpnow-auth") || "";

@@ -1,5 +1,5 @@
 import { queryOne } from "@/lib/db";
-
+import { NextResponse } from "next/server";
 export async function GET() {
   try {
     // ✅ 전체 개수
@@ -7,19 +7,10 @@ export async function GET() {
     const count = await queryOne(query);
 
     // ✅ 결과 반환
-    return new Response(JSON.stringify(count), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
+    return NextResponse.json(count);
   } catch (err) {
     const errorMessage = err instanceof Error ? err.message : String(err);
     console.log(err);
-    return new Response(
-      JSON.stringify({ success: false, error: errorMessage }),
-      {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      },
-    );
+    return NextResponse.json({ success: false, error: errorMessage });
   }
 }

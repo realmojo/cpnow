@@ -1,4 +1,4 @@
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { insertOne } from "@/lib/db";
 
 export async function DELETE(req: NextRequest) {
@@ -13,19 +13,10 @@ export async function DELETE(req: NextRequest) {
     const query = "DELETE FROM users WHERE userId= ? AND fcmToken= ?";
     await insertOne(query, [userId, fcmToken]);
 
-    return new Response(JSON.stringify({ success: true, data: "ok" }), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
+    return NextResponse.json({ success: true, data: "ok" });
   } catch (err) {
     const errorMessage = err instanceof Error ? err.message : String(err);
-    return new Response(
-      JSON.stringify({ success: false, error: errorMessage }),
-      {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      },
-    );
+    return NextResponse.json({ success: false, error: errorMessage });
   }
 }
 
@@ -38,18 +29,9 @@ export async function POST(req: NextRequest) {
       "INSERT INTO users (userId, fcmToken, joinType, regdated) VALUES (?, ?, ?, NOW())";
     await insertOne(query, [params.userId, params.fcmToken, params.joinType]);
 
-    return new Response(JSON.stringify({ success: true, data: "ok" }), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
+    return NextResponse.json({ success: true, data: "ok" });
   } catch (err) {
     const errorMessage = err instanceof Error ? err.message : String(err);
-    return new Response(
-      JSON.stringify({ success: false, error: errorMessage }),
-      {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      },
-    );
+    return NextResponse.json({ success: false, error: errorMessage });
   }
 }
