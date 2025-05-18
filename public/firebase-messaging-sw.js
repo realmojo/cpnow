@@ -51,7 +51,7 @@ if (isSupported) {
 
   self.addEventListener("message", (event) => {
     if (event.data?.type === "AUTH_TOKEN") {
-      console.log("🔐 클라이언트로부터 받은 데이터:", event.data);
+      // console.log("🔐 클라이언트로부터 받은 데이터:", event.data);
       // 여기에 저장하거나 상태로 보관 가능
     }
   });

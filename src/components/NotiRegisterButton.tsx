@@ -8,7 +8,7 @@ import { MessagePayload } from "firebase/messaging";
 import { nanoid } from "nanoid";
 import axios from "axios";
 import Link from "next/link";
-import { detectDevice } from "@/utils/utils";
+import { detectDevice, isWebView } from "@/utils/utils";
 
 const openForegroundMessage = (messaging: any) => {
   console.log("✅ 포그라운드 메세지 수신", messaging);
@@ -144,6 +144,18 @@ export default function NotiRegisterButton() {
 
     // 포그라운드 메세지 수신
     openForegroundMessage(messaging);
+
+    if (isWebView()) {
+      const interval = setInterval(() => {
+        const auth = localStorage.getItem("cpnow-auth");
+        if (auth) {
+          setAuth(JSON.parse(auth));
+          clearInterval(interval); // 감지 완료 후 종료
+        }
+      }, 300); // 0.3초 간격으로 체크
+
+      return () => clearInterval(interval);
+    }
   }, []);
 
   if (!isReady) return null;

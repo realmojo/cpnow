@@ -124,3 +124,8 @@ export const getCategoryIdByName = (name: string) => {
   const category = fisrtCategories.find((item) => item.name === name);
   return category ? category.categoryId : null;
 };
+
+export const isWebView = () => {
+  const isWebView = /wv|reactnative|react-native/i.test(navigator.userAgent);
+  return isWebView;
+};
