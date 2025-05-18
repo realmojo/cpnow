@@ -83,7 +83,11 @@ export default function AlarmButton({ productItem }: { productItem: any }) {
     } catch (error) {
       console.log(error);
       toast("알람 등록에 실패했습니다.", {
-        description: "다시 시도해 주세요.",
+        description: (
+          <span className="font-semibold text-gray-400">
+            다시 시도해 주세요.
+          </span>
+        ),
       });
     }
   };

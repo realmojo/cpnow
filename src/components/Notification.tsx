@@ -25,7 +25,11 @@ export default function NotificationButton() {
 
     if (result === "granted") {
       toast("알림이 허용되었습니다!", {
-        description: "이제 푸시 메시지를 받을 수 있어요 🚀",
+        description: (
+          <span className="font-semibold text-gray-400">
+            이제 푸시 메시지를 받을 수 있어요 🚀
+          </span>
+        ),
       });
 
       // FCM 토큰 받아오기
@@ -80,7 +84,11 @@ export default function NotificationButton() {
       const token = localStorage.getItem("cpnow-fb-token");
       if (permission !== "granted") {
         toast("알림을 먼저 허용해주세요", {
-          description: "쿠팡 할인 알람입니다! 🚀",
+          description: (
+            <span className="font-semibold text-gray-400">
+              쿠팡 할인 알람입니다! 🚀,
+            </span>
+          ),
         });
       } else if (permission === "granted" && token) {
         const response = await axios.post("/api/notify", {

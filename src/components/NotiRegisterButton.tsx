@@ -57,7 +57,11 @@ export default function NotiRegisterButton() {
 
     if (result === "granted") {
       toast("알림이 허용되었습니다!", {
-        description: "이제 최저가 알람 메시지를 받을 수 있어요 🚀",
+        description: (
+          <span className="font-semibold text-gray-400">
+            이제 최저가 알람 메시지를 받을 수 있어요 🚀
+          </span>
+        ),
       });
     } else {
       setPermission(result);
@@ -169,11 +173,11 @@ export default function NotiRegisterButton() {
             <Bell className="h-5 w-5" />
           </Button>
         </Link>
-      ) : (
+      ) : !isWebView() ? (
         <Button onClick={handleRequestPermission}>알림 받기</Button>
-      )}
+      ) : null}
       {/* <Button onClick={sendNotificationTest}>테스트 알림</Button> */}
-      <Button onClick={() => deleteFcmToken()}>알림 토큰 삭제</Button>
+      {/* <Button onClick={() => deleteFcmToken()}>알림 토큰 삭제</Button> */}
       {permission === "denied" ? (
         <div className="fixed right-4 bottom-4 left-4 z-50 mx-auto max-w-md rounded-lg border border-red-300 bg-red-100 p-4 text-red-700 shadow-md">
           <h2 className="mb-1 text-sm font-bold">알림 권한이 꺼져 있어요 😢</h2>
