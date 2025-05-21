@@ -2,7 +2,7 @@
 import { messaging, onMessage } from "@/lib/firebase";
 import { MessagePayload } from "firebase/messaging";
 import { useEffect } from "react";
-
+import { detectDevice } from "@/utils/utils";
 export default function ForegroundNotification() {
   useEffect(() => {
     // messaging이 비동기적으로 초기화될 수 있다고 가정
@@ -15,15 +15,27 @@ export default function ForegroundNotification() {
           console.log("✅ 포그라운드 메시지 수신", payload);
           alert("포그라운드 메시지 수신");
 
-          new Notification(payload.data?.title || "", {
-            body: payload.data?.body,
-            icon:
-              payload.data?.icon ||
-              "https://cpnow.kr/icons/android-icon-48x48.png",
-            requireInteraction: true,
-          }).onclick = () => {
-            window.open(payload.data?.link || "https://cpnow.kr", "_blank");
-          };
+          if (detectDevice().isMobile) {
+            navigator.serviceWorker.ready.then(function (registration) {
+              registration.showNotification(payload.data?.title || "", {
+                body: payload.data?.body,
+                icon:
+                  payload.data?.icon ||
+                  "https://cpnow.kr/icons/android-icon-48x48.png",
+                requireInteraction: true,
+              });
+            });
+          } else {
+            new Notification(payload.data?.title || "", {
+              body: payload.data?.body,
+              icon:
+                payload.data?.icon ||
+                "https://cpnow.kr/icons/android-icon-48x48.png",
+              requireInteraction: true,
+            }).onclick = () => {
+              window.open(payload.data?.link || "https://cpnow.kr", "_blank");
+            };
+          }
         });
 
         clearInterval(interval); // 더 이상 반복 확인하지 않음
