@@ -64,7 +64,7 @@ export default function InstallPromptBanner() {
           />
           <div className="text-sm text-gray-800">
             <strong className="block text-base">
-              최저가 알람을 설치해주세요
+              시피나우 앱을 설치해주세요
             </strong>
             <span className="text-gray-500">
               원활한 사용을 위해 앱을 설치해야 합니다
