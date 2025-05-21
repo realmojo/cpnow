@@ -3,7 +3,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { useSearchParams } from "next/navigation";
 import ProductList from "@/src/components/ProductList";
 import { Button } from "@/components/ui/button";
-import { detectDevice, sendNotificationTest } from "@/utils/utils";
+import { sendNotificationTest } from "@/utils/utils";
 import { messaging, getToken } from "@/lib/firebase";
 import { useAppStore } from "@/src/store/useAppStore";
 import { nanoid } from "nanoid";
