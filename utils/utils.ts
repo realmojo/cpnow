@@ -31,27 +31,7 @@ export const sendNotificationTest = async () => {
   if (permission === "granted") {
     const cpnowInfo = getUserAuth();
 
-    if (!isWebView() && detectDevice().isMobile) {
-      const permission = await Notification.requestPermission();
-      if (permission !== "granted") {
-        alert("알림 권한이 허용되지 않았습니다.");
-        return;
-      }
-
-      // 2. 알림 생성(모바일 안됌 foreground 안됌)
-      const notification = new Notification(
-        "쿠팡 최저가 알람을 설정하세요 🚀🚀",
-        {
-          body: "이제 알람을 받으실 수 있습니다.",
-          icon: "https://cpnow.kr/icons/android-icon-48x48.png",
-        },
-      );
-
-      // 3. 클릭 시 링크 이동
-      notification.onclick = () => {
-        window.open("https://cpnow.kr", "_blank");
-      };
-    } else if (detectDevice().isDesktop && cpnowInfo.fcmToken) {
+    if (cpnowInfo.fcmToken) {
       try {
         await fetch("/api/notify", {
           method: "POST",
