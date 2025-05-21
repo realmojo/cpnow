@@ -132,29 +132,6 @@ export default function LocalAuthViewer() {
 
           {myProductsItems === null ? (
             <>
-              <Button
-                className="mt-2 w-full"
-                disabled={loading}
-                onClick={async () => {
-                  setLoading(true);
-                  try {
-                    await sendNotificationTest();
-                  } catch (e) {
-                    console.error("알림 전송 실패", e);
-                  } finally {
-                    setTimeout(() => {
-                      setLoading(false);
-                    }, 300);
-                  }
-                }}
-              >
-                {/* 알림텍스트는 항상 보이게 */}
-                알림 테스트
-                {/* 로딩 중일 때만 아이콘 표시 (오른쪽 정렬) */}
-                {loading && (
-                  <Loader2 className="text-muted-foreground ml-2 h-4 w-4 animate-spin" />
-                )}
-              </Button>
               {/* ✅ 데이터 불러오는 중 */}
               <div className="flex flex-col items-center justify-center py-20">
                 <div className="mb-4 animate-spin text-4xl">🔄</div>
@@ -248,6 +225,29 @@ export default function LocalAuthViewer() {
               <p className="mt-2 text-sm text-gray-500">
                 상품을 등록하고 가격 변동 알림을 받아보세요!
               </p>
+              <Button
+                className="mt-2 w-full"
+                disabled={loading}
+                onClick={async () => {
+                  setLoading(true);
+                  try {
+                    await sendNotificationTest();
+                  } catch (e) {
+                    console.error("알림 전송 실패", e);
+                  } finally {
+                    setTimeout(() => {
+                      setLoading(false);
+                    }, 300);
+                  }
+                }}
+              >
+                {/* 알림텍스트는 항상 보이게 */}
+                알림 테스트
+                {/* 로딩 중일 때만 아이콘 표시 (오른쪽 정렬) */}
+                {loading && (
+                  <Loader2 className="text-muted-foreground ml-2 h-4 w-4 animate-spin" />
+                )}
+              </Button>
             </div>
           )}
         </div>
