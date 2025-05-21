@@ -56,9 +56,9 @@ export default function LocalAuthViewer() {
     await fetch("/api/alarm/delete?all=true&userId=" + userId, {
       method: "DELETE",
     });
+
     localStorage.removeItem("cpnow-auth");
 
-    const deviceInfo = detectDevice();
     if (messaging) {
       // FCM 토큰 받아오기
       const userId = nanoid(12);
@@ -74,12 +74,9 @@ export default function LocalAuthViewer() {
       const res = await axios.post("/api/token", cpnowInfo);
       if (res.status === 200 && res.data.data === "ok") {
         localStorage.setItem("cpnow-auth", JSON.stringify(cpnowInfo));
-        // setAuth(cpnowInfo);
       }
 
-      if (deviceInfo.isDesktop) {
-        sendNotificationTest();
-      }
+      await sendNotificationTest();
     }
 
     location.href = "/mynow";

@@ -32,6 +32,8 @@ export const sendNotificationTest = async () => {
     const cpnowInfo = getUserAuth();
 
     if (!isWebView() && detectDevice().isMobile) {
+      alert(isWebView());
+      alert(detectDevice().isMobile);
       const permission = await Notification.requestPermission();
       if (permission !== "granted") {
         alert("알림 권한이 허용되지 않았습니다.");
