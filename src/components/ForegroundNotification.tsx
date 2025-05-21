@@ -8,6 +8,7 @@ export default function ForegroundNotification() {
   useEffect(() => {
     if (messaging) {
       onMessage(messaging, (payload: MessagePayload) => {
+        console.log("✅ 포그라운드 메세지 수신", payload);
         new Notification(payload.data?.title || "", {
           body: payload.data?.body,
           icon:
