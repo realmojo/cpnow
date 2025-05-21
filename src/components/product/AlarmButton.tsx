@@ -5,6 +5,8 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { getUserAuth } from "@/utils/utils"; // 클라이언트에서 작동해야 함
 import { useAppStore } from "@/src/store/useAppStore";
+import { useState } from "react";
+import { Loader2 } from "lucide-react";
 // ✅ 알람등록
 async function addAlarm(params: any): Promise<any | null> {
   const response = await fetch(`/api/alarm`, {
@@ -38,6 +40,7 @@ async function removeAlarm(params: any): Promise<any | null> {
 
 export default function AlarmButton({ productItem }: { productItem: any }) {
   const { myAlarmList, setMyAlarmList } = useAppStore();
+  const [isLoading, setIsLoading] = useState(false);
   const isAlarmed = myAlarmList.some(
     (alarm: any) => alarm.id === productItem.id,
   );
@@ -96,9 +99,27 @@ export default function AlarmButton({ productItem }: { productItem: any }) {
     <Button
       className="h-14 w-full flex-1 px-0"
       size="lg"
-      onClick={handleNotify}
+      onClick={() => {
+        try {
+          setIsLoading(true);
+          handleNotify();
+        } catch (error) {
+          console.log(error);
+        } finally {
+          setTimeout(() => {
+            setIsLoading(false);
+          }, 300);
+        }
+      }}
+      disabled={isLoading}
     >
-      {isAlarmed ? "🔕 알림취소" : "🔔 알림받기"}
+      {isLoading ? (
+        <div className="flex items-center justify-center">
+          <Loader2 className="h-4 w-4 animate-spin" />
+        </div>
+      ) : (
+        <>{isAlarmed ? "🔕 알림취소" : "🔔 알림받기"}</>
+      )}
     </Button>
   );
 }
