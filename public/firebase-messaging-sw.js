@@ -18,25 +18,7 @@ const messaging = firebase.messaging();
 const isSupported = firebase.messaging.isSupported();
 
 if (messaging && isSupported) {
-  console.log("✅ SW 포그라운드 수신 합니다.v1.0.9");
-  messaging.onMessage((payload) => {
-    console.log("Received foreground message", payload);
-
-    const notificationTitle = payload.data?.title || "";
-    const notificationOptions = {
-      body: payload.data?.body || "",
-      icon:
-        payload.data?.icon || "https://cpnow.kr/icons/android-icon-48x48.png",
-      requireInteraction: true,
-      data: {
-        click_action: payload.data?.link || "https://cpnow.kr",
-      },
-    };
-
-    self.registration.showNotification(notificationTitle, notificationOptions);
-  });
-
-  console.log("✅ SW 백그라운드를 수신 합니다.v1.0.9");
+  console.log("✅ SW 백그라운드를 수신 합니다.v1.0.10");
   messaging.onBackgroundMessage(function (payload) {
     console.log("Received background message", payload);
 
@@ -49,6 +31,7 @@ if (messaging && isSupported) {
       data: {
         click_action: payload.data?.link || "https://cpnow.kr",
       },
+      image: payload.data?.image || "",
     };
 
     self.registration.showNotification(notificationTitle, notificationOptions);

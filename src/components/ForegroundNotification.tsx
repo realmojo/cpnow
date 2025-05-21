@@ -13,6 +13,7 @@ export default function ForegroundNotification() {
         // onMessage 리스너 등록
         onMessage(messaging, (payload: MessagePayload) => {
           console.log("✅ 포그라운드 메시지 수신", payload);
+          alert("포그라운드 메시지 수신");
 
           new Notification(payload.data?.title || "", {
             body: payload.data?.body,

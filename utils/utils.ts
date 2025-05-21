@@ -37,7 +37,8 @@ export const sendNotificationTest = async () => {
         alert("알림 권한이 허용되지 않았습니다.");
         return;
       }
-      // 2. 알림 생성
+
+      // 2. 알림 생성(모바일 안됌 foreground 안됌)
       const notification = new Notification(
         "쿠팡 최저가 알람을 설정하세요 🚀🚀",
         {
@@ -51,16 +52,20 @@ export const sendNotificationTest = async () => {
         window.open("https://cpnow.kr", "_blank");
       };
     } else if (detectDevice().isDesktop && cpnowInfo.fcmToken) {
-      fetch("/api/notify", {
-        method: "POST",
-        body: JSON.stringify({
-          token: cpnowInfo.fcmToken,
-          title: "쿠팡 최저가 알람을 설정하세요 🚀🚀",
-          body: "이제 알람을 받으실 수 있습니다.",
-          icon: "https://cpnow.kr/icons/android-icon-48x48.png",
-          link: "https://cpnow.kr",
-        }),
-      });
+      try {
+        await fetch("/api/notify", {
+          method: "POST",
+          body: JSON.stringify({
+            token: cpnowInfo.fcmToken,
+            title: "쿠팡 최저가 알람을 설정하세요 🚀🚀",
+            body: "이제 알람을 받으실 수 있습니다.",
+            icon: "https://cpnow.kr/icons/android-icon-48x48.png",
+            link: "https://cpnow.kr",
+          }),
+        });
+      } catch (error) {
+        console.log(error);
+      }
     }
   } else {
     alert("알림 권한이 필요합니다.");
