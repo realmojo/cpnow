@@ -1,7 +1,7 @@
 "use client";
 import { messaging, onMessage } from "@/lib/firebase";
 import { MessagePayload } from "firebase/messaging";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 export default function ForegroundNotification() {
   useEffect(() => {
