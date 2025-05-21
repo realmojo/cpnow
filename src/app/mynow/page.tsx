@@ -126,7 +126,6 @@ export default function LocalAuthViewer() {
     const item = searchParams.get("item") || "";
     if (item) {
       const parsedItem = JSON.parse(decodeFromBase64(item)) || "";
-      console.log("parsedItem", parsedItem);
 
       parsedItem.lowPrice = parsedItem.price;
       parsedItem.highPrice = parsedItem.price;
@@ -139,8 +138,12 @@ export default function LocalAuthViewer() {
         parsedItem.categoryId &&
         parsed.userId
       ) {
-        const data = await sendProductInfo(parsedItem, parsed);
-        setMyProductsItems(data);
+        try {
+          const data = await sendProductInfo(parsedItem, parsed);
+          setMyProductsItems(data);
+        } catch (e) {
+          console.error("❌ 상품 등록 실패:", e);
+        }
       }
     } else if (parsed?.userId) {
       setMyProductsItems(myAlarmList);

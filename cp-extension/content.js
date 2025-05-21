@@ -74,13 +74,39 @@ setTimeout(() => {
     };
   }
 
+  const extractCoupangProductAndItemId = () => {
+    const descriptionEl = document.querySelector(".product-description");
+    if (!descriptionEl) return null;
+
+    const liList = descriptionEl.querySelectorAll("li");
+
+    for (const li of liList) {
+      if (li.textContent.includes("쿠팡상품번호")) {
+        const match = li.textContent.match(/쿠팡상품번호:\s*(\d+)\s*-\s*(\d+)/);
+        if (match) {
+          return {
+            productId: match[1],
+            itemId: match[2],
+          };
+        }
+      }
+    }
+
+    return 0; // 찾지 못했을 경우
+  };
+
   const getPIVBycoupangUrl = (url) => {
     const parsedUrl = new URL(url);
     const productIdMatch = url.match(/\/vp\/products\/(\d+)/);
     const productId = productIdMatch ? Number(productIdMatch[1]) : 0;
-    const itemId = Number(parsedUrl.searchParams.get("itemId")) || 0;
+    let itemId = Number(parsedUrl.searchParams.get("itemId")) || 0;
     const vendorItemId =
       Number(parsedUrl.searchParams.get("vendorItemId")) || 0;
+
+    if (itemId === 0) {
+      const d = extractCoupangProductAndItemId();
+      itemId = d.itemId;
+    }
 
     return { productId, itemId, vendorItemId };
   };
