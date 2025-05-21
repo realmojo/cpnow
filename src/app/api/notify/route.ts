@@ -5,23 +5,27 @@ import { messaging } from "@/lib/firebase-admin"; // firebase-admin 초기화된
 export async function POST(req: NextRequest) {
   try {
     const reqItems = await req.json();
-    const { token, title, body, link } = reqItems;
+    const { token, title, body, link, icon } = reqItems;
 
     const message = {
       token,
       notification: {
         title,
         body,
+        icon: icon || "https://cpnow.kr/icons/android-icon-48x48.png",
+        link: link || "https://cpnow.kr",
       },
       webpush: {
         notification: {
-          icon: "https://thumbnail9.coupangcdn.com/thumbnails/remote/230x230ex/image/rs_quotation_api/viuyklb9/8d26f43fcce84dcdb73bd314fcae2bed.jpg",
+          icon: icon || "https://cpnow.kr/icons/android-icon-48x48.png",
         },
         fcm_options: {
           link: link || "https://cpnow.kr",
         },
       },
     };
+
+    console.log("message", message);
 
     const response = await messaging.send(message);
 
