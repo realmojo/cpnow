@@ -16,19 +16,13 @@ export async function POST(req: NextRequest) {
         link: link || "https://cpnow.kr",
       },
       webpush: {
-        // notification: {
-        //   title,
-        //   body,
-        //   icon: icon || "https://cpnow.kr/icons/android-icon-48x48.png",
-        //   requireInteraction: true, // ✅ 여기에도 명시
-        // },
         fcm_options: {
           link: link || "https://cpnow.kr",
         },
       },
     };
 
-    const response = await messaging.send(message);
+    const response = await messaging.send(message as any);
 
     return NextResponse.json({ success: true, messageId: response });
   } catch (err) {
