@@ -156,28 +156,6 @@ export default function LocalAuthViewer() {
               <Loader2 className="text-muted-foreground ml-2 h-4 w-4 animate-spin" />
             )}
           </Button>
-          <Button
-            variant="outline"
-            className="mt-2 w-full"
-            onClick={async () => {
-              setInitLoading(true);
-              try {
-                await handleConfirm();
-              } catch (e) {
-                console.error("초기화 실패", e);
-              } finally {
-                setTimeout(() => {
-                  setInitLoading(false);
-                }, 300);
-              }
-            }}
-            disabled={initLoading}
-          >
-            {loading && (
-              <Loader2 className="text-muted-foreground ml-2 h-4 w-4 animate-spin" />
-            )}
-            초기화
-          </Button>
 
           {myProductsItems === null ? (
             // ✅ 데이터 불러오는 중
@@ -194,8 +172,15 @@ export default function LocalAuthViewer() {
 
               <Dialog open={open} onOpenChange={setOpen}>
                 <DialogTrigger asChild>
-                  <Button variant="destructive" className="w-full">
+                  <Button
+                    variant="destructive"
+                    className="w-full"
+                    disabled={initLoading}
+                  >
                     알림 초기화 하기
+                    {initLoading && (
+                      <Loader2 className="text-muted-foreground ml-2 h-4 w-4 animate-spin" />
+                    )}
                   </Button>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-md">
@@ -209,7 +194,21 @@ export default function LocalAuthViewer() {
                     <Button variant="outline" onClick={() => setOpen(false)}>
                       취소
                     </Button>
-                    <Button variant="destructive" onClick={handleConfirm}>
+                    <Button
+                      variant="destructive"
+                      onClick={async () => {
+                        setInitLoading(true);
+                        try {
+                          await handleConfirm();
+                        } catch (e) {
+                          console.error("초기화 실패", e);
+                        } finally {
+                          setTimeout(() => {
+                            setInitLoading(false);
+                          }, 300);
+                        }
+                      }}
+                    >
                       확인
                     </Button>
                   </DialogFooter>
