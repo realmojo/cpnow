@@ -18,6 +18,7 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import InstallPromptBanner from "../components/InstallPromptBanner";
 import { AppSidebar } from "../components/Sidebar";
 import ClientOnly from "../components/ClientOnly";
+import ForegroundNotification from "../components/ForegroundNotification";
 
 export const metadata: Metadata = {
   title: "시피나우 - 쿠팡 최저가 알림 서비스(실시간 가격 알림)",
@@ -116,6 +117,7 @@ export default async function RootLayout({
         <ClientOnly />
         <NaverAnalyticsTracker />
         <GoogleAnalytics />
+        <ForegroundNotification />
         {/* <ClientDefaultSeo /> */}
         <SidebarProvider defaultOpen={defaultOpen}>
           {/* <Header /> */}

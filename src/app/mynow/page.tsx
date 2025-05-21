@@ -3,10 +3,9 @@ import React, { useEffect, useState, useCallback } from "react";
 import { useSearchParams } from "next/navigation";
 import ProductList from "@/src/components/ProductList";
 import { Button } from "@/components/ui/button";
-import { detectDevice } from "@/utils/utils";
-import { messaging, getToken, onMessage } from "@/lib/firebase";
+import { detectDevice, sendNotificationTest } from "@/utils/utils";
+import { messaging, getToken } from "@/lib/firebase";
 import { useAppStore } from "@/src/store/useAppStore";
-import { MessagePayload } from "firebase/messaging";
 import { nanoid } from "nanoid";
 import axios from "axios";
 import {
@@ -17,19 +16,6 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
-
-const openForegroundMessage = (messaging: any) => {
-  console.log("✅ 포그라운드 메세지 수신", messaging);
-  if (messaging) {
-    onMessage(messaging, (payload: MessagePayload) => {
-      console.log("foreground payload", payload);
-      new Notification(payload.notification?.title || "", {
-        body: payload.notification?.body,
-        icon: payload.notification?.icon,
-      });
-    });
-  }
-};
 
 const sendProductInfo = async (parsedItem: any, parsed: any) => {
   try {
@@ -88,26 +74,9 @@ export default function LocalAuthViewer() {
       }
 
       if (deviceInfo.isDesktop) {
-        let firstNoti: any = "";
-        try {
-          firstNoti = new Notification("최저가 알람을 받을 수 있어요 🚀", {
-            body: "알림을 받고 싶은 상품을 담아보세요",
-            icon: "/icons/android-icon-192x192.png",
-            data: {
-              click_action: "https://cpnow.kr", // ✅ 클릭 시 이동할 링크
-            },
-          });
-        } catch (e) {
-          alert(e);
-        }
-
-        firstNoti.onclick = (event: any) => {
-          event.preventDefault();
-          window.open(firstNoti.data.click_action, "_blank");
-        };
-
+        sendNotificationTest();
         // 포그라운드 메세지 수신
-        openForegroundMessage(messaging);
+        // openForegroundMessage(messaging);
       }
     }
 
@@ -152,17 +121,7 @@ export default function LocalAuthViewer() {
 
   useEffect(() => {
     initData();
-    // readClipboard();
   }, [initData]);
-
-  // async function readClipboard() {
-  //   try {
-  //     const text = await navigator.clipboard.readText();
-  //     console.log("클립보드 내용:", text);
-  //   } catch (err) {
-  //     console.error("클립보드 접근 실패:", err);
-  //   }
-  // }
 
   return (
     <article>
@@ -171,6 +130,14 @@ export default function LocalAuthViewer() {
           <h2 className="font-heading scroll-m-20 border-none text-2xl font-bold tracking-tight first:mt-0 sm:border-b">
             내 알람 리스트
           </h2>
+
+          <Button
+            variant="outline"
+            className="mt-2 w-full"
+            onClick={() => sendNotificationTest()}
+          >
+            알람테스트
+          </Button>
 
           {myProductsItems === null ? (
             // ✅ 데이터 불러오는 중

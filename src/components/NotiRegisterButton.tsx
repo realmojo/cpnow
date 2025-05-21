@@ -3,26 +3,12 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { messaging, getToken, onMessage } from "@/lib/firebase";
-import { MessagePayload } from "firebase/messaging";
+import { messaging, getToken } from "@/lib/firebase";
 import { nanoid } from "nanoid";
 import { Bell } from "lucide-react";
 import axios from "axios";
 import Link from "next/link";
 import { detectDevice, isWebView } from "@/utils/utils";
-
-const openForegroundMessage = (messaging: any) => {
-  console.log("✅ 포그라운드 메세지 수신", messaging);
-  if (messaging) {
-    onMessage(messaging, (payload: MessagePayload) => {
-      console.log("foreground payload", payload);
-      new Notification(payload.notification?.title || "", {
-        body: payload.notification?.body,
-        icon: payload.notification?.icon,
-      });
-    });
-  }
-};
 
 // const isIOS = () =>
 //   /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
@@ -105,35 +91,10 @@ export default function NotiRegisterButton() {
         };
 
         // 포그라운드 메세지 수신
-        openForegroundMessage(messaging);
+        // openForegroundMessage(messaging);
       }
     }
   };
-
-  // const deleteFcmToken = async () => {
-  //   try {
-  //     const cpnowAuthItem = localStorage.getItem("cpnow-auth") || "";
-  //     const params = cpnowAuthItem
-  //       ? JSON.parse(cpnowAuthItem)
-  //       : {
-  //           userId: "",
-  //           fcmToken: "",
-  //         };
-
-  //     if (params.userId) {
-  //       const { data } = await axios.delete(
-  //         `/api/token?userId=${params.userId}&fcmToken=${params.fcmToken}`,
-  //       );
-
-  //       if (data.data === "ok") {
-  //         localStorage.removeItem("cpnow-auth");
-  //         location.href = "/";
-  //       }
-  //     }
-  //   } catch (e: any) {
-  //     console.log(e.message);
-  //   }
-  // };
 
   const initAuth = async () => {
     const item = localStorage.getItem("cpnow-auth") || "";
@@ -148,7 +109,7 @@ export default function NotiRegisterButton() {
     initAuth();
 
     // 포그라운드 메세지 수신
-    openForegroundMessage(messaging);
+    // openForegroundMessage(messaging);
 
     if (isWebView()) {
       const interval = setInterval(() => {

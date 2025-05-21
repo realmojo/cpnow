@@ -1,3 +1,5 @@
+import { cp } from "fs";
+
 export const getTodayDate = () => {
   const today = new Date();
 
@@ -26,19 +28,32 @@ export const detectDevice = () => {
 
 export const sendNotificationTest = async () => {
   const permission = await Notification.requestPermission();
-  alert(permission);
   if (permission === "granted") {
-    const click_action = "https://cpnow.kr";
-    new Notification("시피나우", {
-      body: "등록하신 상품이 최저가로 올라왔습니다.",
-      icon: "/icons/android-icon-512x512.png",
-      data: {
-        click_action, // ✅ 클릭 시 이동할 링크
-      },
-    }).onclick = (event) => {
-      event.preventDefault();
-      window.open(click_action, "_blank");
-    };
+    const cpnowInfo = getUserAuth();
+
+    if (cpnowInfo.fcmToken) {
+      fetch("/api/notify", {
+        method: "POST",
+        body: JSON.stringify({
+          token: cpnowInfo.fcmToken,
+          title: "쿠팡 최저가 알람을 설정하세요 🚀🚀",
+          body: "이제 알람을 받으실 수 있습니다.",
+          icon: "https://cpnow.kr/icons/android-icon-48x48.png",
+          link: "https://cpnow.kr",
+        }),
+      });
+    }
+    // new Notification("시피나우", {
+    //   body: "등록하신 상품이 최저가로 올라왔습니다.",
+    //   icon: "/icons/android-icon-512x512.png",
+    //   requireInteraction: true,
+    //   data: {
+    //     click_action, // ✅ 클릭 시 이동할 링크
+    //   },
+    // }).onclick = (event) => {
+    //   event.preventDefault();
+    //   window.open(click_action, "_blank");
+    // };
   } else {
     alert("알림 권한이 필요합니다. 1");
   }
