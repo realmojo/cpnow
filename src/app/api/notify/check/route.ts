@@ -4,8 +4,8 @@ import { messaging } from "@/lib/firebase-admin"; // firebase-admin 초기화된
 // ✅ POST 요청 처리
 export async function POST(req: NextRequest) {
   try {
-    const reqItems = await req.json();
-    const { token } = reqItems;
+    const res = await req.json();
+    const { token } = res;
     const message = {
       token,
       data: {

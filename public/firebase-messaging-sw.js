@@ -18,21 +18,22 @@ const messaging = firebase.messaging();
 const isSupported = firebase.messaging.isSupported();
 
 if (isSupported) {
-  console.log("백그라운드를 수신 합니다.v1.0.0");
+  console.log("백그라운드를 수신 합니다.v1.0.8");
   messaging.onBackgroundMessage(function (payload) {
     console.log(
       "[firebase-messaging-sw.js] Received background message ",
       payload,
     );
 
-    const notificationTitle = payload.notification.title;
+    const notificationTitle = payload.data?.title || "";
     const notificationOptions = {
-      body: payload.notification.body,
-      icon: payload.notification.icon,
+      body: payload.data?.body || "",
+      icon:
+        payload.data?.icon || "https://cpnow.kr/icons/android-icon-48x48.png",
+      requireInteraction: true,
       data: {
-        click_action: payload.fcmOptions?.link || "https://cpnow.kr",
+        click_action: payload.data?.link || "https://cpnow.kr",
       },
-      tag: "test tag",
     };
 
     self.registration.showNotification(notificationTitle, notificationOptions);
@@ -40,7 +41,6 @@ if (isSupported) {
 
   self.addEventListener("notificationclick", function (event) {
     console.log("알람 클릭됌");
-    console.log(event);
     event.notification.close();
     event.waitUntil(
       clients.openWindow(
@@ -49,8 +49,35 @@ if (isSupported) {
     );
   });
 
+  self.addEventListener("install", (event) => {
+    self.skipWaiting();
+  });
+
+  self.addEventListener("activate", (event) => {
+    event.waitUntil(self.clients.claim());
+  });
+
   self.addEventListener("message", (event) => {
     if (event.data?.type === "AUTH_TOKEN") {
+      // 토큰이 살아 있는지 확인
+      const fcmToken = event.data?.fcmToken;
+      if (!fcmToken) {
+        console.log("토큰이 없습니다.");
+        return;
+      }
+
+      // fetch("/api/notify/check", {
+      //   method: "POST",
+      //   body: JSON.stringify({ token: fcmToken }),
+      // }).then((res) => {
+      //   console.log(res);
+      //   if (res.status === 200) {
+      //     console.log("토큰이 살아 있습니다.");
+      //   } else {
+      //     console.log("토큰이 죽었습니다.");
+      //   }
+      // });
+      // 토큰이 죽었으면 업데이트(로컬스토리지, DB) 처리
       // console.log("🔐 클라이언트로부터 받은 데이터:", event.data);
       // 여기에 저장하거나 상태로 보관 가능
     }

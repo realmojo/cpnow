@@ -9,18 +9,19 @@ export async function POST(req: NextRequest) {
 
     const message = {
       token,
-      notification: {
+      data: {
         title,
         body,
-      },
-      data: {
         icon: icon || "https://cpnow.kr/icons/android-icon-48x48.png",
         link: link || "https://cpnow.kr",
       },
       webpush: {
-        notification: {
-          icon: icon || "https://cpnow.kr/icons/android-icon-48x48.png", // foreground 알림 아이콘
-        },
+        // notification: {
+        //   title,
+        //   body,
+        //   icon: icon || "https://cpnow.kr/icons/android-icon-48x48.png",
+        //   requireInteraction: true, // ✅ 여기에도 명시
+        // },
         fcm_options: {
           link: link || "https://cpnow.kr",
         },

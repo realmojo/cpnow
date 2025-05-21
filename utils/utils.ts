@@ -43,17 +43,6 @@ export const sendNotificationTest = async () => {
         }),
       });
     }
-    // new Notification("시피나우", {
-    //   body: "등록하신 상품이 최저가로 올라왔습니다.",
-    //   icon: "/icons/android-icon-512x512.png",
-    //   requireInteraction: true,
-    //   data: {
-    //     click_action, // ✅ 클릭 시 이동할 링크
-    //   },
-    // }).onclick = (event) => {
-    //   event.preventDefault();
-    //   window.open(click_action, "_blank");
-    // };
   } else {
     alert("알림 권한이 필요합니다. 1");
   }

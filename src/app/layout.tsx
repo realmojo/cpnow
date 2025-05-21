@@ -121,19 +121,6 @@ export default async function RootLayout({
         {/* <ClientDefaultSeo /> */}
         <SidebarProvider defaultOpen={defaultOpen}>
           {/* <Header /> */}
-          {/* <DefaultSeo
-            openGraph={{
-              type: "website",
-              locale: "en_IE",
-              url: "https://www.url.ie/",
-              siteName: "SiteName",
-            }}
-            twitter={{
-              handle: "@handle",
-              site: "@site",
-              cardType: "summary_large_image",
-            }}
-          /> */}
           <AppSidebar />
           <main className="min-h-[80vh] w-full">
             <Header />

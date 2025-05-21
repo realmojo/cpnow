@@ -138,6 +138,13 @@ export default function LocalAuthViewer() {
           >
             알람테스트
           </Button>
+          <Button
+            variant="outline"
+            className="mt-2 w-full"
+            onClick={() => handleConfirm()}
+          >
+            초기화
+          </Button>
 
           {myProductsItems === null ? (
             // ✅ 데이터 불러오는 중

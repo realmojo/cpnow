@@ -8,7 +8,7 @@ import { nanoid } from "nanoid";
 import { Bell } from "lucide-react";
 import axios from "axios";
 import Link from "next/link";
-import { detectDevice, isWebView } from "@/utils/utils";
+import { detectDevice, isWebView, sendNotificationTest } from "@/utils/utils";
 
 // const isIOS = () =>
 //   /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
@@ -72,23 +72,7 @@ export default function NotiRegisterButton() {
       }
 
       if (deviceInfo.isDesktop) {
-        let firstNoti: any = "";
-        try {
-          firstNoti = new Notification("최저가 알람을 받을 수 있어요 🚀", {
-            body: "알림을 받고 싶은 상품을 담아보세요",
-            icon: "/icons/android-icon-192x192.png",
-            data: {
-              click_action: "https://cpnow.kr", // ✅ 클릭 시 이동할 링크
-            },
-          });
-        } catch (e) {
-          alert(e);
-        }
-
-        firstNoti.onclick = (event: any) => {
-          event.preventDefault();
-          window.open(firstNoti.data.click_action, "_blank");
-        };
+        sendNotificationTest();
 
         // 포그라운드 메세지 수신
         // openForegroundMessage(messaging);
