@@ -12,10 +12,10 @@ export async function POST(req: NextRequest) {
       notification: {
         title,
         body,
-        data: {
-          icon: icon || "https://cpnow.kr/icons/android-icon-48x48.png",
-          link: link || "https://cpnow.kr",
-        },
+      },
+      data: {
+        icon: icon || "https://cpnow.kr/icons/android-icon-48x48.png",
+        link: link || "https://cpnow.kr",
       },
       webpush: {
         notification: {
