@@ -4,8 +4,8 @@ import { MessagePayload } from "firebase/messaging";
 import { useEffect } from "react";
 
 export default function ForegroundNotification() {
-  console.log("✅ 포그라운드 메세지 수신");
   useEffect(() => {
+    console.log("✅ 포그라운드 메세지 수신", messaging);
     if (messaging) {
       onMessage(messaging, (payload: MessagePayload) => {
         console.log("✅ 포그라운드 메세지 수신", payload);
