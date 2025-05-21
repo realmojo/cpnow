@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Footer() {
   return (
@@ -25,6 +26,16 @@ export default function Footer() {
         <p className="mt-2 text-gray-400">
           © 2025 시피나우(CPNOW). All rights reserved.
         </p>
+
+        {/* ✅ 개인정보처리방침 링크 추가 */}
+        <div className="mt-3">
+          <Link
+            href="/privacy"
+            className="text-xs text-gray-500 hover:underline"
+          >
+            개인정보처리방침 보기
+          </Link>
+        </div>
       </div>
     </footer>
   );
