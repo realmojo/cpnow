@@ -88,15 +88,16 @@ export default function ProductList({ items = [], type = "grid" }: any) {
                           <div className="text-lg font-bold text-black">
                             {item.price.toLocaleString()}원
                           </div>
-                          <ComparePriceDetail
-                            price={item.price}
-                            highPrice={item.highPrice ?? item.price}
-                            lowPrice={item.lowPrice ?? item.price}
-                          />
                         </div>
                       </div>
 
                       <div className="flex items-center gap-2 text-sm font-semibold text-green-600">
+                        <ComparePriceDetail
+                          price={item.price}
+                          highPrice={item.highPrice ?? item.price}
+                          lowPrice={item.lowPrice ?? item.price}
+                          isVisible={false}
+                        />
                         {item.deliveryType && (
                           <DeliveryBadge deliveryType={item.deliveryType} />
                         )}
@@ -177,11 +178,14 @@ export default function ProductList({ items = [], type = "grid" }: any) {
                             <div className="text-base font-bold text-black">
                               {item.price.toLocaleString()}원
                             </div>
-                            <ComparePriceDetail
-                              price={item.price}
-                              highPrice={item.highPrice ?? item.price}
-                              lowPrice={item.lowPrice ?? item.price}
-                            />
+                            <div>
+                              <ComparePriceDetail
+                                price={item.price}
+                                highPrice={item.highPrice ?? item.price}
+                                lowPrice={item.lowPrice ?? item.price}
+                                isVisible={false}
+                              />
+                            </div>
                           </div>
 
                           <div className="flex items-center gap-2 text-sm font-semibold text-green-600">

@@ -74,6 +74,7 @@ export default function ProductList({ items = [] }: any) {
                         price={item.price}
                         highPrice={item.highPrice ?? item.price}
                         lowPrice={item.lowPrice ?? item.price}
+                        isVisible={false}
                       />
                     </div>
                   </div>

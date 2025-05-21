@@ -268,6 +268,7 @@ export default async function ProductPage({ params }: any) {
                               productItem.highPrice ?? productItem.price
                             }
                             lowPrice={productItem.lowPrice ?? productItem.price}
+                            isVisible={true}
                           />
                         )}
                       </td>
