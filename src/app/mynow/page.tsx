@@ -55,7 +55,7 @@ export default function LocalAuthViewer() {
   const searchParams = useSearchParams();
   const [myProductsItems, setMyProductsItems] = useState<any>(null);
   const [open, setOpen] = useState(false);
-  const { loginInfo, myAlarmList, getMyAlarmList } = useAppStore();
+  const { loginInfo, myAlarmList } = useAppStore();
 
   const handleConfirm = () => {
     loginInit();
