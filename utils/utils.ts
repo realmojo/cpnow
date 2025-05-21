@@ -44,7 +44,7 @@ export const sendNotificationTest = async () => {
       });
     }
   } else {
-    alert("알림 권한이 필요합니다. 1");
+    alert("알림 권한이 필요합니다.");
   }
 };
 

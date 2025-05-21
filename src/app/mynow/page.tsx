@@ -16,6 +16,7 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
+import { Loader2 } from "lucide-react"; // shadcn 아이콘
 
 const sendProductInfo = async (parsedItem: any, parsed: any) => {
   try {
@@ -40,6 +41,9 @@ const sendProductInfo = async (parsedItem: any, parsed: any) => {
 export default function LocalAuthViewer() {
   const searchParams = useSearchParams();
   const [myProductsItems, setMyProductsItems] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
+  const [initLoading, setInitLoading] = useState(false);
+
   const [open, setOpen] = useState(false);
   const { loginInfo, myAlarmList } = useAppStore();
 
@@ -75,8 +79,6 @@ export default function LocalAuthViewer() {
 
       if (deviceInfo.isDesktop) {
         sendNotificationTest();
-        // 포그라운드 메세지 수신
-        // openForegroundMessage(messaging);
       }
     }
 
@@ -132,17 +134,48 @@ export default function LocalAuthViewer() {
           </h2>
 
           <Button
-            variant="outline"
             className="mt-2 w-full"
-            onClick={() => sendNotificationTest()}
+            disabled={loading}
+            onClick={async () => {
+              setLoading(true);
+              try {
+                await sendNotificationTest();
+              } catch (e) {
+                console.error("알림 전송 실패", e);
+              } finally {
+                setTimeout(() => {
+                  setLoading(false);
+                }, 300);
+              }
+            }}
           >
+            {/* 알림텍스트는 항상 보이게 */}
             알람테스트
+            {/* 로딩 중일 때만 아이콘 표시 (오른쪽 정렬) */}
+            {loading && (
+              <Loader2 className="text-muted-foreground ml-2 h-4 w-4 animate-spin" />
+            )}
           </Button>
           <Button
             variant="outline"
             className="mt-2 w-full"
-            onClick={() => handleConfirm()}
+            onClick={async () => {
+              setInitLoading(true);
+              try {
+                await handleConfirm();
+              } catch (e) {
+                console.error("초기화 실패", e);
+              } finally {
+                setTimeout(() => {
+                  setInitLoading(false);
+                }, 300);
+              }
+            }}
+            disabled={initLoading}
           >
+            {loading && (
+              <Loader2 className="text-muted-foreground ml-2 h-4 w-4 animate-spin" />
+            )}
             초기화
           </Button>
 
