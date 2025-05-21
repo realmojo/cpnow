@@ -126,6 +126,7 @@ export default function LocalAuthViewer() {
     const item = searchParams.get("item") || "";
     if (item) {
       const parsedItem = JSON.parse(decodeFromBase64(item)) || "";
+      console.log("parsedItem", parsedItem);
 
       parsedItem.lowPrice = parsedItem.price;
       parsedItem.highPrice = parsedItem.price;

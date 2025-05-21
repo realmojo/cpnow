@@ -1,5 +1,5 @@
 setTimeout(() => {
-  const baseUrl = "http://localhost:3000";
+  const baseUrl = "https://cpnow.kr";
   let lastUrl = location.href;
 
   setInterval(() => {
