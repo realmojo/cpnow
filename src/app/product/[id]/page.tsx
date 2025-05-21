@@ -96,6 +96,16 @@ export default async function ProductPage({ params }: any) {
     }
   };
 
+  const hasValidRating =
+    productItem.rating &&
+    Number(productItem.rating) >= 1 &&
+    Number(productItem.rating) <= 5;
+
+  const hasValidReviewCount =
+    productItem.reviewCount && productItem.reviewCount > 0;
+
+  const isValidUrl = (url: string) => /^https?:\/\//.test(url);
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -104,11 +114,15 @@ export default async function ProductPage({ params }: any) {
     description: `${productItem.title}의 실시간 최저가는 ${productItem.lowPrice?.toLocaleString()}원입니다.`,
     brand: {
       "@type": "Brand",
-      name: "쿠팡",
+      name: "시피나우",
     },
     offers: {
       "@type": "Offer",
-      url: productItem.shortUrl || productItem.link,
+      url: isValidUrl(productItem.shortUrl)
+        ? productItem.shortUrl
+        : isValidUrl(productItem.link)
+          ? productItem.link
+          : undefined, // 잘못된 URL이면 제외
       priceCurrency: "KRW",
       price: productItem.lowPrice ?? productItem.price,
       priceValidUntil: "2025-12-31",
@@ -121,24 +135,56 @@ export default async function ProductPage({ params }: any) {
         "@type": "Organization",
         name: "쿠팡",
       },
-    },
-    review: {
-      "@type": "Review",
-      reviewRating: {
-        "@type": "Rating",
-        ratingValue: productItem.rating
-          ? Number(productItem.rating).toFixed(1)
-          : "0",
-        bestRating: "5",
+      shippingDetails: {
+        "@type": "OfferShippingDetails",
+        shippingRate: {
+          "@type": "MonetaryAmount",
+          value: "0",
+          currency: "KRW",
+        },
+        deliveryTime: {
+          "@type": "ShippingDeliveryTime",
+          businessDays: {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: [
+              "https://schema.org/Monday",
+              "https://schema.org/Tuesday",
+              "https://schema.org/Wednesday",
+              "https://schema.org/Thursday",
+              "https://schema.org/Friday",
+            ],
+          },
+          handlingTime: {
+            "@type": "QuantitativeValue",
+            minValue: 1,
+            maxValue: 2,
+            unitCode: "d",
+          },
+          transitTime: {
+            "@type": "QuantitativeValue",
+            minValue: 1,
+            maxValue: 2,
+            unitCode: "d",
+          },
+        },
+      },
+      hasMerchantReturnPolicy: {
+        "@type": "MerchantReturnPolicy",
+        isReturnable: true,
+        returnPolicyCategory:
+          "https://schema.org/MerchantReturnFiniteReturnWindow",
+        merchantReturnDays: 7,
       },
     },
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: productItem.rating
-        ? Number(productItem.rating).toFixed(1)
-        : "0",
-      reviewCount: productItem.reviewCount ?? 0,
-    },
+    ...(hasValidRating && hasValidReviewCount
+      ? {
+          aggregateRating: {
+            "@type": "AggregateRating",
+            ratingValue: Number(productItem.rating).toFixed(1),
+            reviewCount: productItem.reviewCount,
+          },
+        }
+      : {}),
   };
 
   return (
