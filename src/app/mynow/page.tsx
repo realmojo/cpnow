@@ -55,7 +55,7 @@ export default function LocalAuthViewer() {
   const searchParams = useSearchParams();
   const [myProductsItems, setMyProductsItems] = useState<any>(null);
   const [open, setOpen] = useState(false);
-  const { loginInfo, myAlarmList } = useAppStore();
+  const { loginInfo, myAlarmList, getMyAlarmList } = useAppStore();
 
   const handleConfirm = () => {
     loginInit();
@@ -114,15 +114,19 @@ export default function LocalAuthViewer() {
     location.href = "/mynow";
   };
 
+  const decodeFromBase64 = (base64: string): string => {
+    return decodeURIComponent(decodeURIComponent(escape(atob(base64))));
+  };
+
   const initData = useCallback(async () => {
     const stored = localStorage.getItem("cpnow-auth");
     if (!stored) return;
 
     const parsed = JSON.parse(stored);
-    const item = searchParams.get("item");
-    const parsedItem = JSON.parse(item || "{}");
+    const item = searchParams.get("item") || "";
+    if (item) {
+      const parsedItem = JSON.parse(decodeFromBase64(item)) || "";
 
-    if (parsedItem) {
       parsedItem.lowPrice = parsedItem.price;
       parsedItem.highPrice = parsedItem.price;
       parsedItem.link = `https://www.coupang.com/vp/products/${parsedItem.productId}?itemId=${parsedItem.itemId}&vendorItemId=${parsedItem.vendorItemId}`;
@@ -137,16 +141,24 @@ export default function LocalAuthViewer() {
         const data = await sendProductInfo(parsedItem, parsed);
         setMyProductsItems(data);
       }
-    }
-
-    if (parsed?.userId) {
+    } else if (parsed?.userId) {
       setMyProductsItems(myAlarmList);
     }
   }, [searchParams, myAlarmList]);
 
   useEffect(() => {
     initData();
+    // readClipboard();
   }, [initData]);
+
+  // async function readClipboard() {
+  //   try {
+  //     const text = await navigator.clipboard.readText();
+  //     console.log("클립보드 내용:", text);
+  //   } catch (err) {
+  //     console.error("클립보드 접근 실패:", err);
+  //   }
+  // }
 
   return (
     <article>
