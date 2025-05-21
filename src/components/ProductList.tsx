@@ -14,6 +14,7 @@ import {
   AlertDialogCancel,
   AlertDialogAction,
 } from "@/components/ui/alert-dialog";
+import { ComparePriceDetail } from "./product/ComparePriceDetail";
 export default function ProductList({ items = [], type = "grid" }: any) {
   const [productItems, setProductItems] = useState<any[]>([]);
   const [showModal, setShowModal] = useState(false);
@@ -87,18 +88,11 @@ export default function ProductList({ items = [], type = "grid" }: any) {
                           <div className="text-lg font-bold text-black">
                             {item.price.toLocaleString()}원
                           </div>
-                          {item.isDiscounted || item.isIncreased ? (
-                            <span
-                              className={`rounded-full px-2 py-0.5 text-xs font-bold ${
-                                item.isDiscounted
-                                  ? "bg-green-100 text-green-600"
-                                  : "bg-red-100 text-red-600"
-                              }`}
-                            >
-                              {item.isDiscounted ? "▲" : "▼"}{" "}
-                              {Math.abs(item.discountRate ?? 0)}%
-                            </span>
-                          ) : null}
+                          <ComparePriceDetail
+                            price={item.price}
+                            highPrice={item.highPrice ?? item.price}
+                            lowPrice={item.lowPrice ?? item.price}
+                          />
                         </div>
                       </div>
 
@@ -183,18 +177,11 @@ export default function ProductList({ items = [], type = "grid" }: any) {
                             <div className="text-base font-bold text-black">
                               {item.price.toLocaleString()}원
                             </div>
-                            {item.isDiscounted || item.isIncreased ? (
-                              <span
-                                className={`rounded-full px-2 py-0.5 text-xs font-bold ${
-                                  item.isDiscounted
-                                    ? "bg-green-100 text-green-600"
-                                    : "bg-red-100 text-red-600"
-                                }`}
-                              >
-                                {item.isDiscounted ? "▲" : "▼"}{" "}
-                                {Math.abs(item.discountRate ?? 0)}%
-                              </span>
-                            ) : null}
+                            <ComparePriceDetail
+                              price={item.price}
+                              highPrice={item.highPrice ?? item.price}
+                              lowPrice={item.lowPrice ?? item.price}
+                            />
                           </div>
 
                           <div className="flex items-center gap-2 text-sm font-semibold text-green-600">

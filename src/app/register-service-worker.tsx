@@ -6,8 +6,8 @@ export default function RegisterServiceWorker() {
   useEffect(() => {
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker
-        .register("/firebase-messaging-sw.js?v=1.0.6")
-        .then(() => console.log("✅ Service Worker 등록 완료"))
+        .register("/firebase-messaging-sw.js?v=v1.0.9")
+        .then(() => console.log("✅ Service Worker 등록 완료 v1.0.9"))
         .catch((err) => console.error("Service Worker 등록 실패:", err));
     }
   }, []);

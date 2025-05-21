@@ -4,12 +4,14 @@ import { Badge } from "@/components/ui/badge";
 
 export const ComparePriceDetail = ({
   price,
-  productPrice,
+  highPrice,
+  lowPrice,
 }: {
   price: number;
-  productPrice: number;
+  highPrice: number;
+  lowPrice: number;
 }) => {
-  if (productPrice === 0) {
+  if (highPrice === 0) {
     return (
       <Badge variant="secondary" className="text-gray-400">
         기준 가격 오류
@@ -17,13 +19,30 @@ export const ComparePriceDetail = ({
     );
   }
 
-  const priceDifference = Math.abs(productPrice - price).toLocaleString();
+  if (price === -1 || lowPrice === -1 || highPrice === -1) {
+    return (
+      <Badge variant="secondary" className="text-gray-400">
+        품절
+      </Badge>
+    );
+  }
 
-  if (price < productPrice) {
-    const discountPercent = (
-      ((productPrice - price) / productPrice) *
-      100
-    ).toFixed(0);
+  if (price === lowPrice && price === highPrice) {
+    return (
+      <Badge
+        variant="outline"
+        className="rounded-md border-gray-300 px-3 py-1 text-sm text-gray-500"
+      >
+        가격 변동 없음
+      </Badge>
+    );
+  }
+
+  if (price < highPrice) {
+    const priceDifference = Math.abs(highPrice - price).toLocaleString();
+    const discountPercent = (((highPrice - price) / highPrice) * 100).toFixed(
+      0,
+    );
     return (
       <Badge
         variant="default"
@@ -34,11 +53,9 @@ export const ComparePriceDetail = ({
     );
   }
 
-  if (price > productPrice) {
-    const increasePercent = (
-      ((price - productPrice) / productPrice) *
-      100
-    ).toFixed(0);
+  if (price >= highPrice) {
+    const priceDifference = Math.abs(lowPrice - price).toLocaleString();
+    const increasePercent = (((price - lowPrice) / lowPrice) * 100).toFixed(0);
     return (
       <Badge
         variant="default"

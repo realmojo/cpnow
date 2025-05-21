@@ -20,6 +20,7 @@ const generateLast30DaysPrice = (
   rawPrices: PriceEntry[] = [],
   defaultPrice: number,
   highPrice: number,
+  lowPrice: number,
   endDateStr = format(new Date(), "yyyy-MM-dd"), // today by default
 ): FilledPrice[] => {
   const priceMap = new Map<string, number>();
@@ -31,7 +32,7 @@ const generateLast30DaysPrice = (
 
     rawPrices.unshift({
       date: prevDate,
-      price: highPrice,
+      price: defaultPrice === highPrice ? lowPrice : highPrice,
     });
   }
 
@@ -132,6 +133,7 @@ export async function GET(req: NextRequest) {
       priceItems,
       product.price,
       product.highPrice,
+      product.lowPrice,
     );
     product.priceHistory = priceHistory;
 

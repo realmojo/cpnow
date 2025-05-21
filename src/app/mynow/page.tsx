@@ -130,87 +130,113 @@ export default function LocalAuthViewer() {
             내 알람 리스트
           </h2>
 
-          <Button
-            className="mt-2 w-full"
-            disabled={loading}
-            onClick={async () => {
-              setLoading(true);
-              try {
-                await sendNotificationTest();
-              } catch (e) {
-                console.error("알림 전송 실패", e);
-              } finally {
-                setTimeout(() => {
-                  setLoading(false);
-                }, 300);
-              }
-            }}
-          >
-            {/* 알림텍스트는 항상 보이게 */}
-            알람테스트
-            {/* 로딩 중일 때만 아이콘 표시 (오른쪽 정렬) */}
-            {loading && (
-              <Loader2 className="text-muted-foreground ml-2 h-4 w-4 animate-spin" />
-            )}
-          </Button>
-
           {myProductsItems === null ? (
-            // ✅ 데이터 불러오는 중
-            <div className="flex flex-col items-center justify-center py-20">
-              <div className="mb-4 animate-spin text-4xl">🔄</div>
-              <p className="text-lg font-semibold text-gray-700">
-                데이터를 불러오는 중입니다...
-              </p>
-            </div>
+            <>
+              <Button
+                className="mt-2 w-full"
+                disabled={loading}
+                onClick={async () => {
+                  setLoading(true);
+                  try {
+                    await sendNotificationTest();
+                  } catch (e) {
+                    console.error("알림 전송 실패", e);
+                  } finally {
+                    setTimeout(() => {
+                      setLoading(false);
+                    }, 300);
+                  }
+                }}
+              >
+                {/* 알림텍스트는 항상 보이게 */}
+                알림 테스트
+                {/* 로딩 중일 때만 아이콘 표시 (오른쪽 정렬) */}
+                {loading && (
+                  <Loader2 className="text-muted-foreground ml-2 h-4 w-4 animate-spin" />
+                )}
+              </Button>
+              {/* ✅ 데이터 불러오는 중 */}
+              <div className="flex flex-col items-center justify-center py-20">
+                <div className="mb-4 animate-spin text-4xl">🔄</div>
+                <p className="text-lg font-semibold text-gray-700">
+                  데이터를 불러오는 중입니다...
+                </p>
+              </div>
+            </>
           ) : myProductsItems.length > 0 ? (
             // ✅ 데이터 있음
             <>
               <ProductList items={myProductsItems} type="list" />
 
-              <Dialog open={open} onOpenChange={setOpen}>
-                <DialogTrigger asChild>
-                  <Button
-                    variant="destructive"
-                    className="w-full"
-                    disabled={initLoading}
-                  >
-                    알림 초기화 하기
-                    {initLoading && (
-                      <Loader2 className="text-muted-foreground ml-2 h-4 w-4 animate-spin" />
-                    )}
-                  </Button>
-                </DialogTrigger>
-                <DialogContent className="sm:max-w-md">
-                  <DialogHeader>
-                    <DialogTitle>알림 초기화</DialogTitle>
-                  </DialogHeader>
-                  <div className="py-4 text-sm text-gray-700">
-                    정말 알림을 초기화하시겠습니까?
-                  </div>
-                  <DialogFooter className="flex justify-end gap-2">
-                    <Button variant="outline" onClick={() => setOpen(false)}>
-                      취소
-                    </Button>
+              <div className="mt-2 flex gap-2">
+                <Button
+                  className="w-1/2"
+                  disabled={loading}
+                  onClick={async () => {
+                    setLoading(true);
+                    try {
+                      await sendNotificationTest();
+                    } catch (e) {
+                      console.error("알림 전송 실패", e);
+                    } finally {
+                      setTimeout(() => {
+                        setLoading(false);
+                      }, 300);
+                    }
+                  }}
+                >
+                  알림 테스트
+                  {loading && (
+                    <Loader2 className="text-muted-foreground ml-2 h-4 w-4 animate-spin" />
+                  )}
+                </Button>
+
+                <Dialog open={open} onOpenChange={setOpen}>
+                  <DialogTrigger asChild>
                     <Button
                       variant="destructive"
-                      onClick={async () => {
-                        setInitLoading(true);
-                        try {
-                          await handleConfirm();
-                        } catch (e) {
-                          console.error("초기화 실패", e);
-                        } finally {
-                          setTimeout(() => {
-                            setInitLoading(false);
-                          }, 300);
-                        }
-                      }}
+                      className="w-1/2"
+                      disabled={initLoading}
                     >
-                      확인
+                      알림 초기화 하기
+                      {initLoading && (
+                        <Loader2 className="text-muted-foreground ml-2 h-4 w-4 animate-spin" />
+                      )}
                     </Button>
-                  </DialogFooter>
-                </DialogContent>
-              </Dialog>
+                  </DialogTrigger>
+
+                  <DialogContent className="sm:max-w-md">
+                    <DialogHeader>
+                      <DialogTitle>알림 초기화</DialogTitle>
+                    </DialogHeader>
+                    <div className="py-4 text-sm text-gray-700">
+                      정말 알림을 초기화하시겠습니까?
+                    </div>
+                    <DialogFooter className="flex justify-end gap-2">
+                      <Button variant="outline" onClick={() => setOpen(false)}>
+                        취소
+                      </Button>
+                      <Button
+                        variant="destructive"
+                        onClick={async () => {
+                          setInitLoading(true);
+                          try {
+                            await handleConfirm();
+                          } catch (e) {
+                            console.error("초기화 실패", e);
+                          } finally {
+                            setTimeout(() => {
+                              setInitLoading(false);
+                            }, 300);
+                          }
+                        }}
+                      >
+                        확인
+                      </Button>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
+              </div>
             </>
           ) : (
             // ✅ 데이터 없음

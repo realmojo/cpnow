@@ -72,7 +72,8 @@ export default function ProductList({ items = [] }: any) {
 
                       <ComparePriceDetail
                         price={item.price}
-                        productPrice={item.highPrice ?? item.price}
+                        highPrice={item.highPrice ?? item.price}
+                        lowPrice={item.lowPrice ?? item.price}
                       />
                     </div>
                   </div>
