@@ -12,20 +12,20 @@ export async function POST(req: NextRequest) {
       notification: {
         title,
         body,
-        icon: icon || "https://cpnow.kr/icons/android-icon-48x48.png",
-        link: link || "https://cpnow.kr",
+        data: {
+          icon: icon || "https://cpnow.kr/icons/android-icon-48x48.png",
+          link: link || "https://cpnow.kr",
+        },
       },
       webpush: {
         notification: {
-          icon: icon || "https://cpnow.kr/icons/android-icon-48x48.png",
+          icon: icon || "https://cpnow.kr/icons/android-icon-48x48.png", // foreground 알림 아이콘
         },
         fcm_options: {
           link: link || "https://cpnow.kr",
         },
       },
     };
-
-    console.log("message", message);
 
     const response = await messaging.send(message);
 
