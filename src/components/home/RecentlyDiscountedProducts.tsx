@@ -16,9 +16,6 @@ export default function RecentlyDiscountedProducts() {
 
   return (
     <div className="mt-6">
-      <h2 className="scroll-m-20 text-2xl font-bold tracking-tight">
-        최근 가격이 변동한 상품
-      </h2>
       <ProductList items={products} type="list" />
     </div>
   );
