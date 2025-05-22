@@ -149,6 +149,7 @@ export default function LocalAuthViewer() {
                 <Button
                   className="w-1/2"
                   disabled={loading}
+                  title="알림 테스트"
                   onClick={async () => {
                     setLoading(true);
                     try {
@@ -174,6 +175,7 @@ export default function LocalAuthViewer() {
                       variant="destructive"
                       className="w-1/2"
                       disabled={initLoading}
+                      title="알림 초기화"
                     >
                       알림 초기화 하기
                       {initLoading && (
@@ -190,11 +192,16 @@ export default function LocalAuthViewer() {
                       정말 알림을 초기화하시겠습니까?
                     </div>
                     <DialogFooter className="flex justify-end gap-2">
-                      <Button variant="outline" onClick={() => setOpen(false)}>
+                      <Button
+                        variant="outline"
+                        title="취소"
+                        onClick={() => setOpen(false)}
+                      >
                         취소
                       </Button>
                       <Button
                         variant="destructive"
+                        title="알림 초기화"
                         onClick={async () => {
                           setInitLoading(true);
                           try {
@@ -228,6 +235,7 @@ export default function LocalAuthViewer() {
               <Button
                 className="mt-2 w-full"
                 disabled={loading}
+                title="알림 테스트"
                 onClick={async () => {
                   setLoading(true);
                   try {

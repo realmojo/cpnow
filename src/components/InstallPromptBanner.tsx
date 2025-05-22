@@ -72,10 +72,10 @@ export default function InstallPromptBanner() {
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <Button variant="default" onClick={handleInstall}>
+          <Button variant="default" onClick={handleInstall} title="설치">
             설치
           </Button>
-          <Button variant="ghost" onClick={handleClose}>
+          <Button variant="ghost" onClick={handleClose} title="닫기">
             닫기
           </Button>
         </div>

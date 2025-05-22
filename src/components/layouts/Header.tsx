@@ -6,7 +6,7 @@ import { Menu } from "lucide-react";
 import { Sheet, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { useSidebar } from "@/components/ui/sidebar";
-import NotiRegisterButton from "../NotiRegisterButton";
+import MainSidebarRightButton from "../MainSidebarRightButton";
 
 export default function Header() {
   const CustomTrigger = () => {
@@ -14,7 +14,12 @@ export default function Header() {
     return (
       <Sheet>
         <SheetTrigger asChild>
-          <Button variant="ghost" size="icon" onClick={toggleSidebar}>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={toggleSidebar}
+            title="메뉴 사이드바"
+          >
             <Menu className="h-5 w-5" />
           </Button>
         </SheetTrigger>
@@ -37,7 +42,7 @@ export default function Header() {
         </Link>
       </div>
       {/* 오른쪽: 알림 버튼 */}
-      <NotiRegisterButton />
+      <MainSidebarRightButton />
     </header>
   );
 }

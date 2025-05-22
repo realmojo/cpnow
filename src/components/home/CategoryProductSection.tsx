@@ -116,6 +116,7 @@ export default function CategoryProductSection({ fisrtCategories }: Props) {
             variant={selected === cat.categoryId ? "default" : "outline"}
             className="rounded-2xl px-4 py-2 text-sm shadow-sm transition hover:shadow-md"
             onClick={() => getSubCategoryProdutItems(cat)}
+            title={cat.name}
           >
             {cat.name}
           </Button>

@@ -26,6 +26,7 @@ const RandomCategoryButtons = ({
         <Button
           asChild
           key={cat.categoryId}
+          title={cat.name}
           variant={cat.categoryId === currentCategoryId ? "default" : "outline"}
           className="rounded-full px-4 py-2 text-sm"
         >

@@ -44,6 +44,7 @@ export default function CategoryButtons({ categoryId }: CategoryButtonsProps) {
                 ? "border-black bg-black text-white"
                 : "border-gray-300 bg-white text-gray-700 hover:bg-gray-100",
             )}
+            title={item.depth2}
           >
             {item.depth2}
           </Button>

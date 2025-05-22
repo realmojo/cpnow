@@ -99,6 +99,7 @@ export default function AlarmButton({ productItem }: { productItem: any }) {
     <Button
       className="h-14 w-full flex-1 px-0"
       size="lg"
+      title={isAlarmed ? "알림취소" : "알림받기"}
       onClick={() => {
         try {
           setIsLoading(true);

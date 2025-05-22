@@ -5,21 +5,12 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { messaging, getToken } from "@/lib/firebase";
 import { nanoid } from "nanoid";
-import { Bell } from "lucide-react";
+import { Bell, BookOpen } from "lucide-react";
 import axios from "axios";
 import Link from "next/link";
 import { detectDevice, isWebView, sendNotificationTest } from "@/utils/utils";
 
-// const isIOS = () =>
-//   /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
-
-// if (isIOS() && !(navigator as any).standalone) {
-//   alert(
-//     "홈 화면에 추가하여 앱처럼 사용해보세요!\n사파리 하단의 공유 버튼 → '홈 화면에 추가'",
-//   );
-// }
-
-export default function NotiRegisterButton() {
+export default function MainSidebarRightButton() {
   const [auth, setAuth] = useState<any>({
     userId: "",
     fcmToken: "",
@@ -112,39 +103,48 @@ export default function NotiRegisterButton() {
 
   return (
     <React.Fragment>
-      {auth.userId ? (
-        <Link href="/mynow">
-          <Button variant="ghost" size="icon">
-            <Bell className="h-5 w-5" />
+      <div className="flex items-center gap-3">
+        <Link href="/how">
+          <Button variant="ghost" size="icon" title="사용방법">
+            <BookOpen className="h-5 w-5" />
           </Button>
         </Link>
-      ) : !isWebView() ? (
-        <Button onClick={handleRequestPermission}>알림 받기</Button>
-      ) : null}
-      {/* <Button onClick={sendNotificationTest}>테스트 알림</Button> */}
-      {/* <Button onClick={() => deleteFcmToken()}>알림 토큰 삭제</Button> */}
-      {permission === "denied" ? (
-        <div className="fixed right-4 bottom-4 left-4 z-50 mx-auto max-w-md rounded-lg border border-red-300 bg-red-100 p-4 text-red-700 shadow-md">
-          <h2 className="mb-1 text-sm font-bold">알림 권한이 꺼져 있어요 😢</h2>
-          <p className="mb-2 text-xs">
-            현재 브라우저 알림 권한이 꺼져 있어 푸시 알림을 받을 수 없어요. 아래
-            설명을 따라 권한을 다시 켜주세요.
-          </p>
-          <ul className="mb-2 list-inside list-disc text-xs text-gray-700">
-            <li>
-              <strong>Android Chrome:</strong> 주소창 오른쪽 ⋮ → 설정 → 알림 →
-              알림 허용
-            </li>
-            <li>
-              <strong>iOS Safari:</strong> 설정 앱 → Safari → 웹사이트 설정 →
-              알림 → 허용
-            </li>
-          </ul>
-          <p className="text-xs text-gray-500 italic">
-            권한을 변경한 후 이 페이지를 새로고침 해주세요.
-          </p>
-        </div>
-      ) : null}
+        {auth.userId ? (
+          <Link href="/mynow">
+            <Button variant="ghost" size="icon" title="내 알람">
+              <Bell className="h-5 w-5" />
+            </Button>
+          </Link>
+        ) : !isWebView() ? (
+          <Button onClick={handleRequestPermission} title="알림받기">
+            알림받기
+          </Button>
+        ) : null}
+        {permission === "denied" ? (
+          <div className="fixed right-4 bottom-4 left-4 z-50 mx-auto max-w-md rounded-lg border border-red-300 bg-red-100 p-4 text-red-700 shadow-md">
+            <h2 className="mb-1 text-sm font-bold">
+              알림 권한이 꺼져 있어요 😢
+            </h2>
+            <p className="mb-2 text-xs">
+              현재 브라우저 알림 권한이 꺼져 있어 푸시 알림을 받을 수 없어요.
+              아래 설명을 따라 권한을 다시 켜주세요.
+            </p>
+            <ul className="mb-2 list-inside list-disc text-xs text-gray-700">
+              <li>
+                <strong>Android Chrome:</strong> 주소창 오른쪽 ⋮ → 설정 → 알림 →
+                알림 허용
+              </li>
+              <li>
+                <strong>iOS Safari:</strong> 설정 앱 → Safari → 웹사이트 설정 →
+                알림 → 허용
+              </li>
+            </ul>
+            <p className="text-xs text-gray-500 italic">
+              권한을 변경한 후 이 페이지를 새로고침 해주세요.
+            </p>
+          </div>
+        ) : null}
+      </div>
     </React.Fragment>
   );
 }
