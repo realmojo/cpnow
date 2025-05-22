@@ -13,6 +13,14 @@ export default function ForegroundNotification() {
         // onMessage 리스너 등록
         onMessage(messaging, (payload: MessagePayload) => {
           console.log("✅ 포그라운드 메시지 수신", payload);
+
+          if (
+            payload.data?.slient === "true" &&
+            payload.data?.check === "validity"
+          ) {
+            console.log("🔐 F 토큰 유효성 검사 완료");
+            return;
+          }
           // if (detectDevice().isMobile) {
           navigator.serviceWorker.ready.then(function (registration) {
             registration.showNotification(payload.data?.title || "", {

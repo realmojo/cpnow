@@ -18,9 +18,14 @@ const messaging = firebase.messaging();
 const isSupported = firebase.messaging.isSupported();
 
 if (messaging && isSupported) {
-  console.log("✅ SW 백그라운드를 수신 합니다.v1.0.10");
+  console.log("✅ SW 백그라운드를 수신 합니다.v1.0.11");
   messaging.onBackgroundMessage(function (payload) {
     console.log("Received background message", payload);
+
+    if (payload.data?.slient === "true" && payload.data?.check === "validity") {
+      console.log("🔐 B 토큰 유효성 검사");
+      return;
+    }
 
     const notificationTitle = payload.data?.title || "";
     const notificationOptions = {
