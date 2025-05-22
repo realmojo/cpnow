@@ -4,38 +4,49 @@ import { useEffect } from "react";
 
 export default function RegisterServiceWorker() {
   useEffect(() => {
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker
-        .register("/firebase-messaging-sw.js?v=v1.0.12")
-        .then((registration) => {
-          console.log("🔐 Service Worker 등록 진행 v1.0.12", registration);
-          // 강제 업데이트 시도
-          try {
-            registration.update();
+    if (typeof window === "undefined" || !("serviceWorker" in navigator))
+      return;
 
-            // 변경 감지
-            registration.onupdatefound = () => {
-              const newWorker = registration.installing;
-              if (newWorker) {
-                newWorker.onstatechange = () => {
-                  if (newWorker.state === "installed") {
-                    if (navigator.serviceWorker.controller) {
-                      // 새 서비스워커가 설치되었음
-                      console.log(
-                        "✅ Service Worker 등록 완료 v1.0.12",
-                        registration,
-                      );
-                    }
-                  }
-                };
-              }
-            };
-          } catch (e) {
-            console.error("Service Worker 강제 업데이트 실패:", e);
-          }
-        })
-        .catch((err) => console.error("Service Worker 등록 실패:", err));
-    }
+    const loadWorkbox = async () => {
+      // 👇 TypeScript에게 이 줄의 타입 오류를 무시하라고 지시
+      // @ts-ignore
+      const module = await import(
+        "https://storage.googleapis.com/workbox-cdn/releases/6.4.1/workbox-window.prod.mjs"
+      );
+
+      const wb = new module.Workbox("/firebase-messaging-sw.js?v=1.0.13");
+
+      const forceUpdateSW = async () => {
+        wb.addEventListener("controlling", () => {
+          console.log(
+            "✅ New service worker is now controlling the page. Reloading...",
+          );
+          window.location.reload();
+        });
+
+        wb.messageSkipWaiting();
+      };
+
+      wb.addEventListener("waiting", () => {
+        console.log(
+          "🆕 New Service Worker waiting to activate. Forcing activation...",
+        );
+        forceUpdateSW();
+      });
+
+      wb.addEventListener("activated", () => {
+        console.log("🔄 Service Worker activated");
+      });
+
+      try {
+        const reg = await wb.register();
+        console.log("🔐 Service Worker registered", reg);
+      } catch (err) {
+        console.error("❌ Service Worker registration failed:", err);
+      }
+    };
+
+    loadWorkbox();
   }, []);
 
   return null;

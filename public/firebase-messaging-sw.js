@@ -61,6 +61,10 @@ if (messaging && isSupported) {
   });
 
   self.addEventListener("message", (event) => {
+    if (event.data && event.data.type === "SKIP_WAITING") {
+      self.skipWaiting();
+    }
+
     if (event.data?.type === "AUTH_TOKEN") {
       // 토큰이 살아 있는지 확인
       const fcmToken = event.data?.fcmToken;
