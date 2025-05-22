@@ -20,7 +20,7 @@ export default function Footer() {
             }}
           />
           {isVisibleToken && (
-            <div className="absolute top-0 left-0 h-full w-full bg-black/50">
+            <div>
               <p>토큰: {localStorage.getItem("cpnow-auth")}</p>
             </div>
           )}
