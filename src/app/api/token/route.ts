@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { insertOne } from "@/lib/db";
+import { insertOne, updateOne } from "@/lib/db";
 
 export async function DELETE(req: NextRequest) {
   try {
@@ -20,14 +20,19 @@ export async function DELETE(req: NextRequest) {
   }
 }
 
-// ✅ POST 요청 처리
-export async function POST(req: NextRequest) {
+// ✅ PATCH 토큰 갱신 요청 처리
+export async function PATCH(req: NextRequest) {
   try {
     const params = await req.json();
 
-    const query =
-      "INSERT INTO users (userId, fcmToken, joinType, regdated) VALUES (?, ?, ?, NOW())";
-    await insertOne(query, [params.userId, params.fcmToken, params.joinType]);
+    if (!params.fcmToken || !params.userId) {
+      throw new Error("no parameter");
+    }
+
+    const { fcmToken, userId } = params;
+
+    const query = "UPDATE users SET fcmToken= ? WHERE userId= ?";
+    await updateOne(query, [fcmToken, userId]);
 
     return NextResponse.json({ success: true, data: "ok" });
   } catch (err) {

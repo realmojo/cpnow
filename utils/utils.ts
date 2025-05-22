@@ -1,4 +1,4 @@
-import { cp } from "fs";
+import { messaging, getToken } from "@/lib/firebase";
 
 export const getTodayDate = () => {
   const today = new Date();
@@ -26,6 +26,22 @@ export const detectDevice = () => {
   };
 };
 
+export const sendNotification = async () => {
+  const cpnowInfo = getUserAuth();
+  const response = await fetch("/api/notify", {
+    method: "POST",
+    body: JSON.stringify({
+      token: cpnowInfo.fcmToken,
+      title: "쿠팡 최저가 알람을 설정하세요 🚀🚀",
+      body: "이제 알람을 받으실 수 있습니다.",
+      icon: "https://cpnow.kr/icons/android-icon-48x48.png",
+      link: "https://cpnow.kr",
+    }),
+  });
+
+  return response;
+};
+
 export const sendNotificationTest = async () => {
   const permission = await Notification.requestPermission();
   if (permission === "granted") {
@@ -33,16 +49,34 @@ export const sendNotificationTest = async () => {
 
     if (cpnowInfo.fcmToken) {
       try {
-        await fetch("/api/notify", {
-          method: "POST",
-          body: JSON.stringify({
-            token: cpnowInfo.fcmToken,
-            title: "쿠팡 최저가 알람을 설정하세요 🚀🚀",
-            body: "이제 알람을 받으실 수 있습니다.",
-            icon: "https://cpnow.kr/icons/android-icon-48x48.png",
-            link: "https://cpnow.kr",
-          }),
-        });
+        const response = await sendNotification();
+
+        const result = await response.json();
+        if (!result.success) {
+          // 토큰이 만료되서 갱신 후 다시 보냅니다.
+          if (messaging) {
+            const fcmToken = await getToken(messaging, {
+              vapidKey: process.env.NEXT_PUBLIC_VAPID_KEY,
+            });
+
+            const cpnow_auth = getUserAuth();
+
+            const cpnowInfo = {
+              userId: cpnow_auth.userId,
+              fcmToken,
+            };
+
+            const res = await fetch("/api/token", {
+              method: "PATCH",
+              body: JSON.stringify(cpnowInfo),
+            });
+
+            if (res.ok) {
+              localStorage.setItem("cpnow-auth", JSON.stringify(cpnowInfo));
+              await sendNotification();
+            }
+          }
+        }
       } catch (error) {
         console.log(error);
       }
