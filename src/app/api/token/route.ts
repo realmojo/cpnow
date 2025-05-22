@@ -19,6 +19,27 @@ export async function DELETE(req: NextRequest) {
     return NextResponse.json({ success: false, error: errorMessage });
   }
 }
+// ✅ PATCH 토큰 갱신 요청 처리
+export async function POST(req: NextRequest) {
+  try {
+    const params = await req.json();
+
+    if (!params.fcmToken || !params.userId) {
+      throw new Error("no parameter");
+    }
+
+    const { fcmToken, userId, joinType } = params;
+
+    const query =
+      "INSERT INTO users (userId, fcmToken, joinType, regdated) VALUES (?, ?, ?, NOW())";
+    await insertOne(query, [userId, fcmToken, joinType]);
+
+    return NextResponse.json({ success: true, data: "ok" });
+  } catch (err) {
+    const errorMessage = err instanceof Error ? err.message : String(err);
+    return NextResponse.json({ success: false, error: errorMessage });
+  }
+}
 
 // ✅ PATCH 토큰 갱신 요청 처리
 export async function PATCH(req: NextRequest) {
