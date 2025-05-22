@@ -15,7 +15,7 @@ export default function ForegroundNotification() {
           console.log("✅ 포그라운드 메시지 수신", payload);
 
           if (
-            payload.data?.slient === "true" &&
+            payload.data?.silent === "true" &&
             payload.data?.check === "validity"
           ) {
             console.log("🔐 F 토큰 유효성 검사 완료");
