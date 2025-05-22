@@ -2,7 +2,7 @@
 import { messaging, onMessage } from "@/lib/firebase";
 import { MessagePayload } from "firebase/messaging";
 import { useEffect } from "react";
-import { detectDevice } from "@/utils/utils";
+// import { detectDevice } from "@/utils/utils";
 export default function ForegroundNotification() {
   useEffect(() => {
     // messaging이 비동기적으로 초기화될 수 있다고 가정
@@ -13,7 +13,6 @@ export default function ForegroundNotification() {
         // onMessage 리스너 등록
         onMessage(messaging, (payload: MessagePayload) => {
           console.log("✅ 포그라운드 메시지 수신", payload);
-          console.log("✅ 포그라운드 메시지 수신", payload.data?.icon);
           // if (detectDevice().isMobile) {
           navigator.serviceWorker.ready.then(function (registration) {
             registration.showNotification(payload.data?.title || "", {
