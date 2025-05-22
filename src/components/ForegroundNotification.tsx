@@ -13,28 +13,28 @@ export default function ForegroundNotification() {
         // onMessage 리스너 등록
         onMessage(messaging, (payload: MessagePayload) => {
           console.log("✅ 포그라운드 메시지 수신", payload);
-
-          if (detectDevice().isMobile) {
-            navigator.serviceWorker.ready.then(function (registration) {
-              registration.showNotification(payload.data?.title || "", {
-                body: payload.data?.body,
-                icon:
-                  payload.data?.icon ||
-                  "https://cpnow.kr/icons/android-icon-48x48.png",
-                requireInteraction: true,
-              });
-            });
-          } else {
-            new Notification(payload.data?.title || "", {
+          console.log("✅ 포그라운드 메시지 수신", payload.data?.icon);
+          // if (detectDevice().isMobile) {
+          navigator.serviceWorker.ready.then(function (registration) {
+            registration.showNotification(payload.data?.title || "", {
               body: payload.data?.body,
               icon:
                 payload.data?.icon ||
                 "https://cpnow.kr/icons/android-icon-48x48.png",
               requireInteraction: true,
-            }).onclick = () => {
-              window.open(payload.data?.link || "https://cpnow.kr", "_blank");
-            };
-          }
+            });
+          });
+          // } else {
+          //   new Notification(payload.data?.title || "", {
+          //     body: payload.data?.body,
+          //     icon:
+          //       payload.data?.icon ||
+          //       "https://cpnow.kr/icons/android-icon-48x48.png",
+          //     requireInteraction: true,
+          //   }).onclick = () => {
+          //     window.open(payload.data?.link || "https://cpnow.kr", "_blank");
+          //   };
+          // }
         });
 
         clearInterval(interval); // 더 이상 반복 확인하지 않음

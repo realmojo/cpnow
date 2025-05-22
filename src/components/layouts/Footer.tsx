@@ -1,7 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 
 export default function Footer() {
+  const [isVisibleToken, setIsVisibleToken] = useState(false);
   return (
     <footer className="mt-6 w-full border-t bg-gray-50 py-6">
       <div className="container mx-auto px-4 text-center text-sm text-gray-600">
@@ -12,7 +14,15 @@ export default function Footer() {
             width={30}
             height={30}
             priority
+            onDoubleClick={() => {
+              setIsVisibleToken(true);
+            }}
           />
+          {isVisibleToken && (
+            <div className="absolute top-0 left-0 h-full w-full bg-black/50">
+              <p>토큰: {localStorage.getItem("cpnow-auth")}</p>
+            </div>
+          )}
         </div>
         <p className="mt-1 leading-relaxed text-gray-600">
           <strong>시피나우(CPNOW)</strong>는 쿠팡 상품의 가격 변동을 실시간으로
