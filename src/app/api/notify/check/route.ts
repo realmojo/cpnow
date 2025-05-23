@@ -14,8 +14,6 @@ export async function POST(req: NextRequest) {
       },
     };
     const response = await messaging.send(message);
-    console.log("✅ 유효한 토큰입니다:", response);
-
     return NextResponse.json({ success: true, messageId: response });
   } catch (err) {
     const errorMessage = err instanceof Error ? err.message : String(err);

@@ -42,6 +42,34 @@ export const sendNotification = async () => {
   return response;
 };
 
+export const refreshToken = async (messaging: any, isTest: boolean = false) => {
+  if (!messaging) return;
+
+  const fcmToken = await getToken(messaging, {
+    vapidKey: process.env.NEXT_PUBLIC_VAPID_KEY,
+  });
+
+  const cpnow_auth = getUserAuth();
+
+  const cpnowInfo = {
+    userId: cpnow_auth.userId,
+    fcmToken,
+  };
+
+  const res = await fetch("/api/token", {
+    method: "PATCH",
+    body: JSON.stringify(cpnowInfo),
+  });
+
+  if (res.ok) {
+    console.log("🔐 토큰 갱신 완료");
+    localStorage.setItem("cpnow-auth", JSON.stringify(cpnowInfo));
+    if (isTest) {
+      await sendNotification();
+    }
+  }
+};
+
 export const sendNotificationTest = async () => {
   const permission = await Notification.requestPermission();
   if (permission === "granted") {
@@ -55,26 +83,7 @@ export const sendNotificationTest = async () => {
         if (!result.success) {
           // 토큰이 만료되서 갱신 후 다시 보냅니다.
           if (messaging) {
-            const fcmToken = await getToken(messaging, {
-              vapidKey: process.env.NEXT_PUBLIC_VAPID_KEY,
-            });
-
-            const cpnow_auth = getUserAuth();
-
-            const cpnowInfo = {
-              userId: cpnow_auth.userId,
-              fcmToken,
-            };
-
-            const res = await fetch("/api/token", {
-              method: "PATCH",
-              body: JSON.stringify(cpnowInfo),
-            });
-
-            if (res.ok) {
-              localStorage.setItem("cpnow-auth", JSON.stringify(cpnowInfo));
-              await sendNotification();
-            }
+            refreshToken(messaging, true);
           }
         }
       } catch (error) {

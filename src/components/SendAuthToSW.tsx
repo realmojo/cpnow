@@ -35,8 +35,6 @@ export default function SendAuthToSW() {
         userId: auth.userId,
         fcmToken: auth.fcmToken,
       });
-
-      console.log("✅ SW에 안전하게 postMessage 전송됨");
     }
 
     sendToSW();
