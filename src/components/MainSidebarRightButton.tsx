@@ -104,7 +104,7 @@ export default function MainSidebarRightButton() {
   return (
     <React.Fragment>
       <div className="flex items-center gap-3">
-        <Link href="/how">
+        <Link href="/guide">
           <Button variant="ghost" size="icon" title="사용방법">
             <BookOpen className="h-5 w-5" />
           </Button>

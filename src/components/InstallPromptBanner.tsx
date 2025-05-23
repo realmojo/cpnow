@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import { detectDevice } from "@/utils/utils";
 
 export default function InstallPromptBanner() {
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
@@ -41,7 +42,7 @@ export default function InstallPromptBanner() {
     setShowBanner(false);
   };
 
-  if (!showBanner) return null;
+  if (!showBanner || detectDevice().isDesktop) return null;
 
   return (
     <div className="fixed right-0 bottom-0 left-0 z-50 border-t border-b border-gray-200 bg-white shadow-md">
