@@ -177,7 +177,7 @@ export default function LocalAuthViewer() {
                       disabled={initLoading}
                       title="알림 초기화"
                     >
-                      알림 초기화 하기
+                      알림 초기화
                       {initLoading && (
                         <Loader2 className="text-muted-foreground ml-2 h-4 w-4 animate-spin" />
                       )}
