@@ -52,7 +52,8 @@ export async function PATCH(req: NextRequest) {
 
     const { fcmToken, userId } = params;
 
-    const query = "UPDATE users SET fcmToken= ? WHERE userId= ?";
+    const query =
+      "UPDATE users SET fcmToken= ?, lastUpdated= NOW() WHERE userId= ?";
     await updateOne(query, [fcmToken, userId]);
 
     return NextResponse.json({ success: true, data: "ok" });
