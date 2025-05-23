@@ -13,7 +13,6 @@ import NaverAnalyticsTracker from "@/src/components/NaverAnalyticsTracker";
 import "./globals.css";
 
 import SendAuthToSW from "../components/SendAuthToSW";
-// import ConsoleOverlay from "../components/ConsoleOverlay";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import InstallPromptBanner from "../components/InstallPromptBanner";
 import { AppSidebar } from "../components/Sidebar";
@@ -118,9 +117,7 @@ export default async function RootLayout({
         <NaverAnalyticsTracker />
         <GoogleAnalytics />
         <ForegroundNotification />
-        {/* <ClientDefaultSeo /> */}
         <SidebarProvider defaultOpen={defaultOpen}>
-          {/* <Header /> */}
           <AppSidebar />
           <main className="min-h-[80vh] w-full">
             <Header />
@@ -141,7 +138,6 @@ export default async function RootLayout({
           />
           <RegisterServiceWorker />
           <SendAuthToSW />
-          {/* <ConsoleOverlay /> */}
           <InstallPromptBanner />
         </SidebarProvider>
       </body>

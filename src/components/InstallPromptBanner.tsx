@@ -1,29 +1,20 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-
-// const ONE_HOUR_MS = 60 * 60 * 1000;
 
 export default function InstallPromptBanner() {
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
   const [showBanner, setShowBanner] = useState(false);
+  const dismissedRef = useRef(false); // 새로고침 시 초기화됨
 
   useEffect(() => {
-    // const lastDismissed = localStorage.getItem("installBannerDismissedAt");
-    // const now = Date.now();
-
-    // console.log(lastDismissed, now);
-
-    // // 마지막으로 닫은 시간 기준 24시간이 지나지 않았으면 배너 안 보임
-    // if (lastDismissed && now - parseInt(lastDismissed) < ONE_HOUR_MS) {
-    //   return;
-    // }
-
     const handler = (e: any) => {
       e.preventDefault(); // 자동 프롬프트 방지
-      setDeferredPrompt(e);
-      setShowBanner(true); // 배너 표시
+      if (!dismissedRef.current) {
+        setDeferredPrompt(e);
+        setShowBanner(true);
+      }
     };
 
     window.addEventListener("beforeinstallprompt", handler);
@@ -46,7 +37,7 @@ export default function InstallPromptBanner() {
   };
 
   const handleClose = () => {
-    localStorage.setItem("installBannerDismissedAt", Date.now().toString());
+    dismissedRef.current = true;
     setShowBanner(false);
   };
 
