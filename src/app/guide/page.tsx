@@ -21,8 +21,8 @@ export default function GuidePage() {
             </h2>
 
             {/* STEP 1 */}
-            <section className="space-y-2">
-              <h3 className="text-lg font-semibold text-gray-900">
+            <section className="space-y-4">
+              <h3 className="text-xl font-semibold text-gray-900">
                 1. 웹사이트 접속 후, 알림 허용 팝업을 확인하세요
               </h3>
               <p className="leading-relaxed text-gray-700">
@@ -40,16 +40,55 @@ export default function GuidePage() {
                 여기서 <strong>“허용”</strong> 버튼을 눌러야 정상적으로 알림을
                 받을 수 있습니다.
               </p>
-              <img
-                src="/guide/cpnow-guide-1.png"
-                alt="브라우저 알림 허용 팝업 예시"
-                className="w-full max-w-lg rounded-md border shadow-md"
-              />
+              <div className="mx-auto w-[360px] space-y-5 rounded-xl border border-gray-300 bg-white p-6 text-center font-sans shadow-lg">
+                <div className="flex items-center justify-center space-x-2 text-sm text-gray-600">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-4 w-4 text-gray-500"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M12 11c0-.962.784-1.746 1.746-1.746s1.746.784 1.746 1.746c0 .962-.784 1.746-1.746 1.746S12 11.962 12 11zm0 0V9m0 4v2"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M5 13V7a2 2 0 012-2h10a2 2 0 012 2v6a7.997 7.997 0 01-4 6.93A7.997 7.997 0 015 13z"
+                    />
+                  </svg>
+                  <span>https://cpnow.kr</span>
+                </div>
+
+                <h2 className="text-xl font-semibold text-gray-900">
+                  알림을 허용하시겠습니까?
+                </h2>
+
+                <div className="flex justify-center gap-4 pt-2">
+                  <button
+                    className="h-10 w-24 rounded-md border border-gray-300 bg-white text-gray-800 transition hover:bg-gray-100"
+                    type="button"
+                  >
+                    차단
+                  </button>
+                  <button
+                    className="h-10 w-24 rounded-md bg-blue-600 font-semibold text-white transition hover:bg-blue-700"
+                    type="button"
+                  >
+                    허용
+                  </button>
+                </div>
+              </div>
             </section>
 
             {/* STEP 2 */}
-            <section className="space-y-2">
-              <h3 className="text-lg font-semibold text-gray-900">
+            <section className="space-y-4">
+              <h3 className="text-xl font-semibold text-gray-900">
                 2. 팝업을 못 봤다면, 수동 설정도 가능합니다
               </h3>
               <ul className="list-inside list-disc leading-relaxed text-gray-700">
@@ -59,8 +98,15 @@ export default function GuidePage() {
                   <strong>🔔 알림 항목을 허용</strong>으로 변경
                 </li>
                 <li>
-                  또는{" "}
-                  <code className="rounded bg-gray-100 px-1">
+                  <code
+                    className="rounded bg-gray-100 px-1"
+                    onClick={() => {
+                      navigator.clipboard.writeText(
+                        "chrome://settings/content/siteDetails?site=https%3A%2F%2Fcpnow.kr%2F",
+                      );
+                      alert("주소가 복사되었습니다.");
+                    }}
+                  >
                     <a
                       href="chrome://settings/content/siteDetails?site=https%3A%2F%2Fcpnow.kr%2F"
                       className="text-blue-600 underline"
@@ -79,25 +125,40 @@ export default function GuidePage() {
             </section>
 
             {/* STEP 3 */}
-            <section className="space-y-2">
-              <h3 className="text-lg font-semibold text-gray-900">
+            <section className="space-y-4">
+              <h3 className="text-xl font-semibold text-gray-900">
                 3. 팝업 차단 기능이 알림 표시를 방해할 수 있습니다
               </h3>
-              <p className="leading-relaxed text-gray-700">
-                일부 브라우저 확장 프로그램이나 백신 프로그램에서{" "}
-                <strong>팝업 차단</strong>이 활성화되어 있을 경우, 알림 요청이
-                제대로 표시되지 않을 수 있습니다.
-                <br />
-                이럴 땐 해당 기능을 일시적으로 꺼주거나,{" "}
-                <strong>예외 목록에 cpnow.kr을 추가</strong>해 주세요.
-              </p>
+
+              <ul className="list-inside list-disc leading-relaxed text-gray-700">
+                <li>
+                  일부 브라우저 확장 프로그램이나 백신 프로그램에서{" "}
+                  <strong>팝업 차단</strong>이 활성화되어 있을 경우, 알림 요청이
+                  제대로 표시되지 않을 수 있습니다.
+                </li>
+                <li>
+                  이럴 땐 해당 기능을 일시적으로 꺼주거나,{" "}
+                  <strong>예외 목록에 cpnow.kr을 추가</strong>해 주세요.
+                </li>
+              </ul>
             </section>
 
             {/* STEP 4 */}
-            <section className="space-y-2">
-              <h3 className="text-lg font-semibold text-gray-900">
+            <section className="space-y-4">
+              <h3 className="text-xl font-semibold text-gray-900">
                 4. 크롬 확장 프로그램을 설치하면 더 편리합니다
               </h3>
+
+              <div className="mt-2">
+                <a
+                  href="https://chromewebstore.google.com/detail/pbmbahoojpmbpjcppobdcabgoigpcgce"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center rounded bg-blue-600 px-5 py-3 font-semibold text-white shadow-md transition hover:bg-blue-700"
+                >
+                  🚀 크롬 확장 프로그램 설치하기
+                </a>
+              </div>
               <p className="leading-relaxed text-gray-700">
                 시피나우를 더 편리하게 이용하려면 공식 크롬 확장 프로그램을
                 설치하세요. <br />
@@ -109,19 +170,7 @@ export default function GuidePage() {
               <ul className="list-inside list-disc text-gray-700">
                 <li>설치 후 로그인 없이 바로 사용 가능</li>
                 <li>모든 쿠팡 상품 페이지에서 실시간 최저가 추적 버튼 노출</li>
-                <li>배경 실행으로 웹서핑 중 자동 추적 가능</li>
               </ul>
-
-              <div className="mt-4">
-                <a
-                  href="https://chromewebstore.google.com/detail/pbmbahoojpmbpjcppobdcabgoigpcgce"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center rounded bg-blue-600 px-5 py-3 font-semibold text-white shadow-md transition hover:bg-blue-700"
-                >
-                  🚀 크롬 확장 프로그램 설치하기
-                </a>
-              </div>
 
               <p className="text-sm text-gray-500">
                 🔐 해당 확장 프로그램은 개인정보를 수집하지 않으며, 사용자의
@@ -140,12 +189,6 @@ export default function GuidePage() {
                 <br />
                 PC에서 이용하려면 반드시 브라우저 알림을 허용해야 하며, 이를
                 통해 더 빠르게 정보를 받아보실 수 있습니다.
-                <br />
-                지금 바로{" "}
-                <a href="https://cpnow.kr" className="text-blue-600 underline">
-                  https://cpnow.kr
-                </a>
-                에 접속해 설정을 확인하세요.
               </p>
             </section>
           </div>

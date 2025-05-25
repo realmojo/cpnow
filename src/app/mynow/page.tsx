@@ -145,81 +145,85 @@ export default function LocalAuthViewer() {
             <>
               <ProductList items={myProductsItems} type="list" />
 
-              <div className="mt-2 flex gap-2">
-                <Button
-                  className="w-1/2"
-                  disabled={loading}
-                  title="알림 테스트"
-                  onClick={async () => {
-                    setLoading(true);
-                    try {
-                      await sendNotificationTest();
-                    } catch (e) {
-                      console.error("알림 전송 실패", e);
-                    } finally {
-                      setTimeout(() => {
-                        setLoading(false);
-                      }, 300);
-                    }
-                  }}
-                >
-                  알림 테스트
-                  {loading && (
-                    <Loader2 className="text-muted-foreground ml-2 h-4 w-4 animate-spin" />
-                  )}
-                </Button>
+              <div className="mt-2 flex w-full gap-2">
+                <div className="flex min-w-0 flex-1">
+                  <Button
+                    className="w-full flex-1"
+                    disabled={loading}
+                    title="알림 테스트"
+                    onClick={async () => {
+                      setLoading(true);
+                      try {
+                        await sendNotificationTest();
+                      } catch (e) {
+                        console.error("알림 전송 실패", e);
+                      } finally {
+                        setTimeout(() => {
+                          setLoading(false);
+                        }, 300);
+                      }
+                    }}
+                  >
+                    <span className="truncate">알림 테스트</span>
+                    {loading && (
+                      <Loader2 className="text-muted-foreground ml-2 h-4 w-4 animate-spin" />
+                    )}
+                  </Button>
+                </div>
 
-                <Dialog open={open} onOpenChange={setOpen}>
-                  <DialogTrigger asChild>
-                    <Button
-                      variant="destructive"
-                      className="w-1/2"
-                      disabled={initLoading}
-                      title="알림 초기화"
-                    >
-                      알림 초기화
-                      {initLoading && (
-                        <Loader2 className="text-muted-foreground ml-2 h-4 w-4 animate-spin" />
-                      )}
-                    </Button>
-                  </DialogTrigger>
-
-                  <DialogContent className="sm:max-w-md">
-                    <DialogHeader>
-                      <DialogTitle>알림 초기화</DialogTitle>
-                    </DialogHeader>
-                    <div className="py-4 text-sm text-gray-700">
-                      정말 알림을 초기화하시겠습니까?
-                    </div>
-                    <DialogFooter className="flex justify-end gap-2">
-                      <Button
-                        variant="outline"
-                        title="취소"
-                        onClick={() => setOpen(false)}
-                      >
-                        취소
-                      </Button>
+                <div className="flex min-w-0 flex-1">
+                  <Dialog open={open} onOpenChange={setOpen}>
+                    <DialogTrigger asChild>
                       <Button
                         variant="destructive"
+                        className="w-full flex-1"
+                        disabled={initLoading}
                         title="알림 초기화"
-                        onClick={async () => {
-                          setInitLoading(true);
-                          try {
-                            await handleConfirm();
-                          } catch (e) {
-                            console.error("초기화 실패", e);
-                          } finally {
-                            setTimeout(() => {
-                              setInitLoading(false);
-                            }, 300);
-                          }
-                        }}
                       >
-                        확인
+                        <span className="truncate">알림 초기화</span>
+                        {initLoading && (
+                          <Loader2 className="text-muted-foreground ml-2 h-4 w-4 animate-spin" />
+                        )}
                       </Button>
-                    </DialogFooter>
-                  </DialogContent>
-                </Dialog>
+                    </DialogTrigger>
+
+                    <DialogContent className="sm:max-w-md">
+                      <DialogHeader>
+                        <DialogTitle>알림 초기화</DialogTitle>
+                      </DialogHeader>
+                      <div className="py-4 text-sm text-gray-700">
+                        정말 알림을 초기화하시겠습니까?
+                      </div>
+                      <DialogFooter className="flex justify-end gap-2">
+                        <Button
+                          variant="outline"
+                          title="취소"
+                          onClick={() => setOpen(false)}
+                        >
+                          취소
+                        </Button>
+                        <Button
+                          variant="destructive"
+                          title="알림 초기화"
+                          onClick={async () => {
+                            setInitLoading(true);
+                            try {
+                              await handleConfirm();
+                            } catch (e) {
+                              console.error("초기화 실패", e);
+                            } finally {
+                              setTimeout(() => {
+                                setInitLoading(false);
+                              }, 300);
+                            }
+                          }}
+                        >
+                          확인
+                        </Button>
+                      </DialogFooter>
+                    </DialogContent>
+                  </Dialog>
+                </div>
               </div>
             </>
           ) : (
