@@ -45,7 +45,7 @@ export default function LocalAuthViewer() {
   const [initLoading, setInitLoading] = useState(false);
 
   const [open, setOpen] = useState(false);
-  const { loginInfo, myAlarmList } = useAppStore();
+  const { loginInfo, getMyAlarmList } = useAppStore();
 
   const handleConfirm = () => {
     loginInit();
@@ -114,9 +114,10 @@ export default function LocalAuthViewer() {
         }
       }
     } else if (parsed?.userId) {
-      setMyProductsItems(myAlarmList);
+      const data = await getMyAlarmList();
+      setMyProductsItems(data);
     }
-  }, [searchParams, myAlarmList]);
+  }, [searchParams]);
 
   useEffect(() => {
     initData();

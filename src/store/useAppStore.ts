@@ -30,7 +30,9 @@ export const useAppStore = create<AppState>((set, get) => ({
     if (res.ok) {
       const data = await res.json();
       set({ myAlarmList: data.reverse() });
+      return data.reverse();
     }
+    return [];
   },
   setMyAlarmList: async (item: any) => {
     const { myAlarmList } = get();
