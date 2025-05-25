@@ -10,6 +10,15 @@ export const getTodayDate = () => {
   return `${year}-${month}-${day}`;
 };
 
+export const getDeliveryType = (src: string) => {
+  if (src.includes("logo_rocket_large")) return 1;
+  if (src.includes("logoRocketMerchant")) return 2;
+  if (src.includes("global_b")) return 3;
+  if (src.includes("rocket-fresh")) return 4;
+  if (src.includes("install")) return 5;
+  return 0;
+};
+
 export const detectDevice = () => {
   const ua = navigator.userAgent;
   const isMobile =

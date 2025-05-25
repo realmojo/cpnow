@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { insertOne, queryList } from "@/lib/db";
+import { getDeliveryType } from "@/utils/utils";
 
 const getRandomLambdaUrl = (productId: string, vendorItemId: string) => {
   const queryString = `?productId=${productId}&vendorItemId=${vendorItemId}`;
@@ -46,15 +47,15 @@ const addNewProduct = async (params: any) => {
     finalPrice: priceModule?.detailPriceBundle?.finalPrice?.price || 0,
     rating: 0, // 현재 JSON엔 없음
     reviewCount: 0, // 현재 JSON엔 없음
-    deliveryType: product.delivery?.type || 0,
+    deliveryType: getDeliveryType(product.delivery?.badgeUrl) || 0,
     productId: baseInfoModule?.itemInfo?.productId || productId,
     itemId: baseInfoModule?.itemInfo?.itemId || itemId,
     vendorItemId: baseInfoModule?.itemInfo?.vendorItemId || vendorItemId,
     thumbnail: baseInfoModule?.itemInfo?.thumbnailImage?.url || null,
     link: `https://www.coupang.com/vp/products/${productId}?itemId=${itemId}&vendorItemId=${vendorItemId}`,
-    categoryId: baseInfoModule?.itemInfo?.categoryId || "",
-    bigCategory: baseInfoModule?.itemInfo?.bigCategory || "",
-    category: baseInfoModule?.itemInfo?.category || "",
+    categoryId: baseInfoModule?.itemInfo?.categoryId || 1,
+    bigCategory: baseInfoModule?.itemInfo?.bigCategory || "카테고리",
+    category: baseInfoModule?.itemInfo?.category || "신규",
   };
 
   const query = `INSERT INTO products (id, bigCategory, category, productId, vendorItemId, itemId, categoryId, title, thumbnail, link, price, lowPrice, highPrice, rating, reviewCount, deliveryType, lastUpdated) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())`;
