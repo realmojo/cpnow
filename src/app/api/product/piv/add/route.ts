@@ -102,10 +102,9 @@ export async function POST(req: NextRequest) {
     console.log(products);
     const product = products.length > 0 ? products[0] : null;
     if (product === null) {
-      console.log("새로등록");
       const params = {
         userId: userId,
-        pId: productId,
+        productId: productId,
         itemId: itemId,
         vendorItemId: vendorItemId,
       };
