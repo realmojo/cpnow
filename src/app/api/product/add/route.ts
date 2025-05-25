@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { insertOne, queryList } from "@/lib/db";
+import { insertOne } from "@/lib/db";
 
-const getRandomLambdaUrl = (productId, vendorItemId) => {
+const getRandomLambdaUrl = (productId: string, vendorItemId: string) => {
   const queryString = `?productId=${productId}&vendorItemId=${vendorItemId}`;
 
   const baseUrls = [
