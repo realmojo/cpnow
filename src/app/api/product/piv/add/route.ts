@@ -60,7 +60,7 @@ const addNewProduct = async (params: any) => {
 
   const query = `INSERT INTO products (id, bigCategory, category, productId, vendorItemId, itemId, categoryId, title, thumbnail, link, price, lowPrice, highPrice, rating, reviewCount, deliveryType, lastUpdated) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())`;
 
-  await insertOne(query, [
+  const pId = await insertOne(query, [
     param.bigCategory,
     param.category,
     param.productId,
@@ -78,7 +78,7 @@ const addNewProduct = async (params: any) => {
     param.deliveryType,
   ]);
 
-  return param.productId;
+  return pId;
 };
 
 export async function POST(req: NextRequest) {
@@ -86,11 +86,6 @@ export async function POST(req: NextRequest) {
     // ✅ URL에서 id 파라미터 추출
     const reqItems = await req.json();
     const { userId, productId, itemId, vendorItemId } = reqItems;
-
-    // const userId = searchParams.get("userId");
-    // const productId = searchParams.get("productId");
-    // const itemId = searchParams.get("itemId");
-    // const vendorItemId = searchParams.get("vendorItemId");
 
     if (!userId || !productId || !itemId || !vendorItemId) {
       return NextResponse.json({ error: "Missing parameter" }, { status: 400 });
