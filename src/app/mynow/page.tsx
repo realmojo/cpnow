@@ -171,7 +171,7 @@ export default function LocalAuthViewer() {
                   </Button>
                 </div>
 
-                {/* <div className="flex min-w-0 flex-1">
+                <div className="flex min-w-0 flex-1">
                   <Dialog open={open} onOpenChange={setOpen}>
                     <DialogTrigger asChild>
                       <Button
@@ -223,7 +223,7 @@ export default function LocalAuthViewer() {
                       </DialogFooter>
                     </DialogContent>
                   </Dialog>
-                </div> */}
+                </div>
               </div>
             </>
           ) : (

@@ -29,8 +29,9 @@ const queryList = async <T extends RowDataPacket = any>(
   return rows;
 };
 
-const insertOne = async (sql: string, params: any[]) => {
-  await pool.execute<ResultSetHeader>(sql, params);
+const insertOne = async (sql: string, params: any[]): Promise<number> => {
+  const [result] = await pool.execute<ResultSetHeader>(sql, params);
+  return result.insertId;
 };
 
 const updateOne = async (sql: string, params: any[]) => {
