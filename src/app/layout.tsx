@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { cookies } from "next/headers";
 import { Toaster } from "@/components/ui/sonner";
 
 import Script from "next/script";
@@ -9,15 +8,14 @@ import RegisterServiceWorker from "@/src/app/register-service-worker";
 import localFont from "next/font/local";
 import GoogleAnalytics from "@/src/components/GoogleAnalytics";
 import NaverAnalyticsTracker from "@/src/components/NaverAnalyticsTracker";
-import { SidebarProvider } from "@/components/ui/sidebar";
-
 import "./globals.css";
 
-import SendAuthToSW from "../components/SendAuthToSW";
-import InstallPromptBanner from "../components/InstallPromptBanner";
-import { AppSidebar } from "../components/Sidebar";
-import ClientOnly from "../components/ClientOnly";
-import ForegroundNotification from "../components/ForegroundNotification";
+import SendAuthToSW from "@/src/components/SendAuthToSW";
+import InstallPromptBanner from "@/src/components/InstallPromptBanner";
+import ClientOnly from "@/src/components/ClientOnly";
+import ForegroundNotification from "@/src/components/ForegroundNotification";
+import LayoutClientWrapper from "@/src/components/LayoutClientWrapper";
+import { ReactNode } from "react";
 
 export const metadata: Metadata = {
   title: "시피나우 - 쿠팡 최저가 알림 서비스(실시간 가격 알림)",
@@ -69,12 +67,11 @@ const pretendard = localFont({
 
 export default async function RootLayout({
   children,
+  modal,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
+  modal: ReactNode;
 }>) {
-  const cookieStore = await cookies();
-  const defaultOpen = cookieStore.get("sidebar_state")?.value === "true";
-
   return (
     <html lang="en" className={`${pretendard.variable}`}>
       <head>
@@ -117,29 +114,28 @@ export default async function RootLayout({
         <NaverAnalyticsTracker />
         <GoogleAnalytics />
         <ForegroundNotification />
-        <SidebarProvider defaultOpen={defaultOpen}>
-          <AppSidebar />
-          <main className="min-h-[80vh] w-full">
-            <Header />
-            {children}
-            <Footer />
-          </main>
-          <Toaster
-            position="bottom-center"
-            toastOptions={{
-              className: "mb-12", // 하단에서 살짝 위
-              style: {
-                backgroundColor: "#e6ffed", // 연한 초록 배경
-                color: "#065f46", // 진한 초록 텍스트
-                border: "1px solid rgb(141, 229, 197)", // 테두리 색상
-                fontWeight: "600",
-              },
-            }}
-          />
-          <RegisterServiceWorker />
-          <SendAuthToSW />
-          <InstallPromptBanner />
-        </SidebarProvider>
+        <main className="min-h-[80vh] w-full">
+          <Header />
+          {children}
+          {modal}
+          <Footer />
+        </main>
+        <LayoutClientWrapper />
+        <Toaster
+          position="bottom-center"
+          toastOptions={{
+            className: "mb-12", // 하단에서 살짝 위
+            style: {
+              backgroundColor: "#e6ffed", // 연한 초록 배경
+              color: "#065f46", // 진한 초록 텍스트
+              border: "1px solid rgb(141, 229, 197)", // 테두리 색상
+              fontWeight: "600",
+            },
+          }}
+        />
+        <RegisterServiceWorker />
+        <SendAuthToSW />
+        <InstallPromptBanner />
       </body>
     </html>
   );

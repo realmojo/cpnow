@@ -15,6 +15,7 @@ import {
   AlertDialogAction,
 } from "@/components/ui/alert-dialog";
 import { ComparePriceDetail } from "./product/ComparePriceDetail";
+
 export default function ProductList({ items = [], type = "grid" }: any) {
   const [productItems, setProductItems] = useState<any[]>([]);
   const [showModal, setShowModal] = useState(false);
@@ -77,7 +78,6 @@ export default function ProductList({ items = [], type = "grid" }: any) {
                         blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgdmlld0JveD0iMCAwIDYwMCA0MDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjYwMCIgaGVpZ2h0PSI0MDAiIGZpbGw9IiNlZWVlZWUiLz48L3N2Zz4="
                       />
                     </CardHeader>
-
                     <CardContent className="space-y-2 p-4">
                       <CardTitle className="line-clamp-2 min-h-[3.5rem] text-sm leading-snug font-medium text-gray-800">
                         {item.title}
@@ -155,7 +155,11 @@ export default function ProductList({ items = [], type = "grid" }: any) {
                     onTouchStart={() => handleMouseDown(item)}
                     onTouchEnd={handleMouseUp}
                   >
-                    <Link href={`/product/${item.id}`} className="flex w-full">
+                    <Link
+                      href={`/product/${item.id}`}
+                      className="flex w-full"
+                      passHref
+                    >
                       <div className="w-28 shrink-0">
                         <Image
                           src={item.thumbnail}

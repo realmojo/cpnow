@@ -372,7 +372,7 @@ export default async function ProductPage({ params }: any) {
             <PriceLineChart items={productItem.priceHistory} />
           </div>
         </section>
-        {productItem.options.length > 1 && (
+        {productItem?.options?.length > 1 && (
           <section className="mt-16 flex justify-center">
             <div className="w-full max-w-[800px] px-4">
               <h2 className="font-heading mt-16 scroll-m-20 text-2xl font-bold tracking-tight first:mt-0">
@@ -382,61 +382,6 @@ export default async function ProductPage({ params }: any) {
             </div>
           </section>
         )}
-        {/* <section className="mt-16 flex justify-center">
-        <div className="w-[800px] px-4">
-          <h2 className="font-heading mt-16 scroll-m-20 text-2xl font-bold tracking-tight first:mt-0">
-            최근 최저가 변경 상품
-          </h2>
-          <Carousel
-            opts={{
-              align: "start",
-              loop: true,
-            }}
-            className="w-full"
-          >
-            <CarouselContent>
-              {Array.from({ length: 8 }).map((_, index) => (
-                <CarouselItem
-                  key={index}
-                  className="basis-1/2 sm:basis-1/2 md:basis-1/3 lg:basis-1/4"
-                >
-                  <div className="p-1">
-                    <Link
-                      href={`/product/3`}
-                      className="block transition hover:shadow-xl"
-                    >
-                      <Card className="border-none bg-transparent shadow-none">
-                        <CardHeader className="p-0">
-                          <Image
-                            src="https://thumbnail8.coupangcdn.com/thumbnails/remote/400x400ex/image/vendor_inventory/d21e/7a9b3ba07a64bf5fcd699da80ae058a5b6ccc192253b634b46d0a87edb6f.jpg"
-                            alt="샘플 이미지"
-                            width={200}
-                            height={200}
-                            className="aspect-square w-full rounded-t-md object-cover"
-                            placeholder="blur"
-                            blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgdmlld0JveD0iMCAwIDYwMCA0MDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjYwMCIgaGVpZ2h0PSI0MDAiIGZpbGw9IiNlZWVlZWUiLz48L3N2Zz4="
-                            priority
-                          />
-                        </CardHeader>
-                        <CardContent className="p-4">
-                          <CardTitle className="mb-1 text-base font-bold">
-                            상품명 또는 제목
-                          </CardTitle>
-                          <CardDescription className="text-sm text-gray-600">
-                            간단한 상품 설명 또는 소개 문구가 여기에 표시됩니다.
-                          </CardDescription>
-                        </CardContent>
-                      </Card>
-                    </Link>
-                  </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
-          </Carousel>
-        </div>
-      </section> */}
 
         <SimilarProductSection categoryId={productItem.categoryId} />
       </article>

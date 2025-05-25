@@ -2,35 +2,13 @@
 import Link from "next/link";
 import Image from "next/image";
 import Logo from "@/public/main-logo.png";
-import { Menu } from "lucide-react";
-import { Sheet, SheetTrigger } from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
-import { useSidebar } from "@/components/ui/sidebar";
 import MainSidebarRightButton from "../MainSidebarRightButton";
 
 export default function Header() {
-  const CustomTrigger = () => {
-    const { toggleSidebar } = useSidebar();
-    return (
-      <Sheet>
-        <SheetTrigger asChild>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={toggleSidebar}
-            title="메뉴 사이드바"
-          >
-            <Menu className="h-5 w-5" />
-          </Button>
-        </SheetTrigger>
-      </Sheet>
-    );
-  };
   return (
     <header className="container mx-auto flex h-16 w-full max-w-[800px] items-center justify-between px-4">
       {/* 왼쪽: 사이드바 + 로고 묶음 */}
       <div className="flex items-center gap-3">
-        <CustomTrigger />
         <Link href="/">
           <Image
             src={Logo}

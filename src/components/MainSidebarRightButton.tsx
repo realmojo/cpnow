@@ -2,74 +2,70 @@
 
 import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
-import { messaging, getToken } from "@/lib/firebase";
-import { nanoid } from "nanoid";
-import { Bell, BookOpen } from "lucide-react";
-import axios from "axios";
+import { BookOpen } from "lucide-react";
 import Link from "next/link";
-import { detectDevice, isWebView, sendNotificationTest } from "@/utils/utils";
+import { isWebView } from "@/utils/utils";
 
 export default function MainSidebarRightButton() {
   const [auth, setAuth] = useState<any>({
     userId: "",
     fcmToken: "",
   });
-  const [permission, setPermission] = useState<NotificationPermission>(
+  const [permission] = useState<NotificationPermission>(
     typeof window !== "undefined" && "Notification" in window
       ? "default"
       : "default",
   );
   const [isReady, setIsReady] = useState(false); // ✅ 추가
 
-  const handleRequestPermission = async () => {
-    const deviceInfo = detectDevice();
-    if (!("Notification" in window)) {
-      alert("이 브라우저는 Notification을 지원하지 않습니다.");
-      return;
-    }
+  // const handleRequestPermission = async () => {
+  //   const deviceInfo = detectDevice();
+  //   if (!("Notification" in window)) {
+  //     alert("이 브라우저는 Notification을 지원하지 않습니다.");
+  //     return;
+  //   }
 
-    const result = await Notification.requestPermission();
-    setPermission(result);
+  //   const result = await Notification.requestPermission();
+  //   setPermission(result);
 
-    if (result === "granted") {
-      toast("알림이 허용되었습니다!", {
-        description: (
-          <span className="font-semibold text-gray-400">
-            이제 최저가 알람 메시지를 받을 수 있어요 🚀
-          </span>
-        ),
-      });
-    } else {
-      setPermission(result);
-    }
+  //   if (result === "granted") {
+  //     toast("알림이 허용되었습니다!", {
+  //       description: (
+  //         <span className="font-semibold text-gray-400">
+  //           이제 최저가 알람 메시지를 받을 수 있어요 🚀
+  //         </span>
+  //       ),
+  //     });
+  //   } else {
+  //     setPermission(result);
+  //   }
 
-    if (messaging) {
-      // FCM 토큰 받아오기
-      const userId = nanoid(12);
-      const fcmToken = await getToken(messaging, {
-        vapidKey: process.env.NEXT_PUBLIC_VAPID_KEY,
-      });
+  //   if (messaging) {
+  //     // FCM 토큰 받아오기
+  //     const userId = nanoid(12);
+  //     const fcmToken = await getToken(messaging, {
+  //       vapidKey: process.env.NEXT_PUBLIC_VAPID_KEY,
+  //     });
 
-      const cpnowInfo = {
-        userId,
-        joinType: "web",
-        fcmToken,
-      };
-      const res = await axios.post("/api/token", cpnowInfo);
-      if (res.status === 200 && res.data.data === "ok") {
-        localStorage.setItem("cpnow-auth", JSON.stringify(cpnowInfo));
-        setAuth(cpnowInfo);
-      }
+  //     const cpnowInfo = {
+  //       userId,
+  //       joinType: "web",
+  //       fcmToken,
+  //     };
+  //     const res = await axios.post("/api/token", cpnowInfo);
+  //     if (res.status === 200 && res.data.data === "ok") {
+  //       localStorage.setItem("cpnow-auth", JSON.stringify(cpnowInfo));
+  //       setAuth(cpnowInfo);
+  //     }
 
-      if (deviceInfo.isDesktop) {
-        sendNotificationTest();
+  //     if (deviceInfo.isDesktop) {
+  //       sendNotificationTest();
 
-        // 포그라운드 메세지 수신
-        // openForegroundMessage(messaging);
-      }
-    }
-  };
+  //       // 포그라운드 메세지 수신
+  //       // openForegroundMessage(messaging);
+  //     }
+  //   }
+  // };
 
   const initAuth = async () => {
     const item = localStorage.getItem("cpnow-auth") || "";
@@ -109,17 +105,12 @@ export default function MainSidebarRightButton() {
             <BookOpen className="h-5 w-5" />
           </Button>
         </Link>
-        {auth.userId ? (
-          <Link href="/mynow">
-            <Button variant="ghost" size="icon" title="내 알람">
-              <Bell className="h-5 w-5" />
-            </Button>
-          </Link>
-        ) : !isWebView() ? (
+        {auth.userId === "" ? null : null}
+        {/* {!isWebView() ? (
           <Button onClick={handleRequestPermission} title="알림받기">
             알림받기
           </Button>
-        ) : null}
+        ) : null} */}
         {permission === "denied" ? (
           <div className="fixed right-4 bottom-4 left-4 z-50 mx-auto max-w-md rounded-lg border border-red-300 bg-red-100 p-4 text-red-700 shadow-md">
             <h2 className="mb-1 text-sm font-bold">
