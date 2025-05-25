@@ -11,7 +11,8 @@ export const getTodayDate = () => {
 };
 
 export const getDeliveryType = (src: string) => {
-  if (src.includes("logo_rocket_large")) return 1;
+  if (src.includes("logo_rocket_large") || src.includes("rocket_logo"))
+    return 1;
   if (src.includes("logoRocketMerchant")) return 2;
   if (src.includes("global_b")) return 3;
   if (src.includes("rocket-fresh")) return 4;
