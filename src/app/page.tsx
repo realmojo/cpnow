@@ -1,9 +1,6 @@
 "use client";
 import React, { Suspense, useEffect, useState, useCallback } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { nanoid } from "nanoid";
-import { toast } from "sonner";
-import axios from "axios";
 import ProductList from "@/src/components/ProductList";
 import { Button } from "@/components/ui/button";
 import { detectDevice, sendNotificationTest } from "@/utils/utils";
@@ -18,6 +15,9 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { BellPlus, Loader2, Menu } from "lucide-react"; // shadcn 아이콘
+import { nanoid } from "nanoid";
+import { toast } from "sonner";
+import axios from "axios";
 
 const sendProductInfo = async (parsedItem: any, parsed: any) => {
   try {
