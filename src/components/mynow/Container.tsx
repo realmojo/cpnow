@@ -122,7 +122,6 @@ export default function MyNowContainer() {
         }
       }
     } else if (parsed?.userId) {
-      console.log("🔔 알림 목록 조회", parsed);
       const data = await getMyAlarmList();
       setMyProductsItems(data);
     }
