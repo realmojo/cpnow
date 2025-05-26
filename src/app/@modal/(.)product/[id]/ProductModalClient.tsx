@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import {
   Drawer,
   DrawerContent,
-  DrawerDescription,
+  DrawerFooter,
   DrawerHeader,
   DrawerTitle,
 } from "@/components/ui/drawer";
@@ -79,45 +79,47 @@ export default function ProductModalClient({ id }: { id: string }) {
   }, [router]);
 
   return (
-    <Drawer open={open} onOpenChange={setOpen}>
-      <DrawerContent className="!fixed !inset-0 !m-0 !h-screen !max-h-screen !w-screen !rounded-none !border-none transition-all duration-300 ease-in-out">
-        <DrawerHeader>
-          <DrawerTitle></DrawerTitle>
-          <DrawerDescription></DrawerDescription>
+    <Drawer
+      open={open}
+      onOpenChange={() => {
+        setOpen(false);
+        setTimeout(() => router.back(), 300);
+      }}
+    >
+      <DrawerContent className="!fixed !inset-0 !m-0 !h-screen !max-h-screen !w-screen !rounded-none !border-none transition-all duration-300 ease-in-out [&>div.bg-muted]:hidden">
+        <DrawerHeader className="border-b">
+          <DrawerTitle className="flex items-center justify-between text-base font-semibold">
+            <div>상품정보</div>
+            {productItem && (
+              <Breadcrumb>
+                <BreadcrumbList>
+                  <BreadcrumbItem>
+                    <BreadcrumbLink asChild>
+                      <Link
+                        href={`/categories/${getCategoryIdByName(productItem.bigCategory)}`}
+                      >
+                        {productItem.bigCategory ?? ""}
+                      </Link>
+                    </BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator />
+                  <BreadcrumbItem>
+                    <BreadcrumbPage>
+                      <BreadcrumbLink asChild>
+                        <Link href={`/categories/${productItem.categoryId}`}>
+                          {productItem.category ?? ""}
+                        </Link>
+                      </BreadcrumbLink>
+                    </BreadcrumbPage>
+                  </BreadcrumbItem>
+                </BreadcrumbList>
+              </Breadcrumb>
+            )}
+          </DrawerTitle>
         </DrawerHeader>
         {productItem && (
-          <div className="flex-1 overflow-y-auto p-4">
-            <article>
-              <h2 className="font-heading flex scroll-m-20 justify-between pb-4 text-2xl font-bold tracking-tight first:mt-0">
-                상품정보
-                <div className="mt-3">
-                  <Breadcrumb>
-                    <BreadcrumbList>
-                      <BreadcrumbItem>
-                        <BreadcrumbLink asChild>
-                          <Link
-                            href={`/categories/${getCategoryIdByName(productItem.bigCategory)}`}
-                          >
-                            {productItem.bigCategory ?? ""}
-                          </Link>
-                        </BreadcrumbLink>
-                      </BreadcrumbItem>
-                      <BreadcrumbSeparator />
-                      <BreadcrumbItem>
-                        <BreadcrumbPage>
-                          <BreadcrumbLink asChild>
-                            <Link
-                              href={`/categories/${productItem.categoryId}`}
-                            >
-                              {productItem.category ?? ""}
-                            </Link>
-                          </BreadcrumbLink>
-                        </BreadcrumbPage>
-                      </BreadcrumbItem>
-                    </BreadcrumbList>
-                  </Breadcrumb>
-                </div>
-              </h2>
+          <div className="flex-1 overflow-y-auto">
+            <article className="mb-16">
               <section className="flex justify-center pt-4">
                 <div className="mx-auto w-full max-w-[800px] px-4">
                   <div className="flex flex-col items-stretch overflow-hidden rounded-lg bg-white sm:flex-row">
@@ -287,6 +289,7 @@ export default function ProductModalClient({ id }: { id: string }) {
           </div>
         )}
       </DrawerContent>
+      <DrawerFooter>ㅁㄴㅇㄹㅁㄴ</DrawerFooter>
     </Drawer>
   );
 }

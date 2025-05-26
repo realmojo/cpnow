@@ -115,7 +115,7 @@ export default function BottomTabBar() {
   return (
     <>
       <Drawer open={open} onOpenChange={setOpen}>
-        <DrawerContent className="h-[30%] rounded-t-2xl">
+        <DrawerContent className="h-[40%] rounded-t-2xl">
           <DrawerHeader>
             <DrawerTitle className="flex items-center justify-between text-xl font-semibold">
               상품 추가하기
@@ -209,9 +209,9 @@ export default function BottomTabBar() {
         </button>
 
         {/* 3. 중앙 공간 확보용 (실제 버튼은 아래에 오버레이) */}
-        <div className="pointer-events-none flex flex-1 items-center justify-center">
-          {/* 비워두거나 아이콘 자리를 맞춰주는 더미 */}
-        </div>
+        {/* <div className="flex flex-1 items-center justify-center">
+          <Plus className="h-5 w-5 opacity-0" />
+        </div> */}
 
         {/* 4. NOW */}
         <button
