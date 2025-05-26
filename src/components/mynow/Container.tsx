@@ -43,9 +43,8 @@ export default function MyNowContainer() {
 
   const searchParams = useSearchParams();
 
-  // const [isReady, setIsReady] = useState(false); // ✅ 추가
+  const [isReady, setIsReady] = useState(false); // ✅ 추가
   const [myProductsItems, setMyProductsItems] = useState<any>([]);
-  const [ready, setReady] = useState(false);
   const [loading, setLoading] = useState(false);
   const [initLoading, setInitLoading] = useState(false);
 
@@ -76,8 +75,14 @@ export default function MyNowContainer() {
         joinType: "web",
         fcmToken,
       };
-      const res = await axios.post("/api/token", cpnowInfo);
-      if (res.status === 200 && res.data.data === "ok") {
+
+      const res = await fetch("/api/token", {
+        method: "POST",
+        body: JSON.stringify(cpnowInfo),
+      });
+      const r = await res.json();
+
+      if (r.data === "ok") {
         localStorage.setItem("cpnow-auth", JSON.stringify(cpnowInfo));
       }
 
@@ -122,7 +127,7 @@ export default function MyNowContainer() {
       const data = await getMyAlarmList();
       setMyProductsItems(data);
     }
-    setReady(true);
+    setIsReady(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
@@ -148,7 +153,7 @@ export default function MyNowContainer() {
     initData();
   }, [initData]);
 
-  if (!ready) {
+  if (!isReady) {
     return (
       <div className="flex min-h-[calc(100vh-64px)] items-start justify-center bg-gray-50 pt-40">
         <div className="text-center">
