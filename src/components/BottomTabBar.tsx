@@ -1,6 +1,6 @@
 // components/BottomTabBar.tsx
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   Plus,
@@ -111,6 +111,26 @@ export default function BottomTabBar() {
       setLink(""); // 입력 필드 초기화
     }
   };
+
+  useEffect(() => {
+    const handlePopState = () => {
+      if (open) {
+        setOpen(false);
+      }
+    };
+
+    // Drawer가 열릴 때 history state 추가
+    if (open) {
+      window.history.pushState({ drawerOpen: true }, "");
+    }
+
+    // popstate 이벤트 리스너 추가
+    window.addEventListener("popstate", handlePopState);
+
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, [open]);
 
   return (
     <>
