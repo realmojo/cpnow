@@ -153,7 +153,6 @@ export default function HomePage() {
 
     const parsed = JSON.parse(stored);
     const item = searchParams.get("item") || "";
-    console.log(item);
     if (item) {
       const parsedItem = JSON.parse(decodeFromBase64(item)) || "";
 
