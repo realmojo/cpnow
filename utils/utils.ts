@@ -81,32 +81,30 @@ export const refreshToken = async (messaging: any, isTest: boolean = false) => {
 };
 
 export const sendNotificationTest = async () => {
+  const cpnowInfo = getUserAuth();
   if (isWebView()) {
-    const cpnowInfo = getUserAuth();
-    const params = {
-      to: cpnowInfo.fcmToken,
-      sound: "default",
-      title: "쿠팡 최저가 알람을 설정하세요 🚀🚀",
-      body: "이제 알람을 받으실 수 있습니다.",
-      icon: "https://cpnow.kr/icons/android-icon-96x96.png",
-      link: "https://cpnow.kr",
-    };
-    console.log(`🔔 ${cpnowInfo.fcmToken} 유저에게 발송`);
     try {
-      const res = await fetch("https://exp.host/--/api/v2/push/send", {
+      const params = {
+        to: cpnowInfo.fcmToken,
+        sound: "default",
+        title: "쿠팡 최저가 알람을 설정하세요 🚀🚀",
+        body: "이제 알람을 받으실 수 있습니다.",
+        icon: "https://cpnow.kr/icons/android-icon-96x96.png",
+        data: {
+          link: "https://cpnow.kr",
+          from: "webview",
+        },
+      };
+      await fetch("https://exp.host/--/api/v2/push/send", {
         method: "POST",
         body: JSON.stringify(params),
       });
-      console.log(res);
-      const result = await res.json();
-      console.log(result);
     } catch (error) {
       console.log(error);
     }
   } else {
     const permission = await Notification.requestPermission();
     if (permission === "granted") {
-      const cpnowInfo = getUserAuth();
       if (cpnowInfo.fcmToken) {
         try {
           const response = await sendNotification();
@@ -130,9 +128,8 @@ export const sendNotificationTest = async () => {
 
 export const getUserAuth = () => {
   const item = localStorage.getItem("cpnow-auth") || "";
-
   if (item) {
-    return JSON.parse(item);
+    return JSON.parse(item || "{}");
   } else {
     return {
       userId: "",

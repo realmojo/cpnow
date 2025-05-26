@@ -15,12 +15,12 @@ interface Props {
 }
 
 // ✅ 서버사이드 상품 불러오기 함수
-async function getRandomProductsByCategoryId(
+const getRandomProductsByCategoryId = async (
   categoryId: number,
-): Promise<any[] | null> {
+): Promise<any[] | null> => {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/category?categoryId=${categoryId}&isRandom=true`,
+      `/api/category?categoryId=${categoryId}&isRandom=true`,
     );
     if (!res.ok) return null;
     const { items } = await res.json();
@@ -43,7 +43,7 @@ async function getRandomProductsByCategoryId(
     console.error("[ERROR] fetching products:", e);
     return null;
   }
-}
+};
 
 export default function CategoryProductSection({ fisrtCategories }: Props) {
   const [category, setCategory] = useState<string | null>(null);

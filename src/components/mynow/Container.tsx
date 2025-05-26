@@ -3,7 +3,12 @@ import React, { useEffect, useState, useCallback } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import ProductList from "@/src/components/ProductList";
 import { Button } from "@/components/ui/button";
-import { getUserAuth, sendNotificationTest, setUserAuth } from "@/utils/utils";
+import {
+  getUserAuth,
+  isWebView,
+  sendNotificationTest,
+  setUserAuth,
+} from "@/utils/utils";
 import { messaging, getToken } from "@/lib/firebase";
 import { useAppStore } from "@/src/store/useAppStore";
 import {
@@ -138,6 +143,7 @@ export default function MyNowContainer() {
   };
 
   const initPermission = async () => {
+    if (isWebView()) return;
     const result = await Notification.requestPermission();
 
     if (result !== "granted") {
@@ -256,49 +262,55 @@ export default function MyNowContainer() {
             </>
           ) : (
             // ✅ 데이터 없음
-            <div className="flex flex-col items-center justify-center py-12 text-center">
-              <div className="mb-6 text-5xl">❤️</div>
+            <div className="flex flex-col justify-center py-12 text-center">
+              <div className="flex pt-4">
+                <div className="w-full rounded-lg bg-white p-10 text-center shadow-lg">
+                  <div className="mb-6">
+                    <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gray-100">
+                      <div className="text-2xl">🔔</div>
+                    </div>
+                    <h2 className="mb-2 text-xl font-bold text-gray-900">
+                      알림 설정이 되었습니다.
+                    </h2>
+                    <p className="text-sm text-gray-600">
+                      이제 관심 있는 상품을 찾아 찜해보세요.
+                      <br />
+                      최저가 알림을 바로 받아보실 수 있어요.
+                    </p>
+                  </div>
 
-              <h2 className="mb-2 text-xl font-bold text-gray-800">
-                알림이 설정되었습니다!
-              </h2>
-              <p className="mb-6 text-sm text-gray-500">
-                이제 관심 있는 상품을 찾아 <strong>찜</strong>해보세요. <br />
-                최저가 알림을 바로 받아보실 수 있어요.
-              </p>
-              <div className="mt-8 flex w-full flex-col gap-3 sm:flex-row sm:justify-between">
-                {/* 카테고리 버튼 (고정폭) */}
-                <Button
-                  variant="outline"
-                  className="text-md w-full px-4 py-6 sm:w-40"
-                  onClick={() => router.push("/categories")}
-                >
-                  <Menu className="mr-2 h-4 w-4" />
-                  카테고리 보러 가기
-                </Button>
+                  <div className="space-y-3">
+                    <Button
+                      onClick={() => router.push("/categories")}
+                      className="text-md text-md w-full rounded-lg bg-blue-600 px-4 py-6 text-white transition-colors hover:bg-blue-700"
+                    >
+                      <Menu className="mr-2 h-4 w-4" />
+                      카테고리
+                    </Button>
 
-                {/* 알림 테스트 버튼 (가변폭 + 로딩) */}
-                <Button
-                  className="text-md w-full px-4 py-6"
-                  disabled={loading}
-                  onClick={async () => {
-                    setLoading(true);
-                    try {
-                      await sendNotificationTest();
-                    } catch (e) {
-                      console.error("알림 전송 실패", e);
-                    } finally {
-                      setTimeout(() => {
-                        setLoading(false);
-                      }, 300);
-                    }
-                  }}
-                >
-                  <span className="truncate">알림 테스트</span>
-                  {loading && (
-                    <Loader2 className="text-muted-foreground ml-2 h-4 w-4 animate-spin" />
-                  )}
-                </Button>
+                    <Button
+                      disabled={loading}
+                      onClick={async () => {
+                        setLoading(true);
+                        try {
+                          await sendNotificationTest();
+                        } catch (e) {
+                          console.error("알림 전송 실패", e);
+                        } finally {
+                          setTimeout(() => {
+                            setLoading(false);
+                          }, 300);
+                        }
+                      }}
+                      className="text-md text-md w-full rounded-lg bg-gray-100 px-4 py-6 text-gray-700 transition-colors hover:bg-gray-200"
+                    >
+                      {loading && (
+                        <Loader2 className="text-muted-foreground ml-2 h-4 w-4 animate-spin" />
+                      )}
+                      알림 테스트
+                    </Button>
+                  </div>
+                </div>
               </div>
             </div>
           )}

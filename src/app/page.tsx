@@ -168,25 +168,6 @@ export default function Page() {
           </p>
         </div>
       </div>
-      // <div className="space-y-3">
-      //   <p className="text-gray-600">
-      //     이 브라우저에서는 알림을 허용할 수 없습니다. 대신 모바일 앱에서 알림을
-      //     받을 수 있습니다.
-      //   </p>
-      //   <Button
-      //     onClick={handleGoToAppStore}
-      //     className="text-md w-full rounded-lg bg-blue-600 px-4 py-6 text-white transition-colors hover:bg-blue-700"
-      //   >
-      //     앱스토어에서 다운로드
-      //   </Button>
-
-      //   <Button
-      //     onClick={handleGoToPlayStore}
-      //     className="text-md w-full rounded-lg bg-green-600 px-4 py-6 text-white transition-colors hover:bg-green-700"
-      //   >
-      //     구글 플레이에서 다운로드
-      //   </Button>
-      // </div>
     );
   }
 

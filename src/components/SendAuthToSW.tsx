@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { isWebView } from "@/utils/utils";
 function waitForServiceWorkerController(): Promise<ServiceWorker> {
   return new Promise((resolve) => {
     if (navigator.serviceWorker.controller) {
@@ -21,6 +22,7 @@ function waitForServiceWorkerController(): Promise<ServiceWorker> {
 }
 export default function SendAuthToSW() {
   useEffect(() => {
+    if (isWebView()) return;
     const authStr = localStorage.getItem("cpnow-auth");
     if (!authStr) return;
 

@@ -26,7 +26,7 @@ export default function ProductList({ items = [], type = "grid" }: any) {
     setItem(item);
     timerRef.current = setTimeout(() => {
       setShowModal(true);
-    }, 1000); // 2초간 누르면 모달 표시
+    }, 700); // 2초간 누르면 모달 표시
   };
 
   const handleMouseUp = () => {
