@@ -1,6 +1,5 @@
 "use client";
 import AlarmButton from "@/src/components/product/AlarmButton";
-
 interface Props {
   productItem: any;
   getShortUrl: string;
