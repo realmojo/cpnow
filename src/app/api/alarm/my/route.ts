@@ -17,7 +17,7 @@ export async function GET(req: NextRequest) {
     let query = "";
     let items = [];
     query =
-      "SELECT * FROM products WHERE id IN (SELECT pId FROM user_alarms WHERE userId = ? ORDER BY regdated DESC);";
+      "SELECT p.* FROM products p INNER JOIN user_alarms ua ON p.id = ua.pId WHERE ua.userId = ? ORDER BY ua.regdated DESC;";
     items = await queryList<any>(query, [userId]);
 
     // ✅ 결과 반환
