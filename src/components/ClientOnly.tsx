@@ -21,7 +21,7 @@ export default function ClientOnly() {
       }
     });
 
-    useAppStore.getState().getMyAlarmList();
+    // useAppStore.getState().getMyAlarmList();
 
     // 정리
     return () => {

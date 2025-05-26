@@ -3,7 +3,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import ProductList from "@/src/components/ProductList";
 import { Button } from "@/components/ui/button";
-import { sendNotificationTest, setUserAuth } from "@/utils/utils";
+import { getUserAuth, sendNotificationTest, setUserAuth } from "@/utils/utils";
 import { messaging, getToken } from "@/lib/firebase";
 import { useAppStore } from "@/src/store/useAppStore";
 import {
@@ -96,10 +96,9 @@ export default function MyNowContainer() {
   };
 
   const initData = useCallback(async () => {
-    const stored = localStorage.getItem("cpnow-auth");
-    if (!stored) return;
+    const parsed = getUserAuth();
+    if (!parsed.userId) return;
 
-    const parsed = JSON.parse(stored);
     const item = searchParams.get("item") || "";
     if (item) {
       const parsedItem = JSON.parse(decodeFromBase64(item)) || "";
@@ -123,6 +122,7 @@ export default function MyNowContainer() {
         }
       }
     } else if (parsed?.userId) {
+      console.log("🔔 알림 목록 조회", parsed);
       const data = await getMyAlarmList();
       setMyProductsItems(data);
     }

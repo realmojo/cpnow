@@ -78,11 +78,6 @@ export default function Page() {
               setUserAuth(cpnowInfo);
               console.log("🔔 토큰 저장", cpnowInfo);
             }
-            // if (res.status === 200 && res.data.data === "ok") {
-            //   localStorage.setItem("cpnow-auth", JSON.stringify(cpnowInfo));
-            //   console.log("🔔 토큰 저장", cpnowInfo);
-            //   setAuth(cpnowInfo);
-            // }
 
             if (detectDevice().isDesktop) {
               sendNotificationTest();
