@@ -194,3 +194,28 @@ export const isWebView = () => {
   const isWebView = /wv|reactnative|react-native/i.test(navigator.userAgent);
   return isWebView;
 };
+
+export const extractRedirectUrlFromHtml = (html: string) => {
+  const regex = /var\s+redirectWebUrl\s*=\s*['"]([^'"]+)['"]/;
+  const match = html.match(regex);
+
+  if (match && match[1]) {
+    // JS 이스케이프 해제 (예: \x3A → :)
+    const raw = match[1];
+    const decoded = unescape(raw.replace(/\\x/g, "%"));
+    return decoded;
+  }
+
+  return null;
+};
+
+export const extractCoupangParams = (url: string) => {
+  const u = new URL(url);
+  const params = u.searchParams;
+
+  return {
+    productId: params.get("pageValue"), // 또는 아래 path에서 추출 가능
+    itemId: params.get("itemId"),
+    vendorItemId: params.get("vendorItemId"),
+  };
+};

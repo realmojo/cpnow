@@ -29,33 +29,8 @@ import {
   DrawerHeader,
   DrawerTitle,
 } from "@/components/ui/drawer";
-import axios from "axios";
 import { getUserAuth } from "@/utils/utils";
 import { toast } from "sonner";
-const extractRedirectUrlFromHtml = (html: string) => {
-  const regex = /var\s+redirectWebUrl\s*=\s*['"]([^'"]+)['"]/;
-  const match = html.match(regex);
-
-  if (match && match[1]) {
-    // JS 이스케이프 해제 (예: \x3A → :)
-    const raw = match[1];
-    const decoded = unescape(raw.replace(/\\x/g, "%"));
-    return decoded;
-  }
-
-  return null;
-};
-
-const extractCoupangParams = (url: string) => {
-  const u = new URL(url);
-  const params = u.searchParams;
-
-  return {
-    productId: params.get("pageValue"), // 또는 아래 path에서 추출 가능
-    itemId: params.get("itemId"),
-    vendorItemId: params.get("vendorItemId"),
-  };
-};
 
 export default function BottomTabBar() {
   const router = useRouter();
@@ -64,45 +39,28 @@ export default function BottomTabBar() {
 
   const handleAddLink = async () => {
     if (link.trim()) {
-      // 여기서 링크 추가 로직 처리
-      console.log("추가된 링크:", link);
+      const auth = await getUserAuth();
+      if (!auth) {
+        toast.error("알람 설정 후 이용해주세요.");
+        return;
+      }
 
-      const response = await axios.get(link, {
-        maxRedirects: 0, // 리디렉션 따라가지 않음
-        validateStatus: (status) => status >= 200 && status < 400, // 3xx 응답도 허용
-        headers: {
-          "User-Agent":
-            "Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148",
-        },
+      const params = {
+        userId: auth.userId,
+        link,
+      };
+
+      const res = await fetch("/api/product/add/link", {
+        method: "POST",
+        body: JSON.stringify(params),
       });
 
-      // const cookie = response.headers["set-cookie"];
-      const redirectedUrl = extractRedirectUrlFromHtml(response.data);
-      const { productId, itemId, vendorItemId } = extractCoupangParams(
-        redirectedUrl ?? "",
-      );
-
-      const cpnowAuth = await getUserAuth();
-      const userId = cpnowAuth.userId;
-      console.log(userId, productId, itemId, vendorItemId);
-
-      const { data } = await axios.post(
-        `/api/product/piv/add`,
-        {
-          userId,
-          productId,
-          itemId,
-          vendorItemId,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        },
-      );
+      const data = await res.json();
 
       if (data.success) {
         toast.success("상품이 추가되었습니다.");
+        setOpen(false);
+        router.push("/mynow");
       } else {
         toast.error("상품 추가에 실패했습니다.");
       }
