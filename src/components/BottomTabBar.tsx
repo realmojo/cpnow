@@ -115,7 +115,7 @@ export default function BottomTabBar() {
   return (
     <>
       <Drawer open={open} onOpenChange={setOpen}>
-        <DrawerContent className="h-[20%] rounded-t-2xl">
+        <DrawerContent className="h-[30%] rounded-t-2xl">
           <DrawerHeader>
             <DrawerTitle className="flex items-center justify-between text-xl font-semibold">
               상품 추가하기
@@ -167,18 +167,6 @@ export default function BottomTabBar() {
                         onChange={(e) => setLink(e.target.value)}
                         className="flex-1"
                       />
-                      {/* {link && (
-                        <Button
-                          type="button"
-                          size="sm"
-                          variant="outline"
-                          className="px-3"
-                          onClick={copyToClipboard}
-                        >
-                          <span className="sr-only">Copy</span>
-                          <Copy className="h-4 w-4" />
-                        </Button>
-                      )} */}
                     </div>
                   </div>
                 </div>
@@ -202,6 +190,7 @@ export default function BottomTabBar() {
         </DrawerContent>
       </Drawer>
       <nav className="fixed right-0 bottom-0 left-0 z-50 flex h-16 border-t bg-white shadow-inner">
+        {/* 1. 찜 */}
         <button
           onClick={() => router.push("/")}
           className="text-muted-foreground hover:text-primary flex flex-1 flex-col items-center justify-center"
@@ -210,6 +199,7 @@ export default function BottomTabBar() {
           <span className="mt-1 text-xs">찜</span>
         </button>
 
+        {/* 2. 카테고리 */}
         <button
           onClick={() => router.push("/categories")}
           className="text-muted-foreground hover:text-primary flex flex-1 flex-col items-center justify-center"
@@ -217,16 +207,13 @@ export default function BottomTabBar() {
           <Menu className="h-5 w-5" />
           <span className="mt-1 text-xs">카테고리</span>
         </button>
-        {/* 중앙 + 버튼 */}
-        <div className="absolute -top-6 left-1/2 z-50 -translate-x-1/2">
-          <Button
-            onClick={() => setOpen(true)} // 👉 Drawer 열기
-            className="bg-primary flex h-14 w-14 items-center justify-center rounded-full border-4 border-white text-white shadow-xl"
-          >
-            <Plus className="h-6 w-6" />
-          </Button>
+
+        {/* 3. 중앙 공간 확보용 (실제 버튼은 아래에 오버레이) */}
+        <div className="pointer-events-none flex flex-1 items-center justify-center">
+          {/* 비워두거나 아이콘 자리를 맞춰주는 더미 */}
         </div>
 
+        {/* 4. NOW */}
         <button
           onClick={() => router.push("/now")}
           className="text-muted-foreground hover:text-primary flex flex-1 flex-col items-center justify-center"
@@ -235,6 +222,7 @@ export default function BottomTabBar() {
           <span className="mt-1 text-xs">NOW</span>
         </button>
 
+        {/* 5. 검색 */}
         <button
           onClick={() => router.push("/search")}
           className="text-muted-foreground hover:text-primary flex flex-1 flex-col items-center justify-center"
@@ -242,6 +230,16 @@ export default function BottomTabBar() {
           <Search className="h-5 w-5" />
           <span className="mt-1 text-xs">검색</span>
         </button>
+
+        {/* 중앙 floating + 버튼 */}
+        <div className="absolute -top-6 left-1/2 z-50 -translate-x-1/2">
+          <Button
+            onClick={() => setOpen(true)}
+            className="bg-primary flex h-14 w-14 items-center justify-center rounded-full border-4 border-white text-white shadow-xl"
+          >
+            <Plus className="h-6 w-6" />
+          </Button>
+        </div>
       </nav>
     </>
   );

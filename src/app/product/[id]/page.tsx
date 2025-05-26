@@ -196,7 +196,7 @@ export default async function ProductPage({ params }: any) {
         }}
       />
       <article>
-        <section className="flex justify-center pt-8">
+        <section className="flex justify-center pt-4">
           <div className="mx-auto w-full max-w-[800px] px-4">
             <h2 className="font-heading flex scroll-m-20 justify-between pb-4 text-2xl font-bold tracking-tight first:mt-0">
               상품정보
