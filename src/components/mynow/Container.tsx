@@ -288,29 +288,31 @@ export default function MyNowContainer() {
                       카테고리
                     </Button>
 
-                    <Button
-                      disabled={loading}
-                      onClick={async () => {
-                        setLoading(true);
-                        try {
-                          await sendNotificationTest();
-                        } catch (e) {
-                          console.error("알림 전송 실패", e);
-                        } finally {
-                          setTimeout(() => {
-                            setLoading(false);
-                          }, 300);
-                        }
-                      }}
-                      className="text-md text-md w-full rounded-lg bg-gray-100 px-4 py-6 text-gray-700 transition-colors hover:bg-gray-200"
-                    >
-                      {loading ? (
-                        <Loader2 className="text-muted-foreground ml-2 h-4 w-4 animate-spin" />
-                      ) : (
-                        <Bell className="text-muted-foreground ml-2 h-4 w-4" />
-                      )}
-                      알림 테스트
-                    </Button>
+                    {!isWebView() && (
+                      <Button
+                        disabled={loading}
+                        onClick={async () => {
+                          setLoading(true);
+                          try {
+                            await sendNotificationTest();
+                          } catch (e) {
+                            console.error("알림 전송 실패", e);
+                          } finally {
+                            setTimeout(() => {
+                              setLoading(false);
+                            }, 300);
+                          }
+                        }}
+                        className="text-md text-md w-full rounded-lg bg-gray-100 px-4 py-6 text-gray-700 transition-colors hover:bg-gray-200"
+                      >
+                        {loading ? (
+                          <Loader2 className="text-muted-foreground ml-2 h-4 w-4 animate-spin" />
+                        ) : (
+                          <Bell className="text-muted-foreground ml-2 h-4 w-4" />
+                        )}
+                        알림 테스트
+                      </Button>
+                    )}
                   </div>
                 </div>
               </div>
