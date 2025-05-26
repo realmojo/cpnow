@@ -81,27 +81,51 @@ export const refreshToken = async (messaging: any, isTest: boolean = false) => {
 };
 
 export const sendNotificationTest = async () => {
-  const permission = await Notification.requestPermission();
-  if (permission === "granted") {
+  if (isWebView()) {
     const cpnowInfo = getUserAuth();
-
-    if (cpnowInfo.fcmToken) {
-      try {
-        const response = await sendNotification();
-
-        const result = await response.json();
-        if (!result.success) {
-          // 토큰이 만료되서 갱신 후 다시 보냅니다.
-          if (messaging) {
-            refreshToken(messaging, true);
-          }
-        }
-      } catch (error) {
-        console.log(error);
-      }
+    const params = {
+      to: cpnowInfo.fcmToken,
+      sound: "default",
+      title: "쿠팡 최저가 알람을 설정하세요 🚀🚀",
+      body: "이제 알람을 받으실 수 있습니다.",
+      icon: "https://cpnow.kr/icons/android-icon-96x96.png",
+      link: "https://cpnow.kr",
+    };
+    console.log(`🔔 ${cpnowInfo.fcmToken} 유저에게 발송`);
+    try {
+      const res = await fetch("https://exp.host/--/api/v2/push/send", {
+        method: "POST",
+        body: JSON.stringify(params),
+      });
+      console.log(res);
+      const result = await res.json();
+      console.log(result);
+    } catch (error) {
+      console.log(error);
     }
   } else {
-    alert("알림 권한이 필요합니다.");
+    const permission = await Notification.requestPermission();
+    if (permission === "granted") {
+      const cpnowInfo = getUserAuth();
+
+      if (cpnowInfo.fcmToken) {
+        try {
+          const response = await sendNotification();
+
+          const result = await response.json();
+          if (!result.success) {
+            // 토큰이 만료되서 갱신 후 다시 보냅니다.
+            if (messaging) {
+              refreshToken(messaging, true);
+            }
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    } else {
+      alert("알림 권한이 필요합니다.");
+    }
   }
 };
 
