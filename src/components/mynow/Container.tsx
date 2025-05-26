@@ -19,7 +19,7 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
-import { Loader2, Menu } from "lucide-react"; // shadcn 아이콘
+import { Bell, Loader2, Menu } from "lucide-react"; // shadcn 아이콘
 import { nanoid } from "nanoid";
 
 const sendProductInfo = async (parsedItem: any, parsed: any) => {
@@ -304,8 +304,10 @@ export default function MyNowContainer() {
                       }}
                       className="text-md text-md w-full rounded-lg bg-gray-100 px-4 py-6 text-gray-700 transition-colors hover:bg-gray-200"
                     >
-                      {loading && (
+                      {loading ? (
                         <Loader2 className="text-muted-foreground ml-2 h-4 w-4 animate-spin" />
+                      ) : (
+                        <Bell className="text-muted-foreground ml-2 h-4 w-4" />
                       )}
                       알림 테스트
                     </Button>
