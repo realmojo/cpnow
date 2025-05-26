@@ -1,7 +1,5 @@
 "use client";
 import Link from "next/link";
-import Image from "next/image";
-import Logo from "@/public/cpnow-logo.png";
 import MainSidebarRightButton from "../MainSidebarRightButton";
 
 export default function Header() {
