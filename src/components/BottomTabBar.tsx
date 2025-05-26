@@ -212,7 +212,7 @@ export default function BottomTabBar() {
       <nav className="fixed right-0 bottom-0 left-0 z-50 flex h-16 border-t bg-white shadow-inner">
         {/* 1. 찜 */}
         <button
-          onClick={() => router.push("/")}
+          onClick={() => router.push("/mynow")}
           className="text-muted-foreground hover:text-primary flex flex-1 flex-col items-center justify-center"
         >
           <Heart className="h-5 w-5" />

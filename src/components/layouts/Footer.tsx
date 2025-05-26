@@ -6,7 +6,7 @@ import { useState } from "react";
 export default function Footer() {
   const [isVisibleToken, setIsVisibleToken] = useState(false);
   return (
-    <footer className="mt-6 w-full border-t bg-gray-50 py-6">
+    <footer className="w-full border-t bg-gray-50 py-6">
       <div className="container mx-auto px-4 text-center text-sm text-gray-600">
         <div className="mb-2 flex justify-center">
           <Image

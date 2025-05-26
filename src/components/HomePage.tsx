@@ -198,7 +198,7 @@ export default function HomePage() {
 
   return (
     <article>
-      <section className="mt-8 flex justify-center">
+      <section className="mt-4 flex justify-center">
         <div className="w-[800px] px-4">
           {myProductsItems.length === 0 ? (
             <>

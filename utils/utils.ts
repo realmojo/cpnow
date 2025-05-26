@@ -118,6 +118,10 @@ export const getUserAuth = () => {
   }
 };
 
+export const setUserAuth = (cpnowInfo: any) => {
+  localStorage.setItem("cpnow-auth", JSON.stringify(cpnowInfo));
+};
+
 export const fisrtCategories = [
   {
     categoryId: 564653,
