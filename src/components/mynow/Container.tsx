@@ -16,7 +16,6 @@ import {
 } from "@/components/ui/dialog";
 import { Loader2, Menu } from "lucide-react"; // shadcn 아이콘
 import { nanoid } from "nanoid";
-import axios from "axios";
 
 const sendProductInfo = async (parsedItem: any, parsed: any) => {
   try {
