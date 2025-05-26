@@ -23,8 +23,6 @@ export default function StickyActionBar({ productItem, getShortUrl }: Props) {
           </div>
         </div>
       </div>
-      {/* 페이지 하단 여백 */}
-      <div className="pb-safe h-14" />
     </>
   );
 }
