@@ -431,7 +431,6 @@ export default function ProductModalClient({ id }: { id: string }) {
             </div>
           )}
         </DrawerContent>
-        <DrawerFooter>ㅁㄴㅇㄹㅁㄴ</DrawerFooter>
       </Drawer>
     </>
   );
