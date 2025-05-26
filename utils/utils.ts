@@ -107,7 +107,6 @@ export const sendNotificationTest = async () => {
     const permission = await Notification.requestPermission();
     if (permission === "granted") {
       const cpnowInfo = getUserAuth();
-
       if (cpnowInfo.fcmToken) {
         try {
           const response = await sendNotification();
