@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import {
   Drawer,
   DrawerContent,
-  DrawerFooter,
   DrawerHeader,
   DrawerTitle,
 } from "@/components/ui/drawer";
@@ -63,8 +62,6 @@ export default function ProductModalClient({ id }: { id: string }) {
     const productItem = await getProductById(id);
     setProductItem(productItem);
   };
-
-  const isValidUrl = (url: string) => /^https?:\/\//.test(url);
 
   const renderJsonLd = () => {
     if (!productItem) return null;
@@ -220,7 +217,7 @@ export default function ProductModalClient({ id }: { id: string }) {
 
   return (
     <>
-      {renderJsonLd()}
+      {productItem && renderJsonLd()}
       <Drawer
         open={open}
         onOpenChange={() => {
