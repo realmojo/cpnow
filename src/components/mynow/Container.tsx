@@ -180,30 +180,32 @@ export default function MyNowContainer() {
               <ProductList items={myProductsItems} type="list" />
 
               <div className="mt-2 flex w-full gap-2">
-                <div className="flex min-w-0 flex-1">
-                  <Button
-                    className="w-full flex-1"
-                    disabled={loading}
-                    title="알림 테스트"
-                    onClick={async () => {
-                      setLoading(true);
-                      try {
-                        await sendNotificationTest();
-                      } catch (e) {
-                        console.error("알림 전송 실패", e);
-                      } finally {
-                        setTimeout(() => {
-                          setLoading(false);
-                        }, 300);
-                      }
-                    }}
-                  >
-                    <span className="truncate">알림 테스트</span>
-                    {loading && (
-                      <Loader2 className="text-muted-foreground ml-2 h-4 w-4 animate-spin" />
-                    )}
-                  </Button>
-                </div>
+                {!isWebView() && (
+                  <div className="flex min-w-0 flex-1">
+                    <Button
+                      className="w-full flex-1"
+                      disabled={loading}
+                      title="알림 테스트"
+                      onClick={async () => {
+                        setLoading(true);
+                        try {
+                          await sendNotificationTest();
+                        } catch (e) {
+                          console.error("알림 전송 실패", e);
+                        } finally {
+                          setTimeout(() => {
+                            setLoading(false);
+                          }, 300);
+                        }
+                      }}
+                    >
+                      <span className="truncate">알림 테스트</span>
+                      {loading && (
+                        <Loader2 className="text-muted-foreground ml-2 h-4 w-4 animate-spin" />
+                      )}
+                    </Button>
+                  </div>
+                )}
 
                 <div className="flex min-w-0 flex-1">
                   <Dialog open={open} onOpenChange={setOpen}>
