@@ -11,13 +11,14 @@ export const getTodayDate = () => {
 };
 
 export const getDeliveryType = (src: string) => {
-  if (src.includes("logo_rocket_large") || src.includes("rocket_logo"))
+  if (!src) return 0;
+  else if (src.includes("logo_rocket_large") || src.includes("rocket_logo"))
     return 1;
-  if (src.includes("logoRocketMerchant")) return 2;
-  if (src.includes("global_b")) return 3;
-  if (src.includes("rocket-fresh")) return 4;
-  if (src.includes("install")) return 5;
-  return 0;
+  else if (src.includes("logoRocketMerchant")) return 2;
+  else if (src.includes("global_b")) return 3;
+  else if (src.includes("rocket-fresh")) return 4;
+  else if (src.includes("install")) return 5;
+  else return 0;
 };
 
 export const detectDevice = () => {

@@ -51,7 +51,7 @@ const addNewProduct = async (params: any) => {
     finalPrice: priceModule?.detailPriceBundle?.finalPrice?.price || 0,
     rating: 0, // 현재 JSON엔 없음
     reviewCount: 0, // 현재 JSON엔 없음
-    deliveryType: getDeliveryType(product.delivery?.badgeUrl) || 0,
+    deliveryType: getDeliveryType(product.delivery?.badgeUrl || "") || 0,
     productId: baseInfoModule?.itemInfo?.productId || productId,
     itemId: baseInfoModule?.itemInfo?.itemId || itemId,
     vendorItemId: baseInfoModule?.itemInfo?.vendorItemId || vendorItemId,
@@ -108,7 +108,6 @@ export async function POST(req: NextRequest) {
               "Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148",
           },
         });
-
         if (response.status === 200) {
           const redirectUrl = extractRedirectUrlFromHtml(response.data);
           if (!redirectUrl) {
@@ -130,7 +129,6 @@ export async function POST(req: NextRequest) {
     } else {
       throw new Error("올바르지 않은 링크입니다");
     }
-
     if (!productId || !itemId || !vendorItemId) {
       return NextResponse.json(
         { error: "올바르지 않은 링크입니다" },
@@ -141,7 +139,6 @@ export async function POST(req: NextRequest) {
     let query =
       "SELECT * FROM products p where productId = ? AND itemId = ? AND vendorItemId = ?";
     const products = await queryList(query, [productId, itemId, vendorItemId]);
-
     const params = {
       userId: userId,
       pId: 0,
