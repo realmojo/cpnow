@@ -50,9 +50,9 @@ export default function ProductModalClient({ id }: { id: string }) {
   };
 
   const getShortUrl = (item: any) => {
-    const { shortUrl, link } = item;
-    if (shortUrl && shortUrl.startsWith("https")) {
-      return shortUrl;
+    const { landingUrl, link } = item;
+    if (landingUrl && landingUrl.startsWith("https")) {
+      return landingUrl;
     } else {
       return link;
     }
@@ -69,10 +69,7 @@ export default function ProductModalClient({ id }: { id: string }) {
     const title = `${productItem.title} - 실시간 최저가 비교 | 시피나우`;
     const description = `${productItem.title}의 최저가는 ${productItem.lowPrice?.toLocaleString()}원입니다. 실시간 가격 비교, 리뷰 확인, 빠른 배송까지 한눈에 확인하세요.`;
     const image = productItem.thumbnail;
-    const canonicalUrl =
-      productItem.shortUrl ||
-      productItem.link ||
-      `https://cpnow.kr/product/${productItem.id}`;
+    const canonicalUrl = `https://cpnow.kr/product/${productItem.id}`;
 
     const hasValidRating =
       productItem.rating &&

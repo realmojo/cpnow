@@ -88,9 +88,9 @@ export default async function ProductPage({ params }: any) {
   };
 
   const getShortUrl = (item: any) => {
-    const { shortUrl, link } = item;
-    if (shortUrl && shortUrl.startsWith("https")) {
-      return shortUrl;
+    const { landingUrl, link } = item;
+    if (landingUrl && landingUrl.startsWith("https")) {
+      return landingUrl;
     } else {
       return link;
     }
