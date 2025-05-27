@@ -88,7 +88,7 @@ export const sendNotificationTest = async () => {
       to: cpnowInfo.fcmToken,
       sound: "default",
       title: "시피나우",
-      body: "쿠팡 최저가 알람을 설정하세요 🚀🚀",
+      body: "쿠팡 최저가 상품 알람을 설정하세요 🚀🚀",
       icon: "https://cpnow.kr/icons/android-icon-96x96.png",
       data: {
         link: "https://cpnow.kr",
