@@ -133,7 +133,7 @@ export default function CategoryProductSection({ fisrtCategories }: Props) {
       </section>
       {/* 전체화면 로딩 오버레이 */}
       {loading && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
           <div className="text-center">
             <div className="mx-auto h-8 w-8 animate-spin rounded-full border-b-2 border-blue-600"></div>
           </div>
