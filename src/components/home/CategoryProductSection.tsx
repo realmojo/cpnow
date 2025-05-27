@@ -1,7 +1,5 @@
 "use client";
 import React, { useState, Suspense, useEffect } from "react";
-
-import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ProductList from "@/src/components/ProductList";
 
@@ -136,7 +134,9 @@ export default function CategoryProductSection({ fisrtCategories }: Props) {
       {/* 전체화면 로딩 오버레이 */}
       {loading && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <Loader2 className="h-10 w-10 animate-spin text-white" />
+          <div className="text-center">
+            <div className="mx-auto h-8 w-8 animate-spin rounded-full border-b-2 border-blue-600"></div>
+          </div>
         </div>
       )}
     </article>

@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import ProductList from "@/src/components/ProductList";
-import { Loader2 } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 type Props = {
@@ -61,8 +60,9 @@ export default function SimilarProductSection({ categoryId }: Props) {
         {/* 로딩 중 표시 */}
         {isLoading && (
           <div className="flex justify-center py-10">
-            <Loader2 className="h-6 w-6 animate-spin text-gray-500" />
-            <span className="ml-2 text-sm text-gray-500">로딩 중입니다...</span>
+            <div className="text-center">
+              <div className="mx-auto h-8 w-8 animate-spin rounded-full border-b-2 border-blue-600"></div>
+            </div>
           </div>
         )}
 
