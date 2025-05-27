@@ -84,25 +84,21 @@ export const refreshToken = async (messaging: any, isTest: boolean = false) => {
 export const sendNotificationTest = async () => {
   const cpnowInfo = getUserAuth();
   if (isWebView()) {
-    try {
-      const params = {
-        to: cpnowInfo.fcmToken,
-        sound: "default",
-        title: "쿠팡 최저가 알람을 설정하세요 🚀🚀",
-        body: "이제 알람을 받으실 수 있습니다.",
-        icon: "https://cpnow.kr/icons/android-icon-96x96.png",
-        data: {
-          link: "https://cpnow.kr",
-          from: "webview",
-        },
-      };
-      await fetch("https://exp.host/--/api/v2/push/send", {
-        method: "POST",
-        body: JSON.stringify(params),
-      });
-    } catch (error) {
-      console.log(error);
-    }
+    const params = {
+      to: cpnowInfo.fcmToken,
+      sound: "default",
+      title: "쿠팡 최저가 알람을 설정하세요 🚀🚀",
+      body: "이제 알람을 받으실 수 있습니다.",
+      icon: "https://cpnow.kr/icons/android-icon-96x96.png",
+      data: {
+        link: "https://cpnow.kr",
+        from: "webview",
+      },
+    };
+    await fetch("https://exp.host/--/api/v2/push/send", {
+      method: "POST",
+      body: JSON.stringify(params),
+    });
   } else {
     const permission = await Notification.requestPermission();
     if (permission === "granted") {
@@ -239,4 +235,19 @@ export const extractCoupangParams = (url: string) => {
     itemId: params.get("itemId"),
     vendorItemId: params.get("vendorItemId"),
   };
+};
+
+// 쿠팡 링크 유효성 검사 함수
+export const validateCoupangLink = (url: string) => {
+  if (!url.trim()) {
+    return "";
+  }
+
+  const isValidCoupangLink = url.includes("coupang");
+
+  if (!isValidCoupangLink) {
+    return "유효한 쿠팡 링크를 입력해주세요.";
+  }
+
+  return "";
 };
