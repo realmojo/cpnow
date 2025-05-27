@@ -17,9 +17,18 @@ import { Input } from "@/components/ui/input";
 import {
   Drawer,
   DrawerContent,
+  DrawerDescription,
   DrawerHeader,
   DrawerTitle,
 } from "@/components/ui/drawer";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
 import { getUserAuth, validateCoupangLink } from "@/utils/utils";
 import { toast } from "sonner";
 
@@ -63,13 +72,21 @@ export default function BottomTabBar() {
       if (data.success) {
         toast.success("상품이 추가되었습니다.");
         setOpen(false);
-        router.push("/mynow");
+        setLink(""); // 입력 필드 초기화
+        setOpenLink(false);
+
+        console.log(123);
+        console.log(pathname);
+        if (pathname.includes("mynow")) {
+          location.href = "/mynow";
+        } else {
+          router.push("/mynow");
+        }
       } else {
         toast.error("상품 추가에 실패했습니다.");
       }
 
       // API 호출이나 상태 업데이트 등
-      setLink(""); // 입력 필드 초기화
     }
   };
 
@@ -99,6 +116,7 @@ export default function BottomTabBar() {
         <DrawerContent className="h-[40%] rounded-t-2xl">
           <DrawerHeader className="m-0 p-0">
             <DrawerTitle className="flex items-center justify-between text-xl font-semibold"></DrawerTitle>
+            <DrawerDescription></DrawerDescription>
           </DrawerHeader>
 
           <div className="mt-4 space-y-3 px-4">
@@ -119,12 +137,8 @@ export default function BottomTabBar() {
               variant="outline"
               className="hover:bg-muted w-full justify-start gap-3 px-4 py-6 text-left shadow-sm"
               onClick={() => {
-                // Drawer 닫기
-                // 약간의 지연 후 Drawer 닫기 (애니메이션 고려)
                 setOpen(false);
-                setTimeout(() => {
-                  setOpenLink(true);
-                }, 200);
+                setOpenLink(true);
               }}
             >
               <LinkIcon className="text-primary h-5 w-5" />
@@ -135,18 +149,21 @@ export default function BottomTabBar() {
           </div>
         </DrawerContent>
       </Drawer>
-
-      <Drawer open={openLink} onOpenChange={setOpenLink}>
-        <DrawerContent className="h-[40%] rounded-t-2xl">
-          <DrawerHeader className="m-0 p-0">
-            <DrawerTitle className="flex items-center justify-between text-xl font-semibold"></DrawerTitle>
-          </DrawerHeader>
+      <Sheet open={openLink} onOpenChange={setOpenLink}>
+        <SheetContent
+          side="top"
+          className="animate-slide-down w-full rounded-b-2xl pt-4 shadow-md [&>button.absolute]:hidden"
+        >
+          <SheetHeader className="m-0 gap-0 p-0">
+            <SheetTitle className="m-0 gap-0 p-0"></SheetTitle>
+            <SheetDescription className="m-0 gap-0 p-0"></SheetDescription>
+          </SheetHeader>
           <div className="space-y-4 px-4">
-            <div className="grid gap-2">
+            <div className="grid">
               <div className="flex items-center space-x-2">
                 <Input
                   id="product-link"
-                  placeholder="쿠팡 링크를 입력해주세요"
+                  placeholder="쿠팡 상품 링크를 입력해주세요"
                   value={link}
                   onChange={handleLinkChange}
                   className={`flex-1 px-4 py-6 ${
@@ -155,23 +172,26 @@ export default function BottomTabBar() {
                 />
               </div>
               {linkError && (
-                <p className="flex items-center gap-1 text-sm text-red-500">
+                <p className="mt-2 flex items-center text-sm text-red-500">
                   <AlertCircle className="h-4 w-4" />
                   {linkError}
                 </p>
               )}
             </div>
+          </div>
+          <SheetFooter>
             <Button
               type="button"
               onClick={handleAddLink}
               disabled={!link.trim()}
-              className="w-full gap-2 px-4 py-6"
+              className="w-full gap-2 px-4 py-6 text-xl"
             >
               추가하기
             </Button>
-          </div>
-        </DrawerContent>
-      </Drawer>
+          </SheetFooter>
+        </SheetContent>
+      </Sheet>
+
       <nav className="fixed right-0 bottom-0 left-0 z-50 flex h-16 border-t bg-white shadow-inner">
         {/* 1. 찜 */}
         <button

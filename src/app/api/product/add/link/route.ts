@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { insertOne, queryList } from "@/lib/db";
+import { insertOne, queryList, queryOne } from "@/lib/db";
 import {
   getDeliveryType,
   extractCoupangParams,
@@ -173,8 +173,11 @@ export async function POST(req: NextRequest) {
       await insertOne(query, [params.pId]);
     }
 
+    query = "SELECT * FROM products p where id = ?";
+    const addProduct = await queryOne(query, [params.pId]);
+
     // ✅ 결과 반환
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true, product: addProduct });
   } catch (err) {
     const errorMessage = err instanceof Error ? err.message : String(err);
     return NextResponse.json({ success: false, error: errorMessage });
