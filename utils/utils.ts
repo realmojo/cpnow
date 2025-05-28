@@ -43,7 +43,7 @@ export const sendNotification = async () => {
     method: "POST",
     body: JSON.stringify({
       token: cpnowInfo.fcmToken,
-      title: "쿠팡 최저가 알람을 설정하세요 🚀🚀",
+      title: "쿠팡 상품을 등록해 주세요🚀",
       body: "이제 알람을 받으실 수 있습니다.",
       icon: "https://cpnow.kr/icons/android-icon-48x48.png",
       link: "https://cpnow.kr",

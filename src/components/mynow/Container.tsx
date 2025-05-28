@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState, useCallback } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import ProductList from "@/src/components/ProductList";
 import { Button } from "@/components/ui/button";
 import {
@@ -19,7 +19,7 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
-import { Bell, Loader2, Menu } from "lucide-react"; // shadcn 아이콘
+import { Bell, Loader2, Plus } from "lucide-react"; // shadcn 아이콘
 import { nanoid } from "nanoid";
 
 const sendProductInfo = async (parsedItem: any, parsed: any) => {
@@ -43,8 +43,7 @@ const sendProductInfo = async (parsedItem: any, parsed: any) => {
 };
 
 export default function MyNowContainer() {
-  const router = useRouter();
-
+  const { setOpen } = useAppStore();
   const searchParams = useSearchParams();
 
   const [isReady, setIsReady] = useState(false); // ✅ 추가
@@ -52,12 +51,12 @@ export default function MyNowContainer() {
   const [loading, setLoading] = useState(false);
   const [initLoading, setInitLoading] = useState(false);
 
-  const [open, setOpen] = useState(false);
+  const [initOpen, setInitOpen] = useState(false);
   const { loginInfo, getMyAlarmList } = useAppStore();
 
   const handleConfirm = () => {
     loginInit();
-    setOpen(false); // 모달 닫기
+    setInitOpen(false); // 모달 닫기
   };
   const loginInit = async () => {
     const { userId } = loginInfo;
@@ -208,7 +207,7 @@ export default function MyNowContainer() {
                 )}
 
                 <div className="flex min-w-0 flex-1">
-                  <Dialog open={open} onOpenChange={setOpen}>
+                  <Dialog open={initOpen} onOpenChange={setInitOpen}>
                     <DialogTrigger asChild>
                       <Button
                         variant="destructive"
@@ -234,7 +233,7 @@ export default function MyNowContainer() {
                         <Button
                           variant="outline"
                           title="취소"
-                          onClick={() => setOpen(false)}
+                          onClick={() => setInitOpen(false)}
                         >
                           취소
                         </Button>
@@ -269,10 +268,10 @@ export default function MyNowContainer() {
                 <div className="w-full rounded-lg bg-white p-10 text-center shadow-lg">
                   <div className="mb-6">
                     <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gray-100">
-                      <div className="text-2xl">🔔</div>
+                      <div className="text-2xl">☑️</div>
                     </div>
                     <h2 className="mb-2 text-xl font-bold text-gray-900">
-                      알림 설정이 되었습니다.
+                      상품을 담아주세요
                     </h2>
                     <p className="text-sm text-gray-600">
                       이제 관심 있는 상품을 찾아 찜해보세요.
@@ -283,11 +282,13 @@ export default function MyNowContainer() {
 
                   <div className="space-y-3">
                     <Button
-                      onClick={() => router.push("/categories")}
-                      className="text-md text-md w-full rounded-lg bg-blue-600 px-4 py-6 text-white transition-colors hover:bg-blue-700"
+                      onClick={() => {
+                        setOpen(true);
+                      }}
+                      className="text-md text-md w-full rounded-lg px-4 py-6 text-white transition-colors"
                     >
-                      <Menu className="mr-2 h-4 w-4" />
-                      카테고리
+                      <Plus className="mr-2 h-4 w-4" />
+                      상품등록
                     </Button>
 
                     <Button

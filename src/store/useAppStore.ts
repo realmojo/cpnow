@@ -6,6 +6,11 @@ interface AppState {
   setLoginInfo: (info: any) => void;
   getMyAlarmList: () => Promise<void>;
   setMyAlarmList: (item: any) => Promise<void>;
+  open: boolean;
+  openLink: boolean;
+  setOpen: (open: boolean) => void;
+  setOpenLink: (openLink: boolean) => void;
+  toggleOpen: () => void;
 }
 
 export const useAppStore = create<AppState>((set, get) => ({
@@ -38,4 +43,9 @@ export const useAppStore = create<AppState>((set, get) => ({
     const { myAlarmList } = get();
     set({ myAlarmList: [item, ...myAlarmList] });
   },
+  open: false,
+  openLink: false,
+  setOpen: (open) => set({ open }),
+  setOpenLink: (openLink) => set({ openLink }),
+  toggleOpen: () => set((state) => ({ open: !state.open })),
 }));

@@ -31,14 +31,15 @@ import {
 } from "@/components/ui/sheet";
 import { getUserAuth, validateCoupangLink } from "@/utils/utils";
 import { toast } from "sonner";
+import { useAppStore } from "../store/useAppStore";
 
 export default function BottomTabBar() {
   const pathname = usePathname();
   const router = useRouter();
-  const [open, setOpen] = useState(false); // Drawer 상태
-  const [openLink, setOpenLink] = useState(false); // Drawer 상태
   const [link, setLink] = useState("");
   const [linkError, setLinkError] = useState("");
+
+  const { open, openLink, setOpen, setOpenLink } = useAppStore();
 
   const handleLinkChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newLink = e.target.value;
@@ -75,8 +76,6 @@ export default function BottomTabBar() {
         setLink(""); // 입력 필드 초기화
         setOpenLink(false);
 
-        console.log(123);
-        console.log(pathname);
         if (pathname.includes("mynow")) {
           location.href = "/mynow";
         } else {
@@ -108,7 +107,7 @@ export default function BottomTabBar() {
     return () => {
       window.removeEventListener("popstate", handlePopState);
     };
-  }, [open]);
+  }, [open, setOpen]);
 
   return (
     <>
