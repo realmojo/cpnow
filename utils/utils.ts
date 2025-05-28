@@ -141,28 +141,28 @@ export const setUserAuth = (cpnowInfo: any) => {
 
 export const fisrtCategories = [
   {
-    categoryId: 564653,
-    name: "패션의류/잡화",
+    categoryId: 194276,
+    name: "식품",
   },
   {
     categoryId: 176522,
     name: "뷰티",
   },
   {
-    categoryId: 221934,
-    name: "출산/유아동",
-  },
-  {
-    categoryId: 194276,
-    name: "식품",
+    categoryId: 115673,
+    name: "생활용품",
   },
   {
     categoryId: 185669,
     name: "주방용품",
   },
   {
-    categoryId: 115673,
-    name: "생활용품",
+    categoryId: 564653,
+    name: "패션의류/잡화",
+  },
+  {
+    categoryId: 221934,
+    name: "출산/유아동",
   },
   {
     categoryId: 184555,

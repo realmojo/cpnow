@@ -2,14 +2,11 @@
 import React, { useState, Suspense, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import ProductList from "@/src/components/ProductList";
+import { fisrtCategories } from "@/utils/utils";
 
 interface Category {
   categoryId: number;
   name: string;
-}
-
-interface Props {
-  fisrtCategories: Category[];
 }
 
 // ✅ 서버사이드 상품 불러오기 함수
@@ -43,18 +40,12 @@ const getRandomProductsByCategoryId = async (
   }
 };
 
-export default function CategoryProductSection({ fisrtCategories }: Props) {
+export default function CategoryProductSection() {
   const [category, setCategory] = useState<string | null>(null);
   const [selected, setSelected] = useState<number | null>(null);
   const [randomProducts, setRandomProducts] = useState<any>([]);
   const [loading, setLoading] = useState(false);
-  const getSubCategoryProdutItems = async ({
-    categoryId,
-    name,
-  }: {
-    categoryId: number;
-    name: string;
-  }) => {
+  const getSubCategoryProdutItems = async ({ categoryId, name }: Category) => {
     try {
       setLoading(true);
       setSelected(categoryId);
@@ -102,7 +93,7 @@ export default function CategoryProductSection({ fisrtCategories }: Props) {
 
     setSelected(defaultCategory.categoryId);
     getSubCategoryProdutItems(defaultCategory);
-  }, [fisrtCategories]);
+  }, []);
 
   return (
     <article className="mt-6">
