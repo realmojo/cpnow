@@ -28,13 +28,16 @@ export default function InstallPromptBanner() {
   }, []);
 
   const handleInstall = async () => {
-    if (!deferredPrompt) return;
-    deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    if (outcome === "accepted") {
-      console.log("✅ 설치 완료");
-    }
+    // if (!deferredPrompt) return;
+    // deferredPrompt.prompt();
+    // const { outcome } = await deferredPrompt.userChoice;
+    // if (outcome === "accepted") {
+    //   console.log("✅ 설치 완료");
+    // }
+    console.log(deferredPrompt);
     setShowBanner(false);
+    location.href =
+      "https://play.google.com/store/apps/details?id=com.f5game.cpnow";
   };
 
   const handleClose = () => {
