@@ -3,23 +3,6 @@ import React, { useState, Suspense, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import ProductList from "@/src/components/ProductList";
 import { fisrtCategories } from "@/utils/utils";
-import {
-  Soup,
-  Sparkles,
-  ShoppingBasket,
-  CookingPot,
-  Shirt,
-  Baby,
-  Home,
-  Monitor,
-  Dumbbell,
-  Car,
-  BookOpen,
-  Puzzle,
-  Pencil,
-  PawPrint,
-  HeartPulse,
-} from "lucide-react";
 
 interface Category {
   categoryId: number;
