@@ -47,9 +47,9 @@ export default function AlarmButton({ productItem }: { productItem: any }) {
 
   const handleNotify = async () => {
     try {
-      const userInfo = await getUserAuth();
+      const auth = await getUserAuth();
       const params = {
-        userId: userInfo.userId,
+        userId: auth.userId,
         pId: productItem.id,
       };
 

@@ -100,8 +100,8 @@ export default function MyNowContainer() {
   };
 
   const initData = useCallback(async () => {
-    const parsed = getUserAuth();
-    if (!parsed.userId) return;
+    const auth = getUserAuth();
+    if (!auth.userId) return;
 
     const item = searchParams.get("item") || "";
     if (item) {
@@ -116,16 +116,16 @@ export default function MyNowContainer() {
         parsedItem.itemId &&
         parsedItem.vendorItemId &&
         parsedItem.categoryId &&
-        parsed.userId
+        auth.userId
       ) {
         try {
-          const data = await sendProductInfo(parsedItem, parsed);
+          const data = await sendProductInfo(parsedItem, auth);
           setMyProductsItems(data);
         } catch (e) {
           console.error("❌ 상품 등록 실패:", e);
         }
       }
-    } else if (parsed?.userId) {
+    } else if (auth?.userId) {
       const data = await getMyAlarmList();
       setMyProductsItems(data);
     }

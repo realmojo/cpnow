@@ -22,8 +22,8 @@ export default function Page() {
 
   useEffect(() => {
     const checkAuthAndRedirect = async () => {
-      const userId = getUserAuth();
-      if (userId) {
+      const auth = getUserAuth();
+      if (auth) {
         // 알림 권한 확인
         if ("Notification" in window) {
           const permission = Notification.permission;

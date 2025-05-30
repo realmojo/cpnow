@@ -10,6 +10,7 @@ export async function GET(req: NextRequest) {
     if (!userId) {
       throw new Error("no user Id");
     }
+
     const query =
       "SELECT a.id as aId, a.userId, a.type, a.comment, a.isReaded, a.regdated, p.id as pId, p.title, p.thumbnail, p.price, p.highPrice, p.lowPrice FROM alarms a INNER JOIN products p ON a.pId = p.id WHERE a.userId = ?;";
     const items = await queryList<any>(query, [userId]);

@@ -5,6 +5,7 @@ import axios from "axios";
 import Link from "next/link";
 import Image from "next/image";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
+import { getUserAuth } from "@/utils/utils";
 
 interface AlarmItem {
   alarmId: number;
@@ -16,9 +17,9 @@ interface AlarmItem {
   thumbnail: string;
 }
 
-const getMyAlarmList = async (): Promise<AlarmItem[]> => {
+const getMyAlarmList = async (userId: string): Promise<AlarmItem[]> => {
   try {
-    const { data } = await axios.get(`/api/alarms?userId=FAiGib_9-IhB`); // 실제로는 세션 기반 userId 사용 권장
+    const { data } = await axios.get(`/api/alarms?userId=${userId}`); // 실제로는 세션 기반 userId 사용 권장
     return data;
   } catch (err) {
     console.log(err);
@@ -32,8 +33,11 @@ const AlarmList = () => {
 
   useEffect(() => {
     const fetchAlarms = async () => {
-      const data = await getMyAlarmList();
-      setAlarms(data);
+      const auth = getUserAuth();
+      if (auth.userId) {
+        const data = await getMyAlarmList(auth.userId);
+        setAlarms(data);
+      }
       setLoading(false);
     };
 

@@ -55,11 +55,11 @@ export const detectDevice = () => {
 };
 
 export const sendNotification = async () => {
-  const cpnowInfo = getUserAuth();
+  const auth = getUserAuth();
   const response = await fetch("/api/notify", {
     method: "POST",
     body: JSON.stringify({
-      token: cpnowInfo.fcmToken,
+      token: auth.fcmToken,
       title: "쿠팡 상품을 등록해 주세요🚀",
       body: "이제 알람을 받으실 수 있습니다.",
       icon: "https://cpnow.kr/icons/android-icon-48x48.png",
@@ -77,10 +77,10 @@ export const refreshToken = async (messaging: any, isTest: boolean = false) => {
     vapidKey: process.env.NEXT_PUBLIC_VAPID_KEY,
   });
 
-  const cpnow_auth = getUserAuth();
+  const auth = getUserAuth();
 
   const cpnowInfo = {
-    userId: cpnow_auth.userId,
+    userId: auth.userId,
     fcmToken,
   };
 
@@ -99,10 +99,10 @@ export const refreshToken = async (messaging: any, isTest: boolean = false) => {
 };
 
 export const sendNotificationTest = async () => {
-  const cpnowInfo = getUserAuth();
+  const auth = getUserAuth();
   if (isWebView()) {
     const params = {
-      to: cpnowInfo.fcmToken,
+      to: auth.fcmToken,
       sound: "default",
       title: "시피나우",
       body: "쿠팡 최저가 상품 알람을 설정하세요 🚀🚀",
@@ -119,7 +119,7 @@ export const sendNotificationTest = async () => {
   } else {
     const permission = await Notification.requestPermission();
     if (permission === "granted") {
-      if (cpnowInfo.fcmToken) {
+      if (auth.fcmToken) {
         try {
           const response = await sendNotification();
 
