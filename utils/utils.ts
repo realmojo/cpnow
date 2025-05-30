@@ -1,4 +1,21 @@
 import { messaging, getToken } from "@/lib/firebase";
+import {
+  Soup,
+  Sparkles,
+  ShoppingBasket,
+  CookingPot,
+  Shirt,
+  Baby,
+  Home,
+  Monitor,
+  Dumbbell,
+  Car,
+  BookOpen,
+  Puzzle,
+  Pencil,
+  PawPrint,
+  HeartPulse,
+} from "lucide-react";
 
 export const getTodayDate = () => {
   const today = new Date();
@@ -140,66 +157,21 @@ export const setUserAuth = (cpnowInfo: any) => {
 };
 
 export const fisrtCategories = [
-  {
-    categoryId: 194276,
-    name: "식품",
-  },
-  {
-    categoryId: 176522,
-    name: "뷰티",
-  },
-  {
-    categoryId: 115673,
-    name: "생활용품",
-  },
-  {
-    categoryId: 185669,
-    name: "주방용품",
-  },
-  {
-    categoryId: 564653,
-    name: "패션의류/잡화",
-  },
-  {
-    categoryId: 221934,
-    name: "출산/유아동",
-  },
-  {
-    categoryId: 184555,
-    name: "홈인테리어",
-  },
-  {
-    categoryId: 178255,
-    name: "가전디지털",
-  },
-  {
-    categoryId: 317778,
-    name: "스포츠/레저",
-  },
-  {
-    categoryId: 184060,
-    name: "자동차용품",
-  },
-  {
-    categoryId: 317777,
-    name: "도서/음반/DVD",
-  },
-  {
-    categoryId: 317779,
-    name: "완구/취미",
-  },
-  {
-    categoryId: 177295,
-    name: "문구/오피스",
-  },
-  {
-    categoryId: 115674,
-    name: "반려동물용품",
-  },
-  {
-    categoryId: 305798,
-    name: "헬스/건강식품",
-  },
+  { categoryId: 194276, name: "식품", icon: Soup },
+  { categoryId: 176522, name: "뷰티", icon: Sparkles },
+  { categoryId: 115673, name: "생활용품", icon: ShoppingBasket },
+  { categoryId: 185669, name: "주방용품", icon: CookingPot },
+  { categoryId: 564653, name: "패션의류/잡화", icon: Shirt },
+  { categoryId: 221934, name: "출산/유아동", icon: Baby },
+  { categoryId: 184555, name: "홈인테리어", icon: Home },
+  { categoryId: 178255, name: "가전디지털", icon: Monitor },
+  { categoryId: 317778, name: "스포츠/레저", icon: Dumbbell },
+  { categoryId: 184060, name: "자동차용품", icon: Car },
+  { categoryId: 317777, name: "도서/음반/DVD", icon: BookOpen },
+  { categoryId: 317779, name: "완구/취미", icon: Puzzle },
+  { categoryId: 177295, name: "문구/오피스", icon: Pencil },
+  { categoryId: 115674, name: "반려동물용품", icon: PawPrint },
+  { categoryId: 305798, name: "헬스/건강식품", icon: HeartPulse },
 ];
 
 export const getCategoryIdByName = (name: string) => {
