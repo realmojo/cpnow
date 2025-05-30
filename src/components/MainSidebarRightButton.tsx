@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { BookOpen, Bell } from "lucide-react";
+import { BookOpen } from "lucide-react";
 import Link from "next/link";
 import { isWebView } from "@/utils/utils";
 
@@ -45,11 +45,11 @@ export default function MainSidebarRightButton() {
           <BookOpen className="h-5 w-5" />
         </Button>
       </Link>
-      <Link href="/alarm">
+      {/* <Link href="/alarm">
         <Button variant="ghost" size="icon" title="알람">
           <Bell className="h-5 w-5" />
         </Button>
-      </Link>
+      </Link> */}
       {permission === "denied" ? (
         <div className="fixed right-4 bottom-4 left-4 z-50 mx-auto max-w-md rounded-lg border border-red-300 bg-red-100 p-4 text-red-700 shadow-md">
           <h2 className="mb-1 text-sm font-bold">알림 권한이 꺼져 있어요 😢</h2>

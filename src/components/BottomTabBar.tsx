@@ -4,13 +4,13 @@ import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import {
   Plus,
-  Search,
   Heart,
   Flame,
   LinkIcon,
   ShoppingCart,
   LayoutGrid,
   AlertCircle,
+  Bell,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -251,17 +251,17 @@ export default function BottomTabBar() {
 
         {/* 5. 검색 */}
         <button
-          onClick={() => router.push("/search")}
+          onClick={() => router.push("/alarm")}
           className={`flex flex-1 flex-col items-center justify-center ${
-            pathname === "/search"
+            pathname === "/alarm"
               ? "text-primary"
               : "text-muted-foreground hover:text-primary"
           }`}
         >
-          <Search
-            className={`h-5 w-5 ${pathname === "/search" ? "fill-current" : ""}`}
+          <Bell
+            className={`h-5 w-5 ${pathname === "/alarm" ? "fill-current" : ""}`}
           />
-          <span className="mt-1 text-xs">검색</span>
+          <span className="mt-1 text-xs">알람</span>
         </button>
       </nav>
     </>
