@@ -113,7 +113,7 @@ export default function CategoryProductSection() {
                 onClick={() => getSubCategoryProdutItems(cat)}
                 title={cat.name}
               >
-                <Icon className="mb-1 h-4 w-4 sm:h-5 sm:w-5" />
+                <Icon className="h-4 w-4 sm:h-5 sm:w-5" />
                 <span className="whitespace-nowrap">{cat.name}</span>
               </Button>
             );

@@ -58,7 +58,7 @@ export default function Page() {
 
   const handleGoToPlayStore = () => {
     window.location.href =
-      "https://play.google.com/store/apps/details?id=com.example"; // 안드로이드 앱 링크
+      "https://play.google.com/store/apps/details?id=com.f5game.cpnow"; // 안드로이드 앱 링크
   };
 
   const handleRequestPermission = async () => {
