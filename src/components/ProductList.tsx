@@ -40,9 +40,12 @@ export default function ProductList({ items = [], type = "grid" }: any) {
     const { userId } = JSON.parse(authStr);
 
     if (userId && id) {
-      const res = await fetch(`/api/alarm/delete?userId=${userId}&pId=${id}`, {
-        method: "DELETE",
-      });
+      const res = await fetch(
+        `/api/userAlarm/delete?userId=${userId}&pId=${id}`,
+        {
+          method: "DELETE",
+        },
+      );
 
       if (res.ok) {
         const filteredItems = productItems.filter(

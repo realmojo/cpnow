@@ -22,7 +22,7 @@ const getRandomProductsByCategoryId = async (
     const { items } = await res.json();
 
     return items.map((item: any) => {
-      const price = item.price || 0;
+      const price = item.price ?? 0;
       const prevPrice = item.lowPrice ?? price;
       const discountRate = prevPrice
         ? Math.round(((prevPrice - price) / prevPrice) * 100)
@@ -56,7 +56,7 @@ export default function CategoryProductSection() {
 
       const items: any = await getRandomProductsByCategoryId(categoryId);
       const reItems = items.map((item: any) => {
-        const price = item.price || 0;
+        const price = item.price ?? 0;
         const prevPrice = item.lowPrice ?? price;
 
         const discountRate = prevPrice
@@ -98,47 +98,49 @@ export default function CategoryProductSection() {
 
   return (
     <article>
-      {/* 카테고리 버튼 */}
-      <div className="mb-8 overflow-x-auto">
-        <div className="flex h-[9rem] w-fit min-w-[600px] flex-wrap gap-2 sm:h-[11rem] sm:gap-3">
-          {fisrtCategories.map((cat) => {
-            const Icon = cat.icon || Soup;
-            const isSelected = selected === cat.categoryId;
+      <section className="mx-auto w-full max-w-[800px] space-y-10 px-4 py-6">
+        {/* 카테고리 버튼 */}
+        <div className="mb-8 overflow-x-auto">
+          <div className="flex h-[9rem] w-fit min-w-[600px] flex-wrap gap-2 sm:h-[11rem] sm:gap-3">
+            {fisrtCategories.map((cat) => {
+              const Icon = cat.icon || Soup;
+              const isSelected = selected === cat.categoryId;
 
-            return (
-              <Button
-                key={cat.categoryId}
-                variant={isSelected ? "default" : "outline"}
-                className="flex h-16 w-16 flex-col items-center justify-center rounded-xl p-1 text-[10px] shadow-sm transition hover:shadow-md sm:h-20 sm:w-20 sm:p-2 sm:text-xs"
-                onClick={() => getSubCategoryProdutItems(cat)}
-                title={cat.name}
-              >
-                <Icon className="h-4 w-4 sm:h-5 sm:w-5" />
-                <span className="whitespace-nowrap">{cat.name}</span>
-              </Button>
-            );
-          })}
-        </div>
-      </div>
-
-      <section className="flex justify-center">
-        <div className="w-full max-w-[800px]">
-          <h2 className="scroll-m-20 text-2xl font-bold tracking-tight">
-            {category ? category : ""}
-          </h2>
-          <Suspense fallback={<div>로딩 중...</div>}>
-            <ProductList items={randomProducts ?? []} />
-          </Suspense>
-        </div>
-      </section>
-      {/* 전체화면 로딩 오버레이 */}
-      {loading && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
-          <div className="text-center">
-            <div className="mx-auto h-8 w-8 animate-spin rounded-full border-b-2 border-blue-600"></div>
+              return (
+                <Button
+                  key={cat.categoryId}
+                  variant={isSelected ? "default" : "outline"}
+                  className="flex h-16 w-16 flex-col items-center justify-center rounded-xl p-1 text-[10px] shadow-sm transition hover:shadow-md sm:h-20 sm:w-20 sm:p-2 sm:text-xs"
+                  onClick={() => getSubCategoryProdutItems(cat)}
+                  title={cat.name}
+                >
+                  <Icon className="h-4 w-4 sm:h-5 sm:w-5" />
+                  <span className="whitespace-nowrap">{cat.name}</span>
+                </Button>
+              );
+            })}
           </div>
         </div>
-      )}
+
+        <section className="flex justify-center">
+          <div className="w-full max-w-[800px]">
+            <h2 className="scroll-m-20 text-2xl font-bold tracking-tight">
+              {category ?? ""}
+            </h2>
+            <Suspense fallback={<div>로딩 중...</div>}>
+              <ProductList items={randomProducts ?? []} />
+            </Suspense>
+          </div>
+        </section>
+        {/* 전체화면 로딩 오버레이 */}
+        {loading && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center">
+            <div className="text-center">
+              <div className="mx-auto h-8 w-8 animate-spin rounded-full border-b-2 border-blue-600"></div>
+            </div>
+          </div>
+        )}
+      </section>
     </article>
   );
 }

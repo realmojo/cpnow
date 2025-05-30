@@ -28,7 +28,7 @@ export const useAppStore = create<AppState>((set, get) => ({
 
     if (!userId) return;
 
-    const res = await fetch(`/api/alarm/my?userId=${userId}`, {
+    const res = await fetch(`/api/userAlarm/my?userId=${userId}`, {
       cache: "no-store",
     });
 

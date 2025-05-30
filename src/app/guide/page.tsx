@@ -161,7 +161,8 @@ export default function GuidePage() {
               </div>
               <p className="leading-relaxed text-gray-700">
                 시피나우를 더 편리하게 이용하려면 공식 크롬 확장 프로그램을
-                설치하세요. <br />
+                설치하세요.
+                <br />
                 확장 프로그램을 설치하면{" "}
                 <strong>쿠팡 최저가 상품 알림 버튼</strong>이 각 상품 페이지에
                 자동으로 표시되며,

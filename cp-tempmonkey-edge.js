@@ -163,7 +163,7 @@ const alarmNotify = async (productItem, crawlPrice) => {
       redirect: "follow",
     };
     const response = await fetch(
-      `https://cpnow.kr/api/alarm/users?id=${id}`,
+      `https://cpnow.kr/api/userAlarm/users?id=${id}`,
       requestOptions,
     );
     const items = await response.json();

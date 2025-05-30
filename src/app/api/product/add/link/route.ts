@@ -114,18 +114,18 @@ export async function POST(req: NextRequest) {
             throw new Error("no redirect url");
           }
           const params = extractCoupangParams(redirectUrl);
-          productId = params.productId || "";
-          itemId = params.itemId || "";
-          vendorItemId = params.vendorItemId || "";
+          productId = params.productId ?? "";
+          itemId = params.itemId ?? "";
+          vendorItemId = params.vendorItemId ?? "";
         }
       } catch (error) {
         throw new Error(error as string);
       }
     } else if (link.includes("https://www.coupang.com/vp/products/")) {
       const params = extractCoupangParams(link);
-      productId = params.productId || "";
-      itemId = params.itemId || "";
-      vendorItemId = params.vendorItemId || "";
+      productId = params.productId ?? "";
+      itemId = params.itemId ?? "";
+      vendorItemId = params.vendorItemId ?? "";
     } else {
       throw new Error("올바르지 않은 링크입니다");
     }

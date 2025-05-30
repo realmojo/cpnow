@@ -24,7 +24,7 @@ import { nanoid } from "nanoid";
 
 const sendProductInfo = async (parsedItem: any, parsed: any) => {
   try {
-    const res = await fetch("/api/alarm/add", {
+    const res = await fetch("/api/userAlarm/add", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -60,7 +60,7 @@ export default function MyNowContainer() {
   };
   const loginInit = async () => {
     const { userId } = loginInfo;
-    await fetch("/api/alarm/delete?all=true&userId=" + userId, {
+    await fetch("/api/userAlarm/delete?all=true&userId=" + userId, {
       method: "DELETE",
     });
 

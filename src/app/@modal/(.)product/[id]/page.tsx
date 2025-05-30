@@ -1,6 +1,5 @@
 "use client";
-import { use } from "react";
-import { Suspense } from "react";
+import { use, Suspense } from "react";
 import ProductModalClient from "./ProductModalClient";
 
 export default function ProductModalPage({

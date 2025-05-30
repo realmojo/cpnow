@@ -9,7 +9,7 @@ import { useState } from "react";
 import { Loader2 } from "lucide-react";
 // ✅ 알람등록
 async function addAlarm(params: any): Promise<any | null> {
-  const response = await fetch(`/api/alarm`, {
+  const response = await fetch(`/api/userAlarm`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -27,7 +27,7 @@ async function addAlarm(params: any): Promise<any | null> {
 // ✅ 알람 삭제 함수
 async function removeAlarm(params: any): Promise<any | null> {
   const response = await fetch(
-    `/api/alarm/delete?userId=${params.userId}&pId=${params.pId}`,
+    `/api/userAlarm/delete?userId=${params.userId}&pId=${params.pId}`,
     {
       method: "DELETE",
     },

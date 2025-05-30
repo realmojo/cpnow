@@ -118,7 +118,7 @@ export default function Page() {
 
   if (!isAvailable) {
     return (
-      <div className="flex min-h-[calc(100vh-64px)] items-start justify-center bg-gray-50 pt-20">
+      <div className="flex min-h-[calc(100vh-64px)] items-start justify-center pt-20">
         <div className="mx-4 w-full max-w-md rounded-lg bg-white p-6 text-center shadow-lg">
           <div className="mb-6">
             <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-blue-100">
@@ -173,7 +173,7 @@ export default function Page() {
 
   if (showPermissionMessage) {
     return (
-      <div className="flex min-h-[calc(100vh-64px)] items-start justify-center bg-gray-50 pt-20">
+      <div className="flex min-h-[calc(100vh-64px)] items-start justify-center pt-20">
         <div className="mx-4 w-full max-w-md rounded-lg bg-white p-6 text-center shadow-lg">
           <div className="mb-6">
             <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-blue-100">
@@ -229,7 +229,7 @@ export default function Page() {
 
   // 로딩 중이거나 권한 확인 중
   return (
-    <div className="flex min-h-[calc(100vh-64px)] items-start justify-center bg-gray-50 pt-40">
+    <div className="flex min-h-[calc(100vh-64px)] items-start justify-center pt-40">
       <div className="text-center">
         <div className="mx-auto h-8 w-8 animate-spin rounded-full border-b-2 border-blue-600"></div>
       </div>

@@ -1,14 +1,11 @@
 "use client";
 import React from "react";
+import AlarmList from "@/src/components/alarm/AlarmList";
 export default function AlarmPage() {
   return (
     <article>
-      <section className="mt-4 mb-24 flex justify-center">
-        <div className="w-[800px] px-4">
-          <h2 className="font-heading scroll-m-20 border-none text-2xl font-bold tracking-tight first:mt-0 sm:border-b">
-            내 알람 리스트
-          </h2>
-        </div>
+      <section className="mx-auto w-full max-w-[800px] space-y-10 py-6">
+        <AlarmList />
       </section>
     </article>
   );
