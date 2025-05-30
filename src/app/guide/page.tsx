@@ -1,7 +1,9 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
 
 export default function GuidePage() {
   return (
@@ -10,8 +12,8 @@ export default function GuidePage() {
 
       <Tabs defaultValue="pc" className="w-full">
         <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="pc">PC 사용법</TabsTrigger>
           <TabsTrigger value="mobile">모바일 사용법</TabsTrigger>
+          <TabsTrigger value="pc">PC 사용법</TabsTrigger>
         </TabsList>
 
         <TabsContent value="pc">
@@ -196,13 +198,58 @@ export default function GuidePage() {
         </TabsContent>
 
         <TabsContent value="mobile">
-          <div className="mt-4 space-y-3">
-            <h2 className="text-xl font-semibold">모바일에서의 사용 방법</h2>
-            <p>
-              여기에 모바일 사용자를 위한 설명을 작성하세요. 예: 사파리
-              브라우저에서 [공유 버튼] → [홈 화면에 추가]를 선택하면 앱처럼
-              사용하실 수 있습니다.
-            </p>
+          <div className="mt-6 space-y-4">
+            <h2 className="text-xl font-semibold">앱 다운로드</h2>
+
+            <div className="flex flex-col space-y-4 sm:flex-row sm:items-center sm:space-y-0 sm:space-x-4">
+              {/* Google Play 버튼 */}
+              <Button
+                asChild
+                variant="outline"
+                className="flex w-full items-center space-x-3 rounded-xl px-6 py-8 shadow-md sm:w-auto"
+              >
+                <a
+                  href="https://play.google.com/store/apps/details?id=com.f5game.cpnow"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <div className="flex items-center space-x-3">
+                    <Image
+                      src="/icons/playstore-logo.png"
+                      alt="Google Play 로고"
+                      className="h-7"
+                    />
+                    <span className="text-lg font-medium">
+                      Play 스토어에서 받기
+                    </span>
+                  </div>
+                </a>
+              </Button>
+
+              {/* App Store 버튼 */}
+              <Button
+                asChild
+                variant="outline"
+                className="flex w-full items-center space-x-3 rounded-xl px-6 py-8 shadow-md sm:w-auto"
+              >
+                <a
+                  href="https://apps.apple.com/kr/app/your-app-id"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <div className="flex items-center space-x-3">
+                    <Image
+                      src="/icons/appstore-logo.png"
+                      alt="Apple 로고"
+                      className="h-6"
+                    />
+                    <span className="text-lg font-medium">
+                      앱스토어에서 받기
+                    </span>
+                  </div>
+                </a>
+              </Button>
+            </div>
           </div>
         </TabsContent>
       </Tabs>

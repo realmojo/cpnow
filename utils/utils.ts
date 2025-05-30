@@ -101,21 +101,7 @@ export const refreshToken = async (messaging: any, isTest: boolean = false) => {
 export const sendNotificationTest = async () => {
   const auth = getUserAuth();
   if (isWebView()) {
-    const params = {
-      to: auth.fcmToken,
-      sound: "default",
-      title: "시피나우",
-      body: "쿠팡 최저가 상품 알람을 설정하세요 🚀🚀",
-      icon: "https://cpnow.kr/icons/android-icon-96x96.png",
-      data: {
-        link: "https://cpnow.kr",
-        from: "webview",
-      },
-    };
-    await fetch("https://exp.host/--/api/v2/push/send", {
-      method: "POST",
-      body: JSON.stringify(params),
-    });
+    await sendNotification();
   } else {
     const permission = await Notification.requestPermission();
     if (permission === "granted") {
