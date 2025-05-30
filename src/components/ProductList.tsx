@@ -66,7 +66,7 @@ export default function ProductList({ items = [], type = "grid" }: any) {
             productItems.map((item: any) => (
               <div key={item.id}>
                 <Card className="overflow-hidden border-none bg-transparent py-0 pt-4 shadow-none transition hover:shadow-md">
-                  <Link href={`/product/${item.id}`}>
+                  <Link href={`/product/${item.id}`} prefetch>
                     <CardHeader className="p-0">
                       <Image
                         src={item.thumbnail}
@@ -159,6 +159,7 @@ export default function ProductList({ items = [], type = "grid" }: any) {
                       href={`/product/${item.id}`}
                       className="flex w-full"
                       passHref
+                      prefetch
                     >
                       <div className="w-28 shrink-0">
                         <Image

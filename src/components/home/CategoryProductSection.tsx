@@ -3,6 +3,7 @@ import React, { useState, Suspense, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import ProductList from "@/src/components/ProductList";
 import { fisrtCategories } from "@/utils/utils";
+import { Soup } from "lucide-react";
 
 interface Category {
   categoryId: number;
