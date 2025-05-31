@@ -6,7 +6,14 @@ export async function POST(req: NextRequest) {
   try {
     const reqItems = await req.json();
     const { token, title, body, link, icon } = reqItems;
-
+    //      data?: {
+    //         [key: string]: string;
+    //     };
+    //     notification?: Notification;
+    //     android?: AndroidConfig;
+    //     webpush?: WebpushConfig;
+    //     apns?: ApnsConfig;
+    //     fcmOptions?: FcmOptions;
     const message = {
       token,
       notification: {
@@ -15,10 +22,10 @@ export async function POST(req: NextRequest) {
         image: icon || "https://cpnow.kr/icons/android-icon-48x48.png",
       },
       data: {
-        title: String(title),
-        body: String(body),
-        icon: String(icon || "https://cpnow.kr/icons/android-icon-48x48.png"),
-        link: String(link || "https://cpnow.kr"),
+        // title,
+        // body: `data - ${body}`,
+        // icon: icon || "https://cpnow.kr/icons/android-icon-48x48.png",
+        link: link || "https://cpnow.kr",
         click_action: "FLUTTER_NOTIFICATION_CLICK",
       },
       webpush: {
@@ -27,6 +34,8 @@ export async function POST(req: NextRequest) {
         },
       },
     };
+
+    console.log(message);
 
     const response = await messaging.send(message as any);
 
