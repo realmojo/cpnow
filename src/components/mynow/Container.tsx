@@ -54,43 +54,40 @@ export default function MyNowContainer() {
   const [initOpen, setInitOpen] = useState(false);
   const { loginInfo, getMyAlarmList } = useAppStore();
 
-  const handleConfirm = () => {
-    loginInit();
-    setInitOpen(false); // 모달 닫기
-  };
-  const loginInit = async () => {
+  const handleConfirm = async () => {
     const { userId } = loginInfo;
     await fetch("/api/userAlarm/delete?all=true&userId=" + userId, {
       method: "DELETE",
     });
+    setInitOpen(false); // 모달 닫기
 
-    localStorage.removeItem("cpnow-auth");
+    // localStorage.removeItem("cpnow-auth");
 
-    if (messaging) {
-      // FCM 토큰 받아오기
-      const userId = nanoid(12);
-      const fcmToken = await getToken(messaging, {
-        vapidKey: process.env.NEXT_PUBLIC_VAPID_KEY,
-      });
+    // if (messaging) {
+    //   // FCM 토큰 받아오기
+    //   const userId = nanoid(12);
+    //   const fcmToken = await getToken(messaging, {
+    //     vapidKey: process.env.NEXT_PUBLIC_VAPID_KEY,
+    //   });
 
-      const cpnowInfo = {
-        userId,
-        joinType: "web",
-        fcmToken,
-      };
+    //   const cpnowInfo = {
+    //     userId,
+    //     joinType: "web",
+    //     fcmToken,
+    //   };
 
-      const res = await fetch("/api/token", {
-        method: "POST",
-        body: JSON.stringify(cpnowInfo),
-      });
-      const r = await res.json();
+    //   const res = await fetch("/api/token", {
+    //     method: "POST",
+    //     body: JSON.stringify(cpnowInfo),
+    //   });
+    //   const r = await res.json();
 
-      if (r.data === "ok") {
-        localStorage.setItem("cpnow-auth", JSON.stringify(cpnowInfo));
-      }
+    //   if (r.data === "ok") {
+    //     localStorage.setItem("cpnow-auth", JSON.stringify(cpnowInfo));
+    //   }
 
-      await sendNotificationTest();
-    }
+    //   await sendNotificationTest();
+    // }
 
     location.href = "/mynow";
   };

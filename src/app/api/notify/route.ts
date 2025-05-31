@@ -9,11 +9,17 @@ export async function POST(req: NextRequest) {
 
     const message = {
       token,
-      data: {
+      notification: {
         title,
         body,
-        icon: icon || "https://cpnow.kr/icons/android-icon-48x48.png",
-        link: link || "https://cpnow.kr",
+        image: icon || "https://cpnow.kr/icons/android-icon-48x48.png",
+      },
+      data: {
+        title: String(title),
+        body: String(body),
+        icon: String(icon || "https://cpnow.kr/icons/android-icon-48x48.png"),
+        link: String(link || "https://cpnow.kr"),
+        click_action: "FLUTTER_NOTIFICATION_CLICK",
       },
       webpush: {
         fcm_options: {

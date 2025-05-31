@@ -25,8 +25,8 @@ export async function DELETE(req: NextRequest) {
       query = "DELETE FROM user_alarms WHERE userId = ?";
       await queryOne<any>(query, [userId]);
 
-      query = "DELETE FROM users WHERE userId = ?";
-      await queryOne<any>(query, [userId]);
+      // query = "DELETE FROM users WHERE userId = ?";
+      // await queryOne<any>(query, [userId]);
     } else {
       if (!userId || !pId) {
         return NextResponse.json(
