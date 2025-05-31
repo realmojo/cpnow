@@ -9,7 +9,6 @@ import {
   sendNotificationTest,
   setUserAuth,
 } from "@/utils/utils";
-import { messaging, getToken } from "@/lib/firebase";
 import { useAppStore } from "@/src/store/useAppStore";
 import {
   Dialog,
@@ -20,7 +19,6 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Bell, Loader2, Plus } from "lucide-react"; // shadcn 아이콘
-import { nanoid } from "nanoid";
 
 const sendProductInfo = async (parsedItem: any, parsed: any) => {
   try {
@@ -60,35 +58,6 @@ export default function MyNowContainer() {
       method: "DELETE",
     });
     setInitOpen(false); // 모달 닫기
-
-    // localStorage.removeItem("cpnow-auth");
-
-    // if (messaging) {
-    //   // FCM 토큰 받아오기
-    //   const userId = nanoid(12);
-    //   const fcmToken = await getToken(messaging, {
-    //     vapidKey: process.env.NEXT_PUBLIC_VAPID_KEY,
-    //   });
-
-    //   const cpnowInfo = {
-    //     userId,
-    //     joinType: "web",
-    //     fcmToken,
-    //   };
-
-    //   const res = await fetch("/api/token", {
-    //     method: "POST",
-    //     body: JSON.stringify(cpnowInfo),
-    //   });
-    //   const r = await res.json();
-
-    //   if (r.data === "ok") {
-    //     localStorage.setItem("cpnow-auth", JSON.stringify(cpnowInfo));
-    //   }
-
-    //   await sendNotificationTest();
-    // }
-
     location.href = "/mynow";
   };
 
