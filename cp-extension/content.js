@@ -25,33 +25,41 @@ setTimeout(() => {
   }
 
   function extractCoupangDetailCategoryInfo() {
-    const breadcrumb = document.querySelector("ul.breadcrumb");
-    if (!breadcrumb) return null;
+    try {
+      const breadcrumb = document.querySelector("ul#breadcrumb");
+      if (!breadcrumb) return null;
 
-    const links = breadcrumb.querySelectorAll("li > a");
-    const categories = [];
+      const links = breadcrumb.querySelectorAll("li > a");
+      const categories = [];
 
-    links.forEach((a) => {
-      const text = a.textContent.trim();
-      const href = a.getAttribute("href") || "";
-      const match = href.match(/\/categories\/(\d+)/);
+      links.forEach((a) => {
+        const text = a.textContent.trim();
+        const href = a.getAttribute("href") || "";
+        const match = href.match(/\/categories\/(\d+)/);
 
-      if (text !== "쿠팡 홈") {
-        categories.push({
-          name: text,
-          id: match ? match[1] : null,
-        });
-      }
-    });
+        if (text !== "쿠팡 홈") {
+          categories.push({
+            name: text,
+            id: match ? match[1] : null,
+          });
+        }
+      });
 
-    const bigCategory = categories.length > 0 ? categories[0].name : null;
-    const lastCategory =
-      categories.length > 0 ? categories[categories.length - 1] : null;
+      const bigCategory = categories.length > 0 ? categories[0].name : null;
+      const lastCategory =
+        categories.length > 0 ? categories[categories.length - 1] : null;
 
-    return {
-      bigCategory,
-      lastCategory,
-    };
+      return {
+        bigCategory,
+        lastCategory,
+      };
+    } catch (e) {
+      console.error("❌ 카테고리 추출 실패:", e);
+      return {
+        bigCategory: "",
+        lastCategory: "",
+      };
+    }
   }
 
   // 초기 실행
@@ -96,6 +104,7 @@ setTimeout(() => {
   };
 
   const getPIVBycoupangUrl = (url) => {
+    console.log(url);
     const parsedUrl = new URL(url);
     const productIdMatch = url.match(/\/vp\/products\/(\d+)/);
     const productId = productIdMatch ? Number(productIdMatch[1]) : 0;
@@ -250,12 +259,51 @@ setTimeout(() => {
 
     data.deliveryType = getDeliveryType(deliveryTypeImage);
 
-    return data;
+    if (
+      data.thumbnail &&
+      data.title &&
+      data.price &&
+      data.rating &&
+      data.reviewCount &&
+      data.deliveryType
+    ) {
+      return data;
+    } else {
+      //
+      const thumbnail = document
+        .querySelector(".prod-image__detail")
+        .getAttribute("src");
+      const title = document
+        .querySelector(".prod-buy-header__title")
+        .textContent.trim();
+      const price = document.querySelector(".total-price").textContent.trim();
+      let rating = document.querySelector(".rating-star-num").style.width;
+      const reviewCount = document.querySelector(".count").textContent.trim();
+      const deliveryType = document
+        .querySelector(".delivery-badge-img")
+        .getAttribute("src");
+
+      rating = rating.match(/(\d+)%/);
+      data.thumbnail = thumbnail
+        ? thumbnail.startsWith("//")
+          ? `https:${thumbnail}`
+          : thumbnail
+        : "";
+      data.title = title;
+      data.price = price ? parseInt(price.replace(/[^\d]/g, ""), 10) : 0;
+      data.rating = rating
+        ? Math.round((parseInt(rating[1]) / 100) * 5 * 10) / 10
+        : 0;
+      data.reviewCount = reviewCount
+        ? parseInt(reviewCount.replace(/,/g, ""), 10)
+        : 0;
+      data.deliveryType = getDeliveryType(deliveryType);
+
+      return data;
+    }
   }
 
   function applyCpButtons() {
-    const productList1 = document.getElementById("product-list");
-    const productList2 = document.getElementById("productList");
     const isCoupangProductPage = location.href.startsWith(
       "https://www.coupang.com/vp/products",
     );
@@ -320,6 +368,8 @@ setTimeout(() => {
           reviewCount,
         };
 
+        console.log(params);
+
         // 예시: 특정 도메인으로 알림 등록 요청
         const notifyURL = `${baseUrl}/mynow?item=${encodeToBase64(
           JSON.stringify(params),
@@ -330,135 +380,6 @@ setTimeout(() => {
       // ✅ 5. 문서에 삽입
       document.body.appendChild(button);
     }
-
-    if (productList1) {
-      const listItems = productList1.querySelectorAll("li");
-      listItems.forEach((li) => {
-        const figure = li.querySelector("figure");
-        if (!figure || figure.querySelector(".cp-button")) return;
-
-        figure.style.position = "relative";
-        const button = createCpButton(() => {
-          const nameEl = li.querySelector(".ProductUnit_productName__gre7e");
-          const productName = nameEl ? nameEl.innerText.trim() : "상품명 없음";
-          console.log(`[product-list] 클릭: ${productName}`);
-        });
-
-        // 👇 hover 시 버튼 표시
-        li.addEventListener("mouseenter", () => {
-          button.style.display = "block";
-        });
-        li.addEventListener("mouseleave", () => {
-          button.style.display = "none";
-        });
-
-        button.addEventListener("click", (e) => {
-          e.stopPropagation();
-          e.preventDefault();
-
-          const aTag = li.querySelector("a");
-          const res = extractProductData(aTag);
-
-          console.log("상품 ID 정보:");
-          console.log(res);
-
-          const url = `${baseUrl}/mynow?item=${encodeToBase64(
-            JSON.stringify(res),
-          )}`;
-          window.open(url, "_blank");
-        });
-
-        figure.appendChild(button);
-      });
-    }
-
-    // [productList] 처리
-    if (productList2) {
-      const listItems = productList2.querySelectorAll("li");
-      listItems.forEach((li) => {
-        const imageContainer = li.querySelector("dt.image");
-        if (!imageContainer || imageContainer.querySelector(".cp-button"))
-          return;
-
-        imageContainer.style.position = "relative";
-        const button = createCpButton(() => {
-          const nameEl = li.querySelector(".name");
-          const productName = nameEl ? nameEl.innerText.trim() : "상품명 없음";
-          console.log(`[productList] 클릭: ${productName}`);
-        });
-
-        // 👇 hover 시 버튼 표시
-        li.addEventListener("mouseenter", () => {
-          button.style.display = "block";
-        });
-        li.addEventListener("mouseleave", () => {
-          button.style.display = "none";
-        });
-
-        button.addEventListener("click", (e) => {
-          e.stopPropagation();
-          e.preventDefault();
-
-          const aTag = li.querySelector("a");
-          const res = extractProductData(aTag);
-
-          console.log("상품 ID 정보:");
-          console.log(res);
-
-          const url = `${baseUrl}/mynow?item=${encodeToBase64(
-            JSON.stringify(res),
-          )}`;
-          window.open(url, "_blank");
-        });
-
-        imageContainer.appendChild(button);
-      });
-    }
-  }
-
-  function createCpButton(onClick) {
-    const button = document.createElement("button");
-    button.textContent = "최저가 알림";
-    button.className = "cp-button";
-
-    Object.assign(button.style, {
-      position: "absolute",
-      top: "8px",
-      right: "8px",
-      backgroundColor: "rgba(51, 51, 51, 0.8)",
-      color: "white",
-      border: "none",
-      borderRadius: "4px",
-      fontSize: "13px",
-      padding: "4px 8px",
-      cursor: "pointer",
-      zIndex: "0",
-      display: "none", // 처음에는 숨김
-      transition: "background-color 0.2s ease, transform 0.1s ease",
-    });
-
-    // 호버 애니메이션 유지
-    button.addEventListener("mouseenter", () => {
-      button.style.backgroundColor = "rgba(0, 0, 0, 0.9)";
-      button.style.transform = "scale(1.05)";
-    });
-    button.addEventListener("mouseleave", () => {
-      button.style.backgroundColor = "rgba(51, 51, 51, 0.8)";
-      button.style.transform = "scale(1)";
-    });
-    button.addEventListener("mousedown", () => {
-      button.style.transform = "scale(0.95)";
-    });
-    button.addEventListener("mouseup", () => {
-      button.style.transform = "scale(1.05)";
-    });
-    button.addEventListener("click", (e) => {
-      e.stopPropagation();
-      e.preventDefault();
-      onClick();
-    });
-
-    return button;
   }
 
   applyCpButtons();
