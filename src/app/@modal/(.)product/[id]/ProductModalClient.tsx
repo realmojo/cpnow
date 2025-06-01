@@ -26,6 +26,7 @@ import PriceLineChart from "@/src/components/PriceLineChart";
 import StickyActionBar from "@/src/components/product/StickyActionBar";
 import ProductOptions from "@/src/components/product/ProductOptions";
 import { ComparePriceDetail } from "@/src/components/product/ComparePriceDetail";
+import SimilarProductSection from "@/src/components/product/SimilarProductSection";
 
 // ✅ 상품 호출 함수
 async function getProductById(id: string): Promise<any | null> {
@@ -417,6 +418,8 @@ export default function ProductModalClient({ id }: { id: string }) {
                     </div>
                   </section>
                 )}
+
+                <SimilarProductSection categoryId={productItem.categoryId} />
               </article>
               <StickyActionBar
                 productItem={productItem}

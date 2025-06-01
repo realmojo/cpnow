@@ -35,8 +35,6 @@ export async function POST(req: NextRequest) {
       },
     };
 
-    console.log(message);
-
     const response = await messaging.send(message as any);
 
     return NextResponse.json({ success: true, messageId: response });
