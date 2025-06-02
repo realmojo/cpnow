@@ -6,9 +6,10 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 type Props = {
   categoryId: number;
+  setId: (id: string) => void;
 };
 
-export default function SimilarProductSection({ categoryId }: Props) {
+export default function SimilarProductSection({ categoryId, setId }: Props) {
   const targetRef = useRef<HTMLDivElement | null>(null);
   const [similarProductsItems, setSimilarProductsItems] = useState<any[]>([]);
   const [isFetched, setIsFetched] = useState(false);
@@ -88,7 +89,11 @@ export default function SimilarProductSection({ categoryId }: Props) {
 
         {/* 데이터 출력 */}
         {!isLoading && !hasError && similarProductsItems.length > 0 && (
-          <ProductList items={similarProductsItems} />
+          <ProductList
+            items={similarProductsItems}
+            setId={setId}
+            isHash={true}
+          />
         )}
       </div>
     </section>

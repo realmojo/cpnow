@@ -198,6 +198,15 @@ export default function ProductModalClient({ id }: { id: string }) {
     );
   };
 
+  const setId = async (id: string) => {
+    const container = document.getElementById("product-container");
+    if (container) {
+      container.scrollTo({ top: 0, behavior: "smooth" });
+    }
+    initData(id);
+    window.history.pushState({}, "", `/product/${id}`);
+  };
+
   useEffect(() => {
     initData(id);
   }, [id]);
@@ -255,7 +264,7 @@ export default function ProductModalClient({ id }: { id: string }) {
             </DrawerTitle>
           </DrawerHeader>
           {productItem && (
-            <div className="flex-1 overflow-y-auto">
+            <div id="product-container" className="flex-1 overflow-y-auto">
               <article className="mb-16">
                 <section className="flex justify-center pt-4">
                   <div className="mx-auto w-full max-w-[800px] px-4">
@@ -336,16 +345,19 @@ export default function ProductModalClient({ id }: { id: string }) {
                                 현재가
                               </th>
                               <td className="p-3 text-lg font-bold text-red-600">
-                                {productItem.price === -1
-                                  ? "품절"
-                                  : `${formatNumber(productItem.price)}원`}
+                                {formatNumber(productItem.price)}원
+                                {productItem.isSale === 0 ? (
+                                  <span className="ml-2 text-sm font-normal text-gray-500">
+                                    품절
+                                  </span>
+                                ) : null}
                               </td>
                             </tr>
                             <tr className="border-b border-gray-200">
                               <th className="p-3 text-left font-bold text-gray-700">
                                 로켓배송
                               </th>
-                              <td className="p-3 text-lg text-gray-800">
+                              <td className="p-3 text-gray-800">
                                 <DeliveryBadge
                                   deliveryType={productItem.deliveryType}
                                 />
@@ -414,12 +426,35 @@ export default function ProductModalClient({ id }: { id: string }) {
                       <h2 className="font-heading mt-16 scroll-m-20 text-2xl font-bold tracking-tight first:mt-0">
                         이 상품의 옵션
                       </h2>
-                      <ProductOptions items={productItem.options} />
+                      <ProductOptions
+                        items={productItem.options}
+                        setId={setId}
+                      />
                     </div>
                   </section>
                 )}
 
-                <SimilarProductSection categoryId={productItem.categoryId} />
+                <section className="mt-16 mb-20 flex justify-center">
+                  <div className="w-full max-w-[800px] px-4">
+                    <div className="rounded-1xl border bg-gray-50 p-4">
+                      <p className="text-sm leading-relaxed">
+                        본 페이지에서 상품을 구매하시면 CPNOW 활동을 통해 일정
+                        수익이 발생할 수 있습니다.
+                        <br />
+                        이는 상품 가격에 영향을 주지 않으며, 고객님께는 추가
+                        비용이 발생하지 않습니다.
+                        <br />
+                        여러분의 관심이 콘텐츠 제작에 큰 도움이 됩니다.
+                        감사합니다 🙇
+                      </p>
+                    </div>
+                  </div>
+                </section>
+
+                <SimilarProductSection
+                  categoryId={productItem.categoryId}
+                  setId={setId}
+                />
               </article>
               <StickyActionBar
                 productItem={productItem}

@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { getUserAuth } from "@/utils/utils"; // 클라이언트에서 작동해야 함
 import { useAppStore } from "@/src/store/useAppStore";
 import { useState } from "react";
-import { Loader2 } from "lucide-react";
+import { BellIcon, BellOffIcon, Loader2 } from "lucide-react";
 // ✅ 알람등록
 async function addAlarm(params: any): Promise<any | null> {
   const response = await fetch(`/api/userAlarm`, {
@@ -116,10 +116,16 @@ export default function AlarmButton({ productItem }: { productItem: any }) {
     >
       {isLoading ? (
         <div className="flex items-center justify-center">
-          <Loader2 className="h-4 w-4 animate-spin" />
+          <Loader2 className="animate-spin" style={{ width: 26, height: 26 }} />
         </div>
       ) : (
-        <>{isAlarmed ? "🔕 알림취소" : "🔔 알림받기"}</>
+        <>
+          {isAlarmed ? (
+            <BellOffIcon style={{ width: 26, height: 26 }} />
+          ) : (
+            <BellIcon style={{ width: 26, height: 26 }} />
+          )}
+        </>
       )}
     </Button>
   );

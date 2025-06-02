@@ -44,7 +44,7 @@ export default function DeliveryBadge({
 
   // 일반배송 텍스트 출력
   if (Number(deliveryType) === 0 || deliveryType === null) {
-    return <span className="text-sm font-medium text-gray-500">일반배송</span>;
+    return <span className="font-medium text-gray-500">일반배송</span>;
   }
 
   if (!badge) return null;

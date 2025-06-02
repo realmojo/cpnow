@@ -16,7 +16,19 @@ import {
 } from "@/components/ui/alert-dialog";
 import { ComparePriceDetail } from "./product/ComparePriceDetail";
 
-export default function ProductList({ items = [], type = "grid" }: any) {
+type Props = {
+  items: any;
+  type?: string;
+  isHash?: boolean;
+  setId?: (id: string) => void;
+};
+
+export default function ProductList({
+  items = [],
+  type = "grid",
+  isHash = false,
+  setId,
+}: Props) {
   const [productItems, setProductItems] = useState<any[]>([]);
   const [showModal, setShowModal] = useState(false);
   const [item, setItem] = useState<any>("");
@@ -56,6 +68,82 @@ export default function ProductList({ items = [], type = "grid" }: any) {
     }
   };
 
+  const cardContent = (item: any) => {
+    return (
+      <>
+        <CardHeader className="p-0">
+          <Image
+            src={item.thumbnail}
+            alt={item.title}
+            width={400}
+            height={400}
+            className="aspect-square w-full object-cover"
+            placeholder="blur"
+            blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgdmlld0JveD0iMCAwIDYwMCA0MDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjYwMCIgaGVpZ2h0PSI0MDAiIGZpbGw9IiNlZWVlZWUiLz48L3N2Zz4="
+          />
+        </CardHeader>
+        <CardContent className="space-y-2 p-4">
+          <CardTitle className="line-clamp-2 min-h-[3.5rem] text-sm leading-snug font-medium text-gray-800">
+            {item.title}
+          </CardTitle>
+
+          <div className="text-sm text-gray-700">
+            <div className="flex items-center gap-2">
+              <div className="text-lg font-bold text-black">
+                {item.price.toLocaleString()}원
+              </div>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2 text-sm font-semibold text-green-600">
+            <ComparePriceDetail
+              price={item.price}
+              highPrice={item.highPrice ?? item.price}
+              lowPrice={item.lowPrice ?? item.price}
+              isVisible={false}
+            />
+            {item.deliveryType && (
+              <DeliveryBadge deliveryType={item.deliveryType} />
+            )}
+          </div>
+
+          <div className="flex items-center text-sm">
+            {item.rating ? (
+              <div className="flex space-x-[1px]">
+                {Array.from({ length: 5 }).map((_, i) => {
+                  const fill =
+                    i + 1 <= Math.floor(item.rating ?? 0)
+                      ? "fill-yellow-400 text-yellow-400"
+                      : i < (item.rating ?? 0)
+                        ? "fill-yellow-400 text-gray-300"
+                        : "fill-gray-300 text-gray-300";
+
+                  return (
+                    <svg
+                      key={i}
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      className={`h-4 w-4 ${fill}`}
+                    >
+                      <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                    </svg>
+                  );
+                })}
+              </div>
+            ) : null}
+
+            {item.reviewCount ? (
+              <span className="ml-1 text-xs text-gray-600">
+                ({item.reviewCount.toLocaleString()})
+              </span>
+            ) : null}
+          </div>
+        </CardContent>
+      </>
+    );
+  };
+
   useEffect(() => {
     setProductItems(items);
   }, [items]);
@@ -68,79 +156,24 @@ export default function ProductList({ items = [], type = "grid" }: any) {
             productItems.length > 0 &&
             productItems.map((item: any) => (
               <div key={item.id}>
-                <Card className="overflow-hidden border-none bg-transparent py-0 pt-4 shadow-none transition hover:shadow-md">
+                {isHash ? (
+                  <Card
+                    className="overflow-hidden border-none bg-transparent py-0 pt-4 shadow-none transition hover:shadow-md"
+                    onClick={() => {
+                      if (setId && isHash) {
+                        setId(item.id);
+                      }
+                    }}
+                  >
+                    {cardContent(item)}
+                  </Card>
+                ) : (
                   <Link href={`/product/${item.id}`} prefetch>
-                    <CardHeader className="p-0">
-                      <Image
-                        src={item.thumbnail}
-                        alt={item.title}
-                        width={400}
-                        height={400}
-                        className="aspect-square w-full object-cover"
-                        placeholder="blur"
-                        blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgdmlld0JveD0iMCAwIDYwMCA0MDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjYwMCIgaGVpZ2h0PSI0MDAiIGZpbGw9IiNlZWVlZWUiLz48L3N2Zz4="
-                      />
-                    </CardHeader>
-                    <CardContent className="space-y-2 p-4">
-                      <CardTitle className="line-clamp-2 min-h-[3.5rem] text-sm leading-snug font-medium text-gray-800">
-                        {item.title}
-                      </CardTitle>
-
-                      <div className="text-sm text-gray-700">
-                        <div className="flex items-center gap-2">
-                          <div className="text-lg font-bold text-black">
-                            {item.price.toLocaleString()}원
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center gap-2 text-sm font-semibold text-green-600">
-                        <ComparePriceDetail
-                          price={item.price}
-                          highPrice={item.highPrice ?? item.price}
-                          lowPrice={item.lowPrice ?? item.price}
-                          isVisible={false}
-                        />
-                        {item.deliveryType && (
-                          <DeliveryBadge deliveryType={item.deliveryType} />
-                        )}
-                      </div>
-
-                      <div className="flex items-center text-sm">
-                        {item.rating ? (
-                          <div className="flex space-x-[1px]">
-                            {Array.from({ length: 5 }).map((_, i) => {
-                              const fill =
-                                i + 1 <= Math.floor(item.rating ?? 0)
-                                  ? "fill-yellow-400 text-yellow-400"
-                                  : i < (item.rating ?? 0)
-                                    ? "fill-yellow-400 text-gray-300"
-                                    : "fill-gray-300 text-gray-300";
-
-                              return (
-                                <svg
-                                  key={i}
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  viewBox="0 0 24 24"
-                                  fill="currentColor"
-                                  className={`h-4 w-4 ${fill}`}
-                                >
-                                  <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-                                </svg>
-                              );
-                            })}
-                          </div>
-                        ) : null}
-
-                        {item.reviewCount ? (
-                          <span className="ml-1 text-xs text-gray-600">
-                            ({item.reviewCount.toLocaleString()})
-                          </span>
-                        ) : null}
-                      </div>
-                    </CardContent>
+                    <Card className="cursor-pointer overflow-hidden border-none bg-transparent py-0 pt-4 shadow-none transition hover:shadow-md">
+                      {cardContent(item)}
+                    </Card>
                   </Link>
-                </Card>
+                )}
               </div>
             ))}
         </div>
