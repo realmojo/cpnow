@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import ProductList from "../product/ProductOptions";
+import ProductList from "../ProductList";
 
 export default function RecentlyDiscountedProducts() {
   const [products, setProducts] = useState([]);

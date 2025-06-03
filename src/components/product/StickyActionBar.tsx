@@ -23,12 +23,9 @@ export default function StickyActionBar({ productItem, getShortUrl }: Props) {
           </a>
 
           {/* 알림 버튼 (20%) */}
-          <button
-            type="button"
-            className="rounded-0 bg-primary flex h-16 w-1/5 items-center justify-center text-center text-lg font-bold text-white transition-colors"
-          >
+          <div className="rounded-0 bg-primary flex h-16 w-1/5 items-center justify-center text-center text-lg font-bold text-white transition-colors">
             <AlarmButton productItem={productItem} />
-          </button>
+          </div>
         </div>
       </div>
     </>
