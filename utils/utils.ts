@@ -166,8 +166,17 @@ export const getCategoryIdByName = (name: string) => {
 };
 
 export const isWebView = () => {
-  const isWebView = /wv|reactnative|react-native/i.test(navigator.userAgent);
-  return isWebView;
+  if (typeof window === "undefined") return false;
+
+  const ua = navigator.userAgent || navigator.vendor || (window as any).opera;
+  const isAndroidWebView = /wv|reactnative|react-native/i.test(ua);
+  const isiOS = /iPhone|iPad|iPod/i.test(ua);
+  const isSafari = /Safari/.test(ua);
+  const isCriOS = /CriOS/.test(ua); // iOS Chrome
+  const isFxiOS = /FxiOS/.test(ua); // iOS Firefox
+  const isiOSWebView = isiOS && !isSafari && !isCriOS && !isFxiOS;
+
+  return isAndroidWebView || isiOSWebView;
 };
 
 export const extractRedirectUrlFromHtml = (html: string) => {

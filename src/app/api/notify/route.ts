@@ -25,15 +25,32 @@ export async function POST(req: NextRequest) {
         // title,
         // body: `data - ${body}`,
         // icon: icon || "https://cpnow.kr/icons/android-icon-48x48.png",
+        // "media-url": icon || "https://cpnow.kr/icons/android-icon-48x48.png",
         link: link || "https://cpnow.kr",
         click_action: "FLUTTER_NOTIFICATION_CLICK",
       },
+      // apns: {
+      //   payload: {
+      //     aps: {
+      //       "mutable-content": 1,
+      //       alert: {
+      //         title,
+      //         body,
+      //       },
+      //     },
+      //   },
+      //   fcm_options: {
+      //     image: icon || "https://cpnow.kr/icons/android-icon-48x48.png",
+      //   },
+      // },
       webpush: {
         fcm_options: {
           link: link || "https://cpnow.kr",
         },
       },
     };
+
+    console.log(message);
 
     const response = await messaging.send(message as any);
 
