@@ -208,11 +208,24 @@ export default function ProductModalClient({ id }: { id: string }) {
     initData(id);
   }, [id]);
 
+  const moveClose = () => {
+    const hasReferrer =
+      document.referrer !== "" && document.referrer !== window.location.href;
+
+    setTimeout(() => {
+      if (hasReferrer) {
+        router.back();
+      } else {
+        router.push("https://cpnow.kr/categories");
+      }
+    }, 300);
+  };
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         setOpen(false);
-        setTimeout(() => router.back(), 300);
+        moveClose();
       }
     };
     window.addEventListener("keydown", handleKeyDown);
@@ -226,7 +239,7 @@ export default function ProductModalClient({ id }: { id: string }) {
         open={open}
         onOpenChange={() => {
           setOpen(false);
-          setTimeout(() => router.back(), 300);
+          moveClose();
         }}
       >
         <DrawerContent className="!fixed !inset-0 !m-0 !h-screen !max-h-screen !w-screen !rounded-none !border-none transition-all duration-300 ease-in-out [&>div.bg-muted]:hidden">
