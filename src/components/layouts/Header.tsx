@@ -1,8 +1,12 @@
 "use client";
 import Link from "next/link";
 import MainSidebarRightButton from "../MainSidebarRightButton";
+// import { isWebView } from "@/utils/utils";
 
 export default function Header() {
+  // if (isWebView()) {
+  //   return null;
+  // }
   return (
     <header className="container mx-auto flex h-16 w-full max-w-[800px] items-center justify-between px-4">
       {/* 왼쪽: 사이드바 + 로고 묶음 */}

@@ -21,28 +21,37 @@ export async function POST(req: NextRequest) {
         body,
         image: icon || "https://cpnow.kr/icons/android-icon-48x48.png",
       },
+      apns: {
+        payload: {
+          aps: {
+            "mutable-content": 1,
+            // "content-available": 1,
+            // // 포그라운드에서도 소리와 배지 표시
+            alert: {
+              // 이 부분이 중요!
+              title: title,
+              body: body,
+            },
+            sound: "default",
+            badge: 1,
+          },
+        },
+        fcm_options: {
+          image: icon || "https://cpnow.kr/icons/android-icon-48x48.png",
+        },
+      },
       data: {
-        // title,
-        // body: `data - ${body}`,
-        // icon: icon || "https://cpnow.kr/icons/android-icon-48x48.png",
-        // "media-url": icon || "https://cpnow.kr/icons/android-icon-48x48.png",
         link: link || "https://cpnow.kr",
         click_action: "FLUTTER_NOTIFICATION_CLICK",
       },
-      // apns: {
-      //   payload: {
-      //     aps: {
-      //       "mutable-content": 1,
-      //       alert: {
-      //         title,
-      //         body,
-      //       },
-      //     },
-      //   },
-      //   fcm_options: {
-      //     image: icon || "https://cpnow.kr/icons/android-icon-48x48.png",
-      //   },
-      // },
+      android: {
+        // Android용 설정 분리
+        notification: {
+          title,
+          body,
+          image: icon || "https://cpnow.kr/icons/android-icon-48x48.png",
+        },
+      },
       webpush: {
         fcm_options: {
           link: link || "https://cpnow.kr",

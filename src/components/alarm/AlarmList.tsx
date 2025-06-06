@@ -8,7 +8,7 @@ import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { getUserAuth } from "@/utils/utils";
 
 interface AlarmItem {
-  alarmId: number;
+  aId: number;
   pId: number;
   title: string;
   comment: string;
@@ -20,6 +20,7 @@ interface AlarmItem {
 const getMyAlarmList = async (userId: string): Promise<AlarmItem[]> => {
   try {
     const { data } = await axios.get(`/api/alarms?userId=${userId}`); // 실제로는 세션 기반 userId 사용 권장
+    console.log(data);
     return data;
   } catch (err) {
     console.log(err);
@@ -105,13 +106,13 @@ const AlarmList = () => {
             <TableBody>
               {alarms.map((alarm) => (
                 <TableRow
-                  key={`alarm-${alarm.alarmId}`}
+                  key={`alarm-${alarm.aId}`}
                   className="hover:bg-muted/50 block cursor-pointer border-b transition-colors md:table-row md:border-none"
                 >
                   <TableCell colSpan={3} className="p-0">
                     <Link
                       href={`/product/${alarm.pId}`}
-                      className="flex items-start gap-3 p-3 md:table-row md:p-0"
+                      className="flex items-start gap-3 py-3 md:table-row"
                     >
                       {/* 썸네일 영역 */}
                       <div className="shrink-0 md:table-cell md:w-[100px] md:align-middle">

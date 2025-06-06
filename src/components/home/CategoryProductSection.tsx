@@ -110,12 +110,12 @@ export default function CategoryProductSection() {
                 <Button
                   key={cat.categoryId}
                   variant={isSelected ? "default" : "outline"}
-                  className="flex h-16 w-16 flex-col items-center justify-center rounded-xl p-1 text-[10px] shadow-sm transition hover:shadow-md sm:h-20 sm:w-20 sm:p-2 sm:text-xs"
+                  className="flex h-16 w-20 flex-col items-center justify-center rounded-xl p-1 text-[10px] shadow-sm transition hover:shadow-md sm:h-20 sm:w-20 sm:p-2 sm:text-xs"
                   onClick={() => getSubCategoryProdutItems(cat)}
                   title={cat.name}
                 >
                   <Icon className="h-4 w-4 sm:h-5 sm:w-5" />
-                  <span className="whitespace-nowrap">{cat.name}</span>
+                  <span className="text-sm whitespace-nowrap">{cat.name}</span>
                 </Button>
               );
             })}

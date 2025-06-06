@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Card, CardTitle } from "@/components/ui/card";
 import { ComparePriceDetail } from "@/src/components/product/ComparePriceDetail";
 
-export default function ProductList({ items = [], setId }: any) {
+export default function ProductOptions({ items = [], setId }: any) {
   const [parentId, setParentId] = useState<number | null>(0);
   const [productItems, setProductItems] = useState<any[]>([]);
 
@@ -77,6 +77,7 @@ export default function ProductList({ items = [], setId }: any) {
                       highPrice={item.highPrice ?? item.price}
                       lowPrice={item.lowPrice ?? item.price}
                       isVisible={false}
+                      isTextFull={true}
                     />
                   </div>
                 </div>

@@ -142,7 +142,7 @@ export default function MyNowContainer() {
               <h2 className="font-heading scroll-m-20 border-none text-2xl font-bold tracking-tight first:mt-0 sm:border-b">
                 찜 목록
               </h2>
-              <ProductList items={myProductsItems} type="list" />
+              <ProductList items={myProductsItems} type="grid" />
 
               <div className="mt-2 flex w-full gap-2">
                 {!isWebView() && (
@@ -251,7 +251,7 @@ export default function MyNowContainer() {
                       onClick={() => {
                         setOpen(true);
                       }}
-                      className="text-md text-md w-full rounded-lg px-4 py-6 text-white transition-colors"
+                      className="text-md text-md w-full rounded-lg px-4 py-6 font-bold text-white transition-colors"
                     >
                       <Plus className="mr-2 h-4 w-4" />
                       상품등록
@@ -271,14 +271,14 @@ export default function MyNowContainer() {
                           }, 300);
                         }
                       }}
-                      className="text-md text-md w-full rounded-lg bg-gray-100 px-4 py-6 text-gray-700 transition-colors hover:bg-gray-200"
+                      className="text-md text-md w-full rounded-lg bg-gray-100 px-4 py-6 font-bold text-gray-700 transition-colors hover:bg-gray-200"
                     >
                       {loading ? (
                         <Loader2 className="text-muted-foreground ml-2 h-4 w-4 animate-spin" />
                       ) : (
                         <Bell className="text-muted-foreground ml-2 h-4 w-4" />
                       )}
-                      알림 테스트
+                      알림 테스트22
                     </Button>
                   </div>
                 </div>

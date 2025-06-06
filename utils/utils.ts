@@ -153,7 +153,7 @@ export const fisrtCategories = [
   { categoryId: 178255, name: "가전디지털", icon: Monitor },
   { categoryId: 317778, name: "스포츠/레저", icon: Dumbbell },
   { categoryId: 184060, name: "자동차용품", icon: Car },
-  { categoryId: 317777, name: "도서/음반/DVD", icon: BookOpen },
+  { categoryId: 317777, name: "도서/음반", icon: BookOpen },
   { categoryId: 317779, name: "완구/취미", icon: Puzzle },
   { categoryId: 177295, name: "문구/오피스", icon: Pencil },
   { categoryId: 115674, name: "반려동물용품", icon: PawPrint },

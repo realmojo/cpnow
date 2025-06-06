@@ -3,7 +3,7 @@ import { insertOne, queryList } from "@/lib/db";
 
 export async function GET() {
   try {
-    const query = `SELECT p.* FROM product_prices pp INNER JOIN products p ON pp.pId = p.id AND p.price != 0 ORDER BY pp.id DESC LIMIT 10;`;
+    const query = `SELECT p.* FROM product_prices pp INNER JOIN products p ON pp.pId = p.id AND p.price != 0 ORDER BY pp.id DESC LIMIT 50;`;
 
     const result = await queryList(query);
     return NextResponse.json(result);

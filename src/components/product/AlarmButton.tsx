@@ -4,39 +4,10 @@
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { getUserAuth } from "@/utils/utils"; // 클라이언트에서 작동해야 함
+import { addAlarm, removeAlarm } from "@/utils/api"; // 공통 api
 import { useAppStore } from "@/src/store/useAppStore";
 import { useState } from "react";
 import { BellIcon, BellOffIcon, Loader2 } from "lucide-react";
-// ✅ 알람등록
-async function addAlarm(params: any): Promise<any | null> {
-  const response = await fetch(`/api/userAlarm`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(params),
-  });
-
-  const res = await response.json();
-
-  if (!res.ok) return null;
-
-  const data = await res.json();
-  return data;
-}
-// ✅ 알람 삭제 함수
-async function removeAlarm(params: any): Promise<any | null> {
-  const response = await fetch(
-    `/api/userAlarm/delete?userId=${params.userId}&pId=${params.pId}`,
-    {
-      method: "DELETE",
-    },
-  );
-
-  const res = await response.json();
-  if (!res.ok) return null;
-  return res.data;
-}
 
 export default function AlarmButton({ productItem }: { productItem: any }) {
   const { myAlarmList, setMyAlarmList } = useAppStore();
@@ -59,7 +30,7 @@ export default function AlarmButton({ productItem }: { productItem: any }) {
 
         // 상태에서 해당 항목 제거
         const updatedList = myAlarmList.filter(
-          (item: any) => item.id !== productItem.id,
+          (alarm: any) => alarm.id !== productItem.id,
         );
         useAppStore.setState({ myAlarmList: updatedList });
 

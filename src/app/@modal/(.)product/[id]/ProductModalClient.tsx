@@ -10,21 +10,18 @@ import {
 } from "@/components/ui/drawer";
 
 import Image from "next/image";
-import Link from "next/link";
 import {
   Breadcrumb,
   BreadcrumbItem,
-  BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 
 import DeliveryBadge from "@/src/components/DeliveryBadge";
-import { getCategoryIdByName } from "@/utils/utils";
 import PriceLineChart from "@/src/components/PriceLineChart";
 import StickyActionBar from "@/src/components/product/StickyActionBar";
-import ProductOptions from "@/src/components/product/ProductOptions";
+import ProductList from "@/src/components/ProductList";
 import { ComparePriceDetail } from "@/src/components/product/ComparePriceDetail";
 import SimilarProductSection from "@/src/components/product/SimilarProductSection";
 
@@ -240,22 +237,22 @@ export default function ProductModalClient({ id }: { id: string }) {
                 <Breadcrumb>
                   <BreadcrumbList>
                     <BreadcrumbItem>
-                      <BreadcrumbLink asChild>
-                        <Link
+                      {/* <BreadcrumbLink asChild> */}
+                      {/* <Link
                           href={`/categories/${getCategoryIdByName(productItem.bigCategory)}`}
-                        >
-                          {productItem.bigCategory ?? ""}
-                        </Link>
-                      </BreadcrumbLink>
+                        > */}
+                      {productItem.bigCategory ?? ""}
+                      {/* </Link> */}
+                      {/* </BreadcrumbLink> */}
                     </BreadcrumbItem>
                     <BreadcrumbSeparator />
                     <BreadcrumbItem>
                       <BreadcrumbPage>
-                        <BreadcrumbLink asChild>
-                          <Link href={`/categories/${productItem.categoryId}`}>
-                            {productItem.category ?? ""}
-                          </Link>
-                        </BreadcrumbLink>
+                        {/* <BreadcrumbLink asChild> */}
+                        {/* <Link href={`/categories/${productItem.categoryId}`}> */}
+                        {productItem.category ?? ""}
+                        {/* </Link> */}
+                        {/* </BreadcrumbLink> */}
                       </BreadcrumbPage>
                     </BreadcrumbItem>
                   </BreadcrumbList>
@@ -313,6 +310,7 @@ export default function ProductModalClient({ id }: { id: string }) {
                                       productItem.lowPrice ?? productItem.price
                                     }
                                     isVisible={true}
+                                    isTextFull={true}
                                   />
                                 )}
                               </td>
@@ -344,7 +342,7 @@ export default function ProductModalClient({ id }: { id: string }) {
                               <th className="p-3 text-left font-bold text-gray-700">
                                 현재가
                               </th>
-                              <td className="p-3 text-lg font-bold text-red-600">
+                              <td className="p-3 text-lg font-bold text-green-600">
                                 {formatNumber(productItem.price)}원
                                 {productItem.isSale === 0 ? (
                                   <span className="ml-2 text-sm font-normal text-gray-500">
@@ -360,6 +358,7 @@ export default function ProductModalClient({ id }: { id: string }) {
                               <td className="p-3 text-gray-800">
                                 <DeliveryBadge
                                   deliveryType={productItem.deliveryType}
+                                  height={24}
                                 />
                               </td>
                             </tr>
@@ -394,7 +393,7 @@ export default function ProductModalClient({ id }: { id: string }) {
                                       })}
                                     </div>
 
-                                    <span className="ml-1 text-xs text-gray-600">
+                                    <span className="ml-1 text-sm text-gray-600">
                                       (
                                       {productItem.reviewCount
                                         ? productItem.reviewCount.toLocaleString()
@@ -423,12 +422,23 @@ export default function ProductModalClient({ id }: { id: string }) {
                 {productItem?.options?.length > 1 && (
                   <section className="mt-16 flex justify-center">
                     <div className="w-full max-w-[800px] px-4">
-                      <h2 className="font-heading mt-16 scroll-m-20 text-2xl font-bold tracking-tight first:mt-0">
-                        이 상품의 옵션
-                      </h2>
-                      <ProductOptions
+                      <div className="mt-16 mb-4 flex items-center justify-between">
+                        <h2 className="font-heading scroll-m-20 text-2xl font-bold tracking-tight first:mt-0">
+                          이 상품의 옵션
+                        </h2>
+                        {/* <button
+                          onClick={() => alert("옵션 추가")}
+                          className="flex h-8 items-center justify-center rounded-md bg-black px-3 text-sm text-white hover:bg-gray-800"
+                        >
+                          + 모두 추가
+                        </button> */}
+                      </div>
+                      <ProductList
                         items={productItem.options}
+                        isHash={true}
                         setId={setId}
+                        isOption={true}
+                        type="list"
                       />
                     </div>
                   </section>

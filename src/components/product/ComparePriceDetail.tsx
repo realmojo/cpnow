@@ -7,11 +7,13 @@ export const ComparePriceDetail = ({
   highPrice,
   lowPrice,
   isVisible = false,
+  isTextFull = true,
 }: {
   price: number;
   highPrice: number;
   lowPrice: number;
   isVisible: boolean;
+  isTextFull: boolean;
 }) => {
   if (highPrice === 0) {
     return (
@@ -51,9 +53,9 @@ export const ComparePriceDetail = ({
     return (
       <Badge
         variant="default"
-        className="rounded-md bg-green-100 px-2 py-1 text-sm font-semibold text-green-700"
+        className="rounded-md bg-green-100 px-1 py-0 text-sm font-semibold text-green-700"
       >
-        {priceDifference}원 할인 ({discountPercent}% ↓)
+        {isTextFull ? `${priceDifference} 원 할인` : null} {discountPercent}% ▼
       </Badge>
     );
   }
@@ -64,9 +66,9 @@ export const ComparePriceDetail = ({
     return (
       <Badge
         variant="default"
-        className="rounded-md bg-red-100 px-2 py-1 text-sm font-semibold text-red-700"
+        className="rounded-md bg-red-100 px-1 py-0 text-sm font-semibold text-red-700"
       >
-        {priceDifference}원 인상 (+{increasePercent}%)
+        {isTextFull ? `${priceDifference} 원 인상` : null} {increasePercent}% ▲
       </Badge>
     );
   }
