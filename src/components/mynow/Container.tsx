@@ -278,7 +278,7 @@ export default function MyNowContainer() {
                       ) : (
                         <Bell className="text-muted-foreground ml-2 h-4 w-4" />
                       )}
-                      알림 테스트22
+                      알림 테스트
                     </Button>
                   </div>
                 </div>
