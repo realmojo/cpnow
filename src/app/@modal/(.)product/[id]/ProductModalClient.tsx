@@ -48,11 +48,11 @@ export default function ProductModalClient({ id }: { id: string }) {
   };
 
   const getShortUrl = (item: any) => {
-    const { landingUrl, link } = item;
+    const { landingUrl, productId, vendorItemId, itemId } = item;
     if (landingUrl && landingUrl.startsWith("https")) {
       return landingUrl;
     } else {
-      return link;
+      return `https://www.coupang.com/vp/products/${productId}?itemId=${itemId}&vendorItemId=${vendorItemId}`;
     }
   };
 
@@ -208,7 +208,7 @@ export default function ProductModalClient({ id }: { id: string }) {
     initData(id);
   }, [id]);
 
-  const moveClose = () => {
+  const moveClose = useCallback(() => {
     const hasReferrer =
       document.referrer !== "" && document.referrer !== window.location.href;
 
@@ -219,7 +219,7 @@ export default function ProductModalClient({ id }: { id: string }) {
         router.push("https://cpnow.kr/categories");
       }
     }, 300);
-  };
+  }, [router]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -228,9 +228,10 @@ export default function ProductModalClient({ id }: { id: string }) {
         moveClose();
       }
     };
+
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [router]);
+  }, [moveClose]);
 
   return (
     <>
@@ -242,7 +243,7 @@ export default function ProductModalClient({ id }: { id: string }) {
           moveClose();
         }}
       >
-        <DrawerContent className="!fixed !inset-0 !m-0 !h-screen !max-h-screen !w-screen !rounded-none !border-none transition-all duration-300 ease-in-out [&>div.bg-muted]:hidden">
+        <DrawerContent className="!fixed !inset-0 !m-0 !h-screen !max-h-screen !w-screen !rounded-none !border-none transition-all duration-100 ease-in-out [&>div.bg-muted]:hidden">
           <DrawerHeader className="border-b">
             <DrawerTitle className="flex items-center justify-between text-base font-semibold">
               <div>상품정보</div>
