@@ -48,11 +48,11 @@ export default function ProductModalClient({ id }: { id: string }) {
   };
 
   const getShortUrl = (item: any) => {
-    const { landingUrl, productId, vendorItemId, itemId } = item;
+    const { landingUrl, productId, vendorItemId, itemId, categoryId } = item;
     if (landingUrl && landingUrl.startsWith("https")) {
       return landingUrl;
     } else {
-      return `https://www.coupang.com/vp/products/${productId}?itemId=${itemId}&vendorItemId=${vendorItemId}`;
+      return `https://www.coupang.com/vp/products/${productId}?itemId=${itemId}&vendorItemId=${vendorItemId}&sourceType=CATEGORY&categoryId=${categoryId}`;
     }
   };
 
