@@ -62,7 +62,7 @@ export const sendNotification = async () => {
       token: auth.fcmToken,
       title: "쿠팡 상품을 등록해 주세요🚀",
       body: "이제 알람을 받으실 수 있습니다.",
-      icon: "https://cpnow.kr/screenshots/homepage.png",
+      icon: "https://cpnow.kr/icons/app-icon@96.png",
       link: "https://cpnow.kr",
     }),
   });
