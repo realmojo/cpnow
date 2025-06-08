@@ -16,7 +16,6 @@ export async function POST(req: NextRequest) {
       "SELECT * FROM products p where productId = ? AND itemId = ? AND vendorItemId = ?";
     const products = await queryList(query, [productId, itemId, vendorItemId]);
 
-    console.log(query);
     const params = {
       userId: userId,
       pId: 0,
