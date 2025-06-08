@@ -47,16 +47,16 @@ export default function ProductList({
 
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const scrollByCards = (direction: "left" | "right") => {
-    const container = containerRef.current;
-    if (!container) return;
+  // const scrollByCards = (direction: "left" | "right") => {
+  //   const container = containerRef.current;
+  //   if (!container) return;
 
-    const scrollAmount = container.clientWidth * 0.9; // 90% 만큼 자연스럽게 이동
-    container.scrollBy({
-      left: direction === "left" ? -scrollAmount : scrollAmount,
-      behavior: "smooth",
-    });
-  };
+  //   const scrollAmount = container.clientWidth * 0.9; // 90% 만큼 자연스럽게 이동
+  //   container.scrollBy({
+  //     left: direction === "left" ? -scrollAmount : scrollAmount,
+  //     behavior: "smooth",
+  //   });
+  // };
 
   const handleMouseDown = (item: any) => {
     if (location.href.includes("mynow")) {
@@ -274,7 +274,7 @@ export default function ProductList({
         </CardHeader>
         <CardContent className="space-y-2 p-1">
           <DeliveryBadge deliveryType={item.deliveryType} />
-          <CardTitle className="line-clamp-2 min-h-[2.75rem] text-sm leading-snug font-normal text-gray-600">
+          <CardTitle className="line-clamp-2 min-h-[2.5rem] text-sm leading-snug font-normal text-gray-600">
             {item.title}
           </CardTitle>
           <div className="flex items-center gap-1 text-sm font-semibold">
@@ -417,7 +417,7 @@ export default function ProductList({
             ))}
           </div>
 
-          <Button
+          {/* <Button
             onClick={() => scrollByCards("left")}
             className="absolute top-1/2 left-2 z-10 -translate-y-1/2 rounded-full bg-white p-2 text-gray-700 shadow"
             size="icon"
@@ -431,7 +431,7 @@ export default function ProductList({
             size="icon"
           >
             <ChevronRight className="h-5 w-5" />
-          </Button>
+          </Button> */}
         </div>
       ) : null}
     </>
