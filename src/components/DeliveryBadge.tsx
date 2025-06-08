@@ -27,7 +27,7 @@ const deliveryMap: Record<DeliveryType, { src: string; alt: string } | null> = {
   },
   4: {
     src: "https://image6.coupangcdn.com/image/badges/falcon/v1/web/rocket-fresh@2x.png",
-    alt: "로켓프레스",
+    alt: "로켓프레시",
   },
   5: {
     src: "https://image7.coupangcdn.com/image/badges/rocket-install/v3/aos_2/rocket_install_xhdpi.png",
@@ -41,10 +41,13 @@ export default function DeliveryBadge({
   height = 20,
 }: Props) {
   const badge = deliveryMap[deliveryType];
-
   // 일반배송 텍스트 출력
   if (Number(deliveryType) === 0 || deliveryType === null) {
-    return <span className="text-sm text-gray-500">일반배송</span>;
+    return (
+      <div className="text-sm text-gray-500" style={{ height: 14 }}>
+        일반배송
+      </div>
+    );
   }
 
   if (!badge) return null;

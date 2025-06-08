@@ -46,17 +46,40 @@ const AlarmList = () => {
   }, []);
 
   const formatDate = (dateStr: string) => {
+    const now = new Date();
     const date = new Date(dateStr);
-    return date.toLocaleString("ko-KR", {
-      month: "short",
-      day: "numeric",
+
+    const diffMs = now.getTime() - date.getTime();
+    const diffSec = Math.floor(diffMs / 1000);
+    const diffMin = Math.floor(diffSec / 60);
+    const diffHour = Math.floor(diffMin / 60);
+    const diffDay = Math.floor(diffHour / 24);
+
+    if (diffSec < 60) {
+      return "방금 전";
+    }
+
+    if (diffMin < 60) {
+      return `${diffMin}분 전`;
+    }
+
+    if (diffHour < 24) {
+      return `${diffHour}시간 전`;
+    }
+
+    if (diffDay === 1) {
+      return "어제";
+    }
+
+    return date.toLocaleDateString("ko-KR", {
+      month: "long", // 예: 6월
+      day: "numeric", // 예: 8일
     });
   };
 
   return (
     <article>
       <section className="mx-auto w-full max-w-[800px] space-y-10 px-4">
-        <h2 className="mb-4 text-lg font-semibold">🔔 내 알림 목록</h2>
         {loading && (
           <div className="fixed inset-0 z-50 flex items-center justify-center">
             <div className="text-center">
@@ -64,7 +87,6 @@ const AlarmList = () => {
             </div>
           </div>
         )}
-
         {!loading && alarms.length === 0 && (
           <div className="flex min-h-[calc(100vh-64px)] items-start justify-center">
             <div className="w-full max-w-md bg-white p-6 text-center">
@@ -100,22 +122,21 @@ const AlarmList = () => {
             </div>
           </div>
         )}
-
         {!loading && alarms.length > 0 && (
-          <Table>
+          <Table className="w-full table-fixed">
             <TableBody>
               {alarms.map((alarm) => (
                 <TableRow
                   key={`alarm-${alarm.aId}`}
                   className="hover:bg-muted/50 block cursor-pointer border-b transition-colors md:table-row md:border-none"
                 >
-                  <TableCell colSpan={3} className="p-0">
+                  <TableCell colSpan={3} className="p-0 !whitespace-normal">
                     <Link
                       href={`/product/${alarm.pId}`}
                       className="flex items-start gap-3 py-3 md:table-row"
                     >
                       {/* 썸네일 영역 */}
-                      <div className="shrink-0 md:table-cell md:w-[100px] md:align-middle">
+                      <div className="shrink-0 md:w-[100px] md:align-middle">
                         <Image
                           src={alarm.thumbnail}
                           alt={alarm.title}
@@ -126,11 +147,11 @@ const AlarmList = () => {
                       </div>
 
                       {/* 텍스트 설명 + 날짜 */}
-                      <div className="flex flex-1 flex-col justify-between md:table-cell md:align-middle">
-                        <div className="text-primary pb-1 text-sm font-medium">
+                      <div className="flex min-w-0 flex-1 flex-col justify-between md:table-cell md:align-middle">
+                        <div className="text-primary line-clamp-2 pb-1 text-sm font-medium break-words">
                           {alarm.title}
                         </div>
-                        <p className="text-sm break-words whitespace-normal text-gray-600">
+                        <p className="text-xs break-words whitespace-normal text-gray-600">
                           {alarm.comment}
                         </p>
                         <div className="mt-1 flex justify-start text-xs text-gray-400">

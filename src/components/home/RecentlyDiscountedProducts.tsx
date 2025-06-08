@@ -14,9 +14,5 @@ export default function RecentlyDiscountedProducts() {
     fetchProducts();
   }, []);
 
-  return (
-    <div className="mt-6">
-      <ProductList items={products} type="list" />
-    </div>
-  );
+  return <ProductList items={products} type="grid" />;
 }

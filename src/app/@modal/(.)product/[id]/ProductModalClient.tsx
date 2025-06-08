@@ -24,18 +24,17 @@ import StickyActionBar from "@/src/components/product/StickyActionBar";
 import ProductList from "@/src/components/ProductList";
 import { ComparePriceDetail } from "@/src/components/product/ComparePriceDetail";
 import SimilarProductSection from "@/src/components/product/SimilarProductSection";
+import { getProductById } from "@/utils/api";
+import { Badge } from "@/components/ui/badge";
 
-// ✅ 상품 호출 함수
-async function getProductById(id: string): Promise<any | null> {
-  const res = await fetch(`/api/product?id=${id}`, {
-    cache: "no-store", // ← SSR 시 실시간 데이터 원할 경우
-  });
-
-  if (!res.ok) return null;
-
-  const data = await res.json();
-  return data;
-}
+type ProductSummary = {
+  id: string;
+  title: string;
+  thumbnail: string;
+  price: number;
+  deliveryType: string | number;
+  link: string | "";
+};
 
 export default function ProductModalClient({ id }: { id: string }) {
   const router = useRouter();
@@ -56,10 +55,47 @@ export default function ProductModalClient({ id }: { id: string }) {
     }
   };
 
-  const initData = async (id: string) => {
-    const productItem = await getProductById(id);
-    setProductItem(productItem);
+  const saveProductToLocalStorage = (productItem: any) => {
+    const productSummary: ProductSummary = {
+      id: productItem.id,
+      title: productItem.title,
+      thumbnail: productItem.thumbnail,
+      price: productItem.price,
+      deliveryType: productItem.deliveryType,
+      link:
+        productItem.landingUrl ||
+        `https://www.coupang.com/vp/products/${productItem.productId}?itemId=${productItem.itemId}&vendorItemId=${productItem.vendorItemId}&sourceType=CATEGORY&categoryId=${productItem.categoryId}`,
+    };
+
+    const key = "recentViewedProducts";
+    const maxItems = 20;
+
+    try {
+      const raw = localStorage.getItem(key);
+      let items: ProductSummary[] = raw ? JSON.parse(raw) : [];
+
+      // 기존 상품 제거 후 맨 앞에 추가
+      items = items.filter((item) => item.id !== productSummary.id);
+      items.unshift(productSummary);
+
+      // 20개까지만 유지
+      if (items.length > maxItems) {
+        items = items.slice(0, maxItems);
+      }
+
+      localStorage.setItem(key, JSON.stringify(items));
+    } catch (err) {
+      console.error("로컬스토리지 저장 실패", err);
+    }
   };
+
+  const initData = useCallback(async (id: string) => {
+    const productItem = await getProductById(id);
+    if (productItem) {
+      setProductItem(productItem);
+      saveProductToLocalStorage(productItem); // ← 여기 추가
+    }
+  }, []);
 
   const renderJsonLd = () => {
     if (!productItem) return null;
@@ -206,7 +242,7 @@ export default function ProductModalClient({ id }: { id: string }) {
 
   useEffect(() => {
     initData(id);
-  }, [id]);
+  }, [id, initData]);
 
   const moveClose = useCallback(() => {
     const hasReferrer =
@@ -216,7 +252,7 @@ export default function ProductModalClient({ id }: { id: string }) {
       if (hasReferrer) {
         router.back();
       } else {
-        router.push("https://cpnow.kr/categories");
+        router.push("https://cpnow.kr/rocket");
       }
     }, 300);
   }, [router]);
@@ -304,6 +340,18 @@ export default function ProductModalClient({ id }: { id: string }) {
                                 상품명
                               </th>
                               <td className="p-3 text-lg text-gray-800">
+                                {productItem.price === productItem.lowPrice ? (
+                                  <>
+                                    <Badge
+                                      variant="default"
+                                      className="rounded-md bg-green-100 px-2 py-1 text-sm font-semibold text-green-700"
+                                    >
+                                      🚀 역대 최저가
+                                    </Badge>
+                                    <br />
+                                  </>
+                                ) : null}
+
                                 {productItem.title ?? ""}
                               </td>
                             </tr>

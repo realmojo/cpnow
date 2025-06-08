@@ -8,9 +8,9 @@ import {
   Flame,
   LinkIcon,
   ShoppingCart,
-  LayoutGrid,
   AlertCircle,
-  Bell,
+  Search,
+  Rocket,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -108,6 +108,14 @@ export default function BottomTabBar() {
       window.removeEventListener("popstate", handlePopState);
     };
   }, [open, setOpen]);
+
+  useEffect(() => {
+    // 사용자에게 많이 노출될 가능성이 높은 페이지들을 prefetch
+    router.prefetch("/mynow");
+    router.prefetch("/rocket");
+    router.prefetch("/now");
+    router.prefetch("/search");
+  }, [router]);
 
   return (
     <>
@@ -209,19 +217,19 @@ export default function BottomTabBar() {
 
         {/* 2. 카테고리 */}
         <button
-          onClick={() => router.push("/categories")}
+          onClick={() => router.push("/rocket")}
           className={`flex flex-1 flex-col items-center justify-center ${
-            pathname === "/categories"
+            pathname === "/rocket"
               ? "text-primary"
               : "text-muted-foreground hover:text-primary"
           }`}
         >
-          <LayoutGrid
+          <Rocket
             className={`h-5 w-5 ${
-              pathname === "/categories" ? "fill-current" : ""
+              pathname === "/rocket" ? "fill-current" : ""
             }`}
           />
-          <span className="mt-1 text-xs">카테고리</span>
+          <span className="mt-1 text-xs">로켓</span>
         </button>
 
         {/* 3. 추가 버튼 (중앙) */}
@@ -251,17 +259,17 @@ export default function BottomTabBar() {
 
         {/* 5. 검색 */}
         <button
-          onClick={() => router.push("/alarm")}
+          onClick={() => router.push("/search")}
           className={`flex flex-1 flex-col items-center justify-center ${
-            pathname === "/alarm"
+            pathname === "/search"
               ? "text-primary"
               : "text-muted-foreground hover:text-primary"
           }`}
         >
-          <Bell
-            className={`h-5 w-5 ${pathname === "/alarm" ? "fill-current" : ""}`}
+          <Search
+            className={`h-5 w-5 ${pathname === "/search" ? "fill-current" : ""}`}
           />
-          <span className="mt-1 text-xs">알람</span>
+          <span className="mt-1 text-xs">검색</span>
         </button>
       </nav>
     </>

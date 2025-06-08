@@ -32,7 +32,6 @@ export async function POST(req: NextRequest) {
       categoryId,
       title,
       thumbnail,
-      link,
       price,
       lowPrice,
       highPrice,
@@ -47,7 +46,7 @@ export async function POST(req: NextRequest) {
     if (!product) {
       try {
         query =
-          "INSERT INTO products (id, bigCategory, category, productId, vendorItemId, itemId, categoryId, title, thumbnail, link, price, lowPrice, highPrice, deliveryType, rating, reviewCount, lastUpdated) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
+          "INSERT INTO products (id, bigCategory, category, productId, vendorItemId, itemId, categoryId, title, thumbnail, price, lowPrice, highPrice, deliveryType, rating, reviewCount, lastUpdated) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
         await insertOne(query, [
           bigCategory,
           category,
@@ -57,7 +56,6 @@ export async function POST(req: NextRequest) {
           categoryId,
           title,
           thumbnail,
-          link,
           price,
           lowPrice,
           highPrice,

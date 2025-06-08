@@ -51,12 +51,9 @@ export const ComparePriceDetail = ({
       0,
     );
     return (
-      <Badge
-        variant="default"
-        className="rounded-md bg-green-100 px-1 py-0 text-sm font-semibold text-green-700"
-      >
-        {isTextFull ? `${priceDifference} 원 할인` : null} {discountPercent}% ▼
-      </Badge>
+      <span className="text-green-700">
+        {isTextFull ? `${priceDifference} 원 할인` : null} ↓ {discountPercent}%
+      </span>
     );
   }
 
@@ -64,12 +61,9 @@ export const ComparePriceDetail = ({
     const priceDifference = Math.abs(lowPrice - price).toLocaleString();
     const increasePercent = (((price - lowPrice) / lowPrice) * 100).toFixed(0);
     return (
-      <Badge
-        variant="default"
-        className="rounded-md bg-red-100 px-1 py-0 text-sm font-semibold text-red-700"
-      >
-        {isTextFull ? `${priceDifference} 원 인상` : null} {increasePercent}% ▲
-      </Badge>
+      <span className="text-red-700">
+        {isTextFull ? `${priceDifference} 원 인상` : null} ↑ {increasePercent}%
+      </span>
     );
   }
 

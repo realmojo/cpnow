@@ -21,7 +21,7 @@ const getRandomLambdaUrl = (productId: string, vendorItemId: string) => {
   return baseUrls[randomIndex] + queryString;
 };
 
-const addNewProduct = async (params: any) => {
+export const addNewProduct = async (params: any) => {
   const { productId, itemId, vendorItemId } = params;
   const url = getRandomLambdaUrl(productId, vendorItemId);
   console.log(`➡️  ${url}`);
@@ -56,13 +56,12 @@ const addNewProduct = async (params: any) => {
     itemId: baseInfoModule?.itemInfo?.itemId || itemId,
     vendorItemId: baseInfoModule?.itemInfo?.vendorItemId || vendorItemId,
     thumbnail: baseInfoModule?.itemInfo?.thumbnailImage?.url || null,
-    link: `https://www.coupang.com/vp/products/${productId}?itemId=${itemId}&vendorItemId=${vendorItemId}`,
     categoryId: baseInfoModule?.itemInfo?.categoryId || 1,
     bigCategory: baseInfoModule?.itemInfo?.bigCategory || "카테고리",
     category: baseInfoModule?.itemInfo?.category || "신규",
   };
 
-  const query = `INSERT INTO products (id, bigCategory, category, productId, vendorItemId, itemId, categoryId, title, thumbnail, link, price, lowPrice, highPrice, rating, reviewCount, deliveryType, lastUpdated) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())`;
+  const query = `INSERT INTO products (id, bigCategory, category, productId, vendorItemId, itemId, categoryId, title, thumbnail, price, lowPrice, highPrice, rating, reviewCount, deliveryType, lastUpdated) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())`;
 
   const pId = await insertOne(query, [
     param.bigCategory,
@@ -73,7 +72,6 @@ const addNewProduct = async (params: any) => {
     param.categoryId,
     param.title,
     param.thumbnail,
-    param.link,
     param.finalPrice,
     param.finalPrice,
     param.finalPrice,

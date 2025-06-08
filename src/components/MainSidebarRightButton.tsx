@@ -1,12 +1,14 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { BookOpen } from "lucide-react";
+import { Bell } from "lucide-react";
 import Link from "next/link";
 import { isWebView } from "@/utils/utils";
 
 export default function MainSidebarRightButton() {
+  const pathname = usePathname();
   const [permission] = useState<NotificationPermission>(
     typeof window !== "undefined" && "Notification" in window
       ? Notification.permission
@@ -40,9 +42,12 @@ export default function MainSidebarRightButton() {
 
   return (
     <div className="flex items-center gap-3">
-      <Link href="/guide">
-        <Button variant="ghost" size="icon" title="사용방법">
-          <BookOpen className="h-5 w-5" />
+      <Link href="/alarm">
+        <Button className="h-12 w-12" variant="ghost" title="알람">
+          <Bell
+            style={{ width: 24, height: 24 }}
+            className={`h-5 w-5 ${pathname === "/alarm" ? "fill-current" : ""}`}
+          />
         </Button>
       </Link>
       {/* <Link href="/alarm">

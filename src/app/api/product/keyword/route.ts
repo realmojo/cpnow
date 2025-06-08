@@ -1,19 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
 import { queryList } from "@/lib/db";
 
-// ✅ 알람조회
+// ✅ 크롤링 대기
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
-    const userId = searchParams.get("userId");
+    const keyword = searchParams.get("keyword");
 
-    if (!userId) {
-      throw new Error("no user Id");
+    if (!keyword) {
+      return NextResponse.json(
+        { error: "Missing keyword parameter" },
+        { status: 400 },
+      );
     }
 
-    const query =
-      "SELECT a.id as aId, a.userId, a.type, a.comment, a.isReaded, a.regdated, p.id as pId, p.title, p.thumbnail, p.price, p.highPrice, p.lowPrice FROM alarms a INNER JOIN products p ON a.pId = p.id WHERE a.userId = '8-9xevVqN7wL' order by aId desc";
-    const items = await queryList<any>(query, [userId]);
+    const query = `SELECT * FROM products WHERE MATCH(title) AGAINST('${keyword}'  IN NATURAL LANGUAGE MODE) LIMIT 100;`;
+    const items = await queryList<any>(query);
 
     // ✅ 결과 반환
     return NextResponse.json(items);

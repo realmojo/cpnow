@@ -4,7 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { getUserAuth } from "@/utils/utils"; // 클라이언트에서 작동해야 함
 import { addAlarm, removeAlarm } from "@/utils/api"; // 공통 api
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
 import { useAppStore } from "@/src/store/useAppStore";
 import DeliveryBadge from "./DeliveryBadge"; // 배달 타입 배지 컴포넌트
 
@@ -19,7 +21,7 @@ import {
   AlertDialogAction,
 } from "@/components/ui/alert-dialog";
 import { ComparePriceDetail } from "./product/ComparePriceDetail";
-import { BellOffIcon, BellIcon } from "lucide-react";
+import { BellOffIcon, BellIcon, ChevronRight, ChevronLeft } from "lucide-react";
 
 type Props = {
   items: any;
@@ -43,11 +45,26 @@ export default function ProductList({
   const [item, setItem] = useState<any>("");
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const scrollByCards = (direction: "left" | "right") => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const scrollAmount = container.clientWidth * 0.9; // 90% 만큼 자연스럽게 이동
+    container.scrollBy({
+      left: direction === "left" ? -scrollAmount : scrollAmount,
+      behavior: "smooth",
+    });
+  };
+
   const handleMouseDown = (item: any) => {
-    setItem(item);
-    timerRef.current = setTimeout(() => {
-      setShowModal(true);
-    }, 700); // 2초간 누르면 모달 표시
+    if (location.href.includes("mynow")) {
+      setItem(item);
+      timerRef.current = setTimeout(() => {
+        setShowModal(true);
+      }, 700); // 2초간 누르면 모달 표시
+    }
   };
 
   const handleMouseUp = () => {
@@ -144,63 +161,25 @@ export default function ProductList({
           />
         </CardHeader>
         <CardContent className="space-y-2 p-4">
-          {item.deliveryType && (
-            <DeliveryBadge deliveryType={item.deliveryType} />
-          )}
-          <CardTitle className="line-clamp-2 text-sm leading-snug font-medium text-gray-800">
-            {item.title}
-          </CardTitle>
+          <DeliveryBadge deliveryType={item.deliveryType} />
 
           <div className="text-sm text-gray-700">
-            <div className="flex items-center gap-2">
-              <div className="text-lg font-bold text-black">
-                {item.price.toLocaleString()} 원
+            <div className="space-y-1">
+              <CardTitle className="line-clamp-2 text-sm leading-snug font-normal text-gray-600">
+                {item.title}
+              </CardTitle>
+              <div className="flex items-center gap-1 text-sm font-semibold">
+                <span>{item.price.toLocaleString()}원</span>
+                <ComparePriceDetail
+                  price={item.price}
+                  highPrice={item.highPrice ?? item.price}
+                  lowPrice={item.lowPrice ?? item.price}
+                  isVisible={false}
+                  isTextFull={false}
+                />
               </div>
             </div>
           </div>
-
-          <div className="flex items-center gap-2 text-sm font-semibold text-green-600">
-            <ComparePriceDetail
-              price={item.price}
-              highPrice={item.highPrice ?? item.price}
-              lowPrice={item.lowPrice ?? item.price}
-              isVisible={false}
-              isTextFull={false}
-            />
-          </div>
-
-          {/* <div className="flex items-center text-sm">
-            {item.rating ? (
-              <div className="flex space-x-[1px]">
-                {Array.from({ length: 5 }).map((_, i) => {
-                  const fill =
-                    i + 1 <= Math.floor(item.rating ?? 0)
-                      ? "fill-yellow-400 text-yellow-400"
-                      : i < (item.rating ?? 0)
-                        ? "fill-yellow-400 text-gray-300"
-                        : "fill-gray-300 text-gray-300";
-
-                  return (
-                    <svg
-                      key={i}
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      className={`h-4 w-4 ${fill}`}
-                    >
-                      <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-                    </svg>
-                  );
-                })}
-              </div>
-            ) : null}
-
-            {item.reviewCount ? (
-              <span className="ml-1 text-xs text-gray-600">
-                ({item.reviewCount.toLocaleString()})
-              </span>
-            ) : null}
-          </div> */}
         </CardContent>
       </>
     );
@@ -214,9 +193,9 @@ export default function ProductList({
           <Image
             src={item.thumbnail}
             alt={item.title}
-            width={112}
-            height={112}
-            className="aspect-square h-28 w-28 rounded-lg object-cover"
+            width={100}
+            height={100}
+            className="aspect-square rounded-lg object-cover"
             placeholder="blur"
             blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgdmlld0JveD0iMCAwIDYwMCA0MDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjYwMCIgaGVpZ2h0PSI0MDAiIGZpbGw9IiNlZWVlZWUiLz48L3N2Zz4="
           />
@@ -234,20 +213,16 @@ export default function ProductList({
               </div>
             ) : null}
 
-            {item.deliveryType && (
-              <DeliveryBadge deliveryType={item.deliveryType} />
-            )}
+            <DeliveryBadge deliveryType={item.deliveryType} />
           </div>
-          <CardTitle className="mb-2 line-clamp-2 text-sm leading-snug font-medium text-gray-800">
-            {item.title}
-          </CardTitle>
 
           <div className="text-sm text-gray-700">
-            <div className="mb-1 flex items-center gap-2">
-              <div className="text-base font-bold text-black">
-                {item.price.toLocaleString()} 원
-              </div>
-              <div>
+            <div className="space-y-1">
+              <CardTitle className="line-clamp-2 text-sm leading-snug font-normal text-gray-600">
+                {item.title}
+              </CardTitle>
+              <div className="flex items-center gap-1 text-sm font-semibold">
+                <span>{item.price.toLocaleString()}원</span>
                 <ComparePriceDetail
                   price={item.price}
                   highPrice={item.highPrice ?? item.price}
@@ -285,6 +260,38 @@ export default function ProductList({
     );
   };
 
+  const carouselCardContent = (item: any) => {
+    return (
+      <Card className="gap-0 overflow-hidden border-none bg-transparent py-0 shadow-none transition">
+        <CardHeader className="p-0">
+          <Image
+            src={item.thumbnail}
+            alt={item.title}
+            width={100}
+            height={100}
+            className="aspect-square w-full object-cover"
+          />
+        </CardHeader>
+        <CardContent className="space-y-2 p-1">
+          <DeliveryBadge deliveryType={item.deliveryType} />
+          <CardTitle className="line-clamp-2 min-h-[2.75rem] text-sm leading-snug font-normal text-gray-600">
+            {item.title}
+          </CardTitle>
+          <div className="flex items-center gap-1 text-sm font-semibold">
+            <span>{item.price.toLocaleString()}원</span>
+            <ComparePriceDetail
+              price={item.price}
+              highPrice={item.highPrice ?? item.price}
+              lowPrice={item.lowPrice ?? item.price}
+              isVisible={false}
+              isTextFull={false}
+            />
+          </div>
+        </CardContent>
+      </Card>
+    );
+  };
+
   useEffect(() => {
     const originalId = location.href.split("/").pop();
     setProductItems(items);
@@ -294,7 +301,7 @@ export default function ProductList({
   return (
     <>
       {type === "grid" ? (
-        <div className="grid grid-cols-2 gap-4 py-4 sm:grid-cols-3">
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
           {Array.isArray(productItems) &&
             productItems.length > 0 &&
             productItems.map((item: any) => (
@@ -320,7 +327,7 @@ export default function ProductList({
               </Fragment>
             ))}
         </div>
-      ) : (
+      ) : type === "list" ? (
         <div className="divide-border-300 flex flex-col divide-y">
           <AlertDialog open={showModal} onOpenChange={setShowModal}>
             {Array.isArray(productItems) &&
@@ -382,7 +389,51 @@ export default function ProductList({
             </AlertDialogContent>
           </AlertDialog>
         </div>
-      )}
+      ) : type === "carousel" ? (
+        <div className="relative w-full">
+          <div
+            ref={containerRef}
+            className="flex !snap-none gap-4 overflow-x-auto scroll-smooth px-1"
+          >
+            {items.map((item: any) => (
+              <div
+                key={item.id}
+                className="max-w-[calc(100%/3)] min-w-[calc(100%/3)] flex-shrink-0"
+              >
+                {item?.productUrl ? (
+                  <a
+                    href={item.productUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {carouselCardContent(item)}
+                  </a>
+                ) : (
+                  <Link href={`/product/${item.id}`} prefetch>
+                    {carouselCardContent(item)}
+                  </Link>
+                )}
+              </div>
+            ))}
+          </div>
+
+          <Button
+            onClick={() => scrollByCards("left")}
+            className="absolute top-1/2 left-2 z-10 -translate-y-1/2 rounded-full bg-white p-2 text-gray-700 shadow"
+            size="icon"
+          >
+            <ChevronLeft className="h-5 w-5" />
+          </Button>
+
+          <Button
+            onClick={() => scrollByCards("right")}
+            className="absolute top-1/2 right-2 z-10 -translate-y-1/2 rounded-full bg-white p-2 text-gray-700 shadow"
+            size="icon"
+          >
+            <ChevronRight className="h-5 w-5" />
+          </Button>
+        </div>
+      ) : null}
     </>
   );
 }
