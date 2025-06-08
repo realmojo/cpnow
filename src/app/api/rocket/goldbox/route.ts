@@ -2,7 +2,7 @@
 import { NextResponse } from "next/server";
 import crypto from "crypto";
 import moment from "moment";
-import { addNewProduct } from "../../product/add/link/route";
+import { addNewProduct } from "@/src/app/api/product/add/common";
 import { queryList } from "@/lib/db";
 
 // 전역 캐시 (서버 cold start 시 초기화됨)
