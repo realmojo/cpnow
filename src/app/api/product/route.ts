@@ -96,17 +96,10 @@ export async function GET(req: NextRequest) {
 
     const { lastUpdated } = product;
     // // 업데이트 시간이 다르면 크롤 웨잇에 추가
-    if (!lastUpdated || getTodayDate() !== lastUpdated.substring(0, 10)) {
-      // const nowPrice = coupangItem[0].moduleData[3].priceInfo.finalPrice.price
-      //   ? coupangItem[0].moduleData[3].priceInfo.finalPrice.price
-      //   : coupangItem[0].moduleData[1].detailPriceBundle.finalPrice
-      //       .bestPriceInfo.price;
-
-      // const params = {
-      //   id,
-      //   highPrice: nowPrice >= price ? nowPrice : price,
-      //   lowPrice: nowPrice <= price ? nowPrice : price,
-      // };
+    if (
+      !lastUpdated ||
+      getTodayDate() !== lastUpdated.toString().substring(0, 10)
+    ) {
       query = "SELECT pId FROM crawl_wait WHERE pId= ?";
       const crawlWaitItem = await queryOne(query, [id]);
 
