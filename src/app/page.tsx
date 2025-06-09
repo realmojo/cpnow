@@ -49,7 +49,6 @@ export default function Page() {
         // router.push("/login");
       }
     };
-
     checkAuthAndRedirect();
   }, [router]);
 
@@ -208,7 +207,7 @@ export default function Page() {
           <div className="space-y-3">
             <Button
               disabled={loading}
-              onClick={handleRequestPermission}
+              onClick={() => handleRequestPermission()}
               className="text-md text-md w-full rounded-lg bg-blue-600 px-4 py-6 text-white transition-colors hover:bg-blue-700"
             >
               알림 허용하기
