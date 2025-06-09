@@ -165,6 +165,32 @@ export const getCategoryIdByName = (name: string) => {
   return category ? category.categoryId : null;
 };
 
+export const isDesktopBrowser = (): boolean => {
+  const ua = navigator.userAgent;
+  const platform = navigator.platform;
+  const maxTouchPoints = navigator.maxTouchPoints || 0;
+
+  const isMobile =
+    /Mobi|Android|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua);
+  const isTablet =
+    /iPad|Tablet/i.test(ua) || (platform === "MacIntel" && maxTouchPoints > 1); // iPadOS 대응
+
+  return !isMobile && !isTablet;
+};
+
+export const isApple = () => {
+  const ua = navigator.userAgent;
+  const platform = navigator.platform;
+  const maxTouchPoints = navigator.maxTouchPoints || 0;
+
+  const isIOS = /iPhone|iPod/.test(ua);
+  const isIPad =
+    /iPad/.test(ua) || (platform === "MacIntel" && maxTouchPoints > 1);
+  const isMac = platform === "MacIntel" && maxTouchPoints <= 1;
+
+  return isIOS || isIPad || isMac;
+};
+
 export const isWebView = () => {
   if (typeof window === "undefined") return false;
 

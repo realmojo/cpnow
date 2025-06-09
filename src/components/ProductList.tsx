@@ -2,7 +2,8 @@ import { useState, useRef, useEffect, Fragment } from "react";
 import { toast } from "sonner";
 import Image from "next/image";
 import Link from "next/link";
-import { getUserAuth } from "@/utils/utils"; // 클라이언트에서 작동해야 함
+import { Button } from "@/components/ui/button";
+import { getUserAuth, isDesktopBrowser } from "@/utils/utils"; // 클라이언트에서 작동해야 함
 import { addAlarm, removeAlarm } from "@/utils/api"; // 공통 api
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -20,7 +21,7 @@ import {
   AlertDialogAction,
 } from "@/components/ui/alert-dialog";
 import { ComparePriceDetail } from "./product/ComparePriceDetail";
-import { BellOffIcon, BellIcon } from "lucide-react";
+import { BellOffIcon, BellIcon, ChevronRight, ChevronLeft } from "lucide-react";
 
 type Props = {
   items: any;
@@ -46,16 +47,16 @@ export default function ProductList({
 
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // const scrollByCards = (direction: "left" | "right") => {
-  //   const container = containerRef.current;
-  //   if (!container) return;
+  const scrollByCards = (direction: "left" | "right") => {
+    const container = containerRef.current;
+    if (!container) return;
 
-  //   const scrollAmount = container.clientWidth * 0.9; // 90% 만큼 자연스럽게 이동
-  //   container.scrollBy({
-  //     left: direction === "left" ? -scrollAmount : scrollAmount,
-  //     behavior: "smooth",
-  //   });
-  // };
+    const scrollAmount = container.clientWidth * 0.9; // 90% 만큼 자연스럽게 이동
+    container.scrollBy({
+      left: direction === "left" ? -scrollAmount : scrollAmount,
+      behavior: "smooth",
+    });
+  };
 
   const handleMouseDown = (item: any) => {
     if (location.href.includes("mynow")) {
@@ -425,6 +426,26 @@ export default function ProductList({
                 </div>
               ))
             )}
+
+            {isDesktopBrowser() ? (
+              <>
+                <Button
+                  onClick={() => scrollByCards("left")}
+                  className="absolute top-1/2 left-2 z-10 -translate-y-1/2 rounded-full bg-white p-2 text-gray-700 shadow hover:!bg-white hover:!text-gray-700"
+                  size="icon"
+                >
+                  <ChevronLeft className="h-5 w-5" />
+                </Button>
+
+                <Button
+                  onClick={() => scrollByCards("right")}
+                  className="absolute top-1/2 right-2 z-10 -translate-y-1/2 rounded-full bg-white p-2 text-gray-700 shadow hover:!bg-white hover:!text-gray-700"
+                  size="icon"
+                >
+                  <ChevronRight className="h-5 w-5" />
+                </Button>
+              </>
+            ) : null}
           </div>
         </div>
       ) : null}

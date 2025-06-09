@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import {
   detectDevice,
   getUserAuth,
+  isApple,
   isWebView,
   sendNotificationTest,
   setUserAuth,
@@ -146,13 +147,16 @@ export default function Page() {
           </div>
 
           <div className="space-y-3">
-            <Button
-              onClick={() => handleGoToPlayStore()}
-              className="text-md text-md w-full rounded-lg bg-blue-600 px-4 py-6 text-white transition-colors hover:bg-gray-200"
-            >
-              <PlayIcon className="mr-2 h-4 w-4" />
-              안드로이드 다운로드
-            </Button>
+            {!isApple() ? (
+              <Button
+                onClick={() => handleGoToPlayStore()}
+                className="text-md text-md w-full rounded-lg bg-blue-600 px-4 py-6 text-white transition-colors hover:bg-gray-200"
+              >
+                <PlayIcon className="mr-2 h-4 w-4" />
+                안드로이드 다운로드
+              </Button>
+            ) : null}
+
             <Button
               disabled={loading}
               onClick={() => handleGoToAppStore()}
