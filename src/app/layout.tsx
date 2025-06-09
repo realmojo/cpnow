@@ -3,7 +3,6 @@ import { Toaster } from "@/components/ui/sonner";
 
 import Script from "next/script";
 import Header from "@/src/components/layouts/Header";
-// import Footer from "@/src/components/layouts/Footer";
 import RegisterServiceWorker from "@/src/app/register-service-worker";
 import localFont from "next/font/local";
 import GoogleAnalytics from "@/src/components/GoogleAnalytics";
@@ -11,7 +10,7 @@ import NaverAnalyticsTracker from "@/src/components/NaverAnalyticsTracker";
 import "./globals.css";
 
 import SendAuthToSW from "@/src/components/SendAuthToSW";
-import InstallPromptBanner from "@/src/components/InstallPromptBanner";
+// import InstallPromptBanner from "@/src/components/InstallPromptBanner";
 import ClientOnly from "@/src/components/ClientOnly";
 import ForegroundNotification from "@/src/components/ForegroundNotification";
 import LayoutClientWrapper from "@/src/components/LayoutClientWrapper";
