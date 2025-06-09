@@ -134,7 +134,7 @@ export default async function RootLayout({
         />
         <RegisterServiceWorker />
         <SendAuthToSW />
-        <InstallPromptBanner />
+        {/* <InstallPromptBanner /> */}
       </body>
     </html>
   );
