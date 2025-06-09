@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { getUserAuth } from "@/utils/utils"; // 클라이언트에서 작동해야 함
 import { addAlarm, removeAlarm } from "@/utils/api"; // 공통 api
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { useAppStore } from "@/src/store/useAppStore";
@@ -21,7 +20,7 @@ import {
   AlertDialogAction,
 } from "@/components/ui/alert-dialog";
 import { ComparePriceDetail } from "./product/ComparePriceDetail";
-import { BellOffIcon, BellIcon, ChevronRight, ChevronLeft } from "lucide-react";
+import { BellOffIcon, BellIcon } from "lucide-react";
 
 type Props = {
   items: any;
