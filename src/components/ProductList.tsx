@@ -394,43 +394,38 @@ export default function ProductList({
             ref={containerRef}
             className="flex !snap-none gap-4 overflow-x-auto scroll-smooth px-1"
           >
-            {items.map((item: any) => (
-              <div
-                key={item.id}
-                className="max-w-[calc(100%/3)] min-w-[calc(100%/3)] flex-shrink-0"
-              >
-                {item?.productUrl ? (
-                  <a
-                    href={item.productUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {carouselCardContent(item)}
-                  </a>
-                ) : (
-                  <Link href={`/product/${item.id}`} prefetch>
-                    {carouselCardContent(item)}
-                  </Link>
-                )}
+            {items.length === 0 ? (
+              <div className="flex min-h-[220px] space-x-4 overflow-x-auto">
+                {[...Array(3)].map((_, idx) => (
+                  <div
+                    key={idx}
+                    className="h-[200px] w-[140px] animate-pulse rounded-md bg-gray-200"
+                  />
+                ))}
               </div>
-            ))}
+            ) : (
+              items.map((item: any) => (
+                <div
+                  key={item.id}
+                  className="max-w-[calc(100%/3)] min-w-[calc(100%/3)] flex-shrink-0"
+                >
+                  {item?.productUrl ? (
+                    <a
+                      href={item.productUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {carouselCardContent(item)}
+                    </a>
+                  ) : (
+                    <Link href={`/product/${item.id}`} prefetch>
+                      {carouselCardContent(item)}
+                    </Link>
+                  )}
+                </div>
+              ))
+            )}
           </div>
-
-          {/* <Button
-            onClick={() => scrollByCards("left")}
-            className="absolute top-1/2 left-2 z-10 -translate-y-1/2 rounded-full bg-white p-2 text-gray-700 shadow"
-            size="icon"
-          >
-            <ChevronLeft className="h-5 w-5" />
-          </Button>
-
-          <Button
-            onClick={() => scrollByCards("right")}
-            className="absolute top-1/2 right-2 z-10 -translate-y-1/2 rounded-full bg-white p-2 text-gray-700 shadow"
-            size="icon"
-          >
-            <ChevronRight className="h-5 w-5" />
-          </Button> */}
         </div>
       ) : null}
     </>

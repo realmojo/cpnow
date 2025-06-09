@@ -10,7 +10,6 @@ export default function Header() {
 
   // 경로별 제목 정의
   const getTitle = (path: string) => {
-    console.log(path);
     if (path === "/mynow") return "❤️ 찜한 상품";
     if (path === "/categories") return "카테고리";
     if (path === "/now") return "🔥 NOW";
@@ -26,7 +25,7 @@ export default function Header() {
   const title = getTitle(pathname);
 
   return (
-    <header className="container mx-auto flex h-16 w-full max-w-[800px] items-center justify-between px-4">
+    <header className="container mx-auto flex h-16 w-full max-w-[800px] items-center justify-between px-4 shadow-[0_2px_6px_-2px_rgba(0,0,0,0.15)]">
       {/* 왼쪽: 제목 */}
       <h2 className="flex items-center gap-3 text-2xl font-semibold">
         {title}

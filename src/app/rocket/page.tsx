@@ -27,7 +27,9 @@ export default function RocketPage() {
           <h2 className="font-heading text-md mb-4 scroll-m-20 border-none font-bold tracking-tight first:mt-0 sm:border-b">
             🔥 골드박스 특가
           </h2>
-          <ProductList items={goldItems} type="carousel" />
+          <div className="min-h-[232px]">
+            <ProductList items={goldItems} type="carousel" />
+          </div>
         </div>
       </section>
       <section className="mt-4 mb-8 flex justify-center">
@@ -35,7 +37,9 @@ export default function RocketPage() {
           <h2 className="font-heading text-md mb-4 scroll-m-20 border-none font-bold tracking-tight first:mt-0 sm:border-b">
             🥬 로켓프레시
           </h2>
-          <ProductList items={freshItems} type="carousel" />
+          <div className="min-h-[232px]">
+            <ProductList items={freshItems} type="carousel" />
+          </div>
         </div>
       </section>
       <section className="mt-4 mb-24 flex justify-center">
@@ -43,7 +47,9 @@ export default function RocketPage() {
           <h2 className="font-heading text-md mb-4 scroll-m-20 border-none font-bold tracking-tight first:mt-0 sm:border-b">
             🚀 로켓배송
           </h2>
-          <ProductList items={rocketItems} type="carousel" />
+          <div className="min-h-[232px]">
+            <ProductList items={rocketItems} type="carousel" />
+          </div>
         </div>
       </section>
     </article>

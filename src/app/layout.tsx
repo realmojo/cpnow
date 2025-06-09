@@ -118,7 +118,6 @@ export default async function RootLayout({
           <Header />
           {children}
           {modal}
-          {/* <Footer /> */}
         </main>
         <LayoutClientWrapper />
         <Toaster

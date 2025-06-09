@@ -36,15 +36,6 @@ export default function SearchModalClient() {
     }, 300);
   }, [router]);
 
-  useEffect(() => {
-    const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
-    const items = getRecentViewedProducts();
-    if (saved) {
-      setRecentKeywords(JSON.parse(saved));
-    }
-    setRecentProducts(items);
-  }, []);
-
   const handleSearch = (keyword: string) => {
     if (!keyword.trim()) return;
 
@@ -102,6 +93,15 @@ export default function SearchModalClient() {
       inputRef.current.focus();
     }
   }, [open]);
+
+  useEffect(() => {
+    const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
+    const items = getRecentViewedProducts();
+    if (saved) {
+      setRecentKeywords(JSON.parse(saved));
+    }
+    setRecentProducts(items);
+  }, []);
 
   return (
     <Drawer
@@ -194,7 +194,7 @@ export default function SearchModalClient() {
                       key={product.id}
                       className="w-[100px] shrink-0 cursor-pointer bg-white p-2"
                       onClick={() => {
-                        setOpen(false);
+                        // setOpen(false);
                         router.push(`/product/${product.id}`);
                       }}
                     >
