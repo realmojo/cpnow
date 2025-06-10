@@ -88,7 +88,7 @@ const AlarmList = () => {
           </div>
         )}
         {!loading && alarms.length === 0 && (
-          <div className="flex min-h-[calc(100vh-64px)] items-start justify-center">
+          <div className="mt-4 flex min-h-[calc(100vh-64px)] items-start justify-center">
             <div className="w-full max-w-md bg-white p-6 text-center">
               <div className="mb-6">
                 <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gray-100">
