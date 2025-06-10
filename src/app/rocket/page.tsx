@@ -32,9 +32,10 @@ export default function RocketPage() {
     setRocketItems,
   ]);
 
+  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     initData();
-  }, [initData]);
+  }, []);
   return (
     <article>
       <section className="mt-4 mb-8 flex justify-center">

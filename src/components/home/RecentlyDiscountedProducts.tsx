@@ -12,9 +12,10 @@ export default function RecentlyDiscountedProducts() {
     }
   }, [nowItems, setNowItems]);
 
+  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     initData();
-  }, [initData]);
+  }, []);
 
   return <ProductList items={nowItems} type="grid" />;
 }
