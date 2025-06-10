@@ -42,11 +42,11 @@ export default function SearchKeywordPage() {
   }, [keyword]);
 
   return (
-    <main className="mx-auto w-full max-w-[800px] space-y-10 px-4 py-6">
+    <main className="mx-auto w-full max-w-[800px] space-y-10 px-4 py-4">
       {/* 정렬 셀렉트 박스 */}
       <div className="mb-0 flex justify-end">
         <select
-          className="rounded-md border px-3 py-2 text-sm"
+          className="rounded-md border py-2 text-sm"
           value={sortOption}
           onChange={(e) =>
             setSortOption(e.target.value as "recommend" | "low" | "high")
