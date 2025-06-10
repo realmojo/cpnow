@@ -53,7 +53,7 @@ export default function Page() {
   }, [router]);
 
   const handleGoToAppStore = () => {
-    window.location.href = "https://apps.apple.com/app/idXXXXXXX"; // 앱스토어 링크
+    window.location.href = "https://apps.apple.com/kr/app/id6746947388"; // 앱스토어 링크
   };
 
   const handleGoToPlayStore = () => {
