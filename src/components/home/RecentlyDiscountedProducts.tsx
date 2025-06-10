@@ -1,18 +1,20 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 import ProductList from "../ProductList";
+import { nowStore } from "@/src/store/nowStore";
 
 export default function RecentlyDiscountedProducts() {
-  const [products, setProducts] = useState([]);
+  const { nowItems, setNowItems } = nowStore();
+
+  const initData = useCallback(async () => {
+    if (nowItems.length === 0) {
+      setNowItems();
+    }
+  }, [nowItems, setNowItems]);
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      const response = await fetch("/api/productPrice");
-      const data = await response.json();
-      setProducts(data);
-    };
-    fetchProducts();
-  }, []);
+    initData();
+  }, [initData]);
 
-  return <ProductList items={products} type="grid" />;
+  return <ProductList items={nowItems} type="grid" />;
 }

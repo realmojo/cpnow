@@ -72,18 +72,21 @@ export default function ProductModalClient({ id }: { id: string }) {
 
     try {
       const raw = localStorage.getItem(key);
-      let items: ProductSummary[] = raw ? JSON.parse(raw) : [];
+      console.log(raw);
+      if (raw) {
+        let items: ProductSummary[] = raw ? JSON.parse(raw) : [];
 
-      // 기존 상품 제거 후 맨 앞에 추가
-      items = items.filter((item) => item.id !== productSummary.id);
-      items.unshift(productSummary);
+        // 기존 상품 제거 후 맨 앞에 추가
+        items = items.filter((item) => item.id !== productSummary.id);
+        items.unshift(productSummary);
 
-      // 20개까지만 유지
-      if (items.length > maxItems) {
-        items = items.slice(0, maxItems);
+        // 20개까지만 유지
+        if (items.length > maxItems) {
+          items = items.slice(0, maxItems);
+        }
+
+        localStorage.setItem(key, JSON.stringify(items));
       }
-
-      localStorage.setItem(key, JSON.stringify(items));
     } catch (err) {
       console.error("로컬스토리지 저장 실패", err);
     }
@@ -251,8 +254,8 @@ export default function ProductModalClient({ id }: { id: string }) {
     setTimeout(() => {
       if (hasReferrer) {
         router.back();
-      } else {
-        router.push("https://cpnow.kr/rocket");
+        // } else {
+        //   router.push("https://cpnow.kr/rocket");
       }
     }, 300);
   }, [router]);
@@ -287,22 +290,12 @@ export default function ProductModalClient({ id }: { id: string }) {
                 <Breadcrumb>
                   <BreadcrumbList>
                     <BreadcrumbItem>
-                      {/* <BreadcrumbLink asChild> */}
-                      {/* <Link
-                          href={`/categories/${getCategoryIdByName(productItem.bigCategory)}`}
-                        > */}
                       {productItem.bigCategory ?? ""}
-                      {/* </Link> */}
-                      {/* </BreadcrumbLink> */}
                     </BreadcrumbItem>
                     <BreadcrumbSeparator />
                     <BreadcrumbItem>
                       <BreadcrumbPage>
-                        {/* <BreadcrumbLink asChild> */}
-                        {/* <Link href={`/categories/${productItem.categoryId}`}> */}
                         {productItem.category ?? ""}
-                        {/* </Link> */}
-                        {/* </BreadcrumbLink> */}
                       </BreadcrumbPage>
                     </BreadcrumbItem>
                   </BreadcrumbList>

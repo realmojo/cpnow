@@ -1,25 +1,40 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { getGoldBox, getRocketItems } from "@/utils/api";
+import React, { useCallback, useEffect } from "react";
 import ProductList from "@/src/components/ProductList";
+import { rocketStore } from "@/src/store/rocketStore";
 
 export default function RocketPage() {
-  const [goldItems, setGoldItems] = useState([]);
-  const [freshItems, setFreshItems] = useState([]);
-  const [rocketItems, setRocketItems] = useState([]);
+  const {
+    goldItems,
+    rocketFreshItems,
+    rocketItems,
+    setGoldItems,
+    setRocketFreshItems,
+    setRocketItems,
+  } = rocketStore();
 
-  const initData = async () => {
-    const goldList = await getGoldBox();
-    setGoldItems(goldList.data);
-    const freshList = await getRocketItems("rocket_fresh");
-    setFreshItems(freshList);
-    const rocketList = await getRocketItems("rocket");
-    setRocketItems(rocketList);
-  };
+  const initData = useCallback(async () => {
+    if (goldItems.length === 0) {
+      setGoldItems();
+    }
+    if (rocketFreshItems.length === 0) {
+      setRocketFreshItems();
+    }
+    if (rocketItems.length === 0) {
+      setRocketItems();
+    }
+  }, [
+    goldItems,
+    rocketFreshItems,
+    rocketItems,
+    setGoldItems,
+    setRocketFreshItems,
+    setRocketItems,
+  ]);
 
   useEffect(() => {
     initData();
-  }, []);
+  }, [initData]);
   return (
     <article>
       <section className="mt-4 mb-8 flex justify-center">
@@ -38,7 +53,7 @@ export default function RocketPage() {
             🥬 로켓프레시
           </h2>
           <div className="min-h-[232px]">
-            <ProductList items={freshItems} type="carousel" />
+            <ProductList items={rocketFreshItems} type="carousel" />
           </div>
         </div>
       </section>

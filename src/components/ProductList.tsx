@@ -153,32 +153,27 @@ export default function ProductList({
           <Image
             src={item.thumbnail}
             alt={item.title}
-            width={400}
-            height={400}
+            width={300}
+            height={300}
             className="aspect-square w-full object-cover"
             placeholder="blur"
             blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgdmlld0JveD0iMCAwIDYwMCA0MDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjYwMCIgaGVpZ2h0PSI0MDAiIGZpbGw9IiNlZWVlZWUiLz48L3N2Zz4="
           />
         </CardHeader>
-        <CardContent className="space-y-2 p-4">
+        <CardContent className="space-y-2 p-1">
           <DeliveryBadge deliveryType={item.deliveryType} />
-
-          <div className="text-sm text-gray-700">
-            <div className="space-y-1">
-              <CardTitle className="line-clamp-2 text-sm leading-snug font-normal text-gray-600">
-                {item.title}
-              </CardTitle>
-              <div className="flex items-center gap-1 text-sm font-semibold">
-                <span>{item.price.toLocaleString()}원</span>
-                <ComparePriceDetail
-                  price={item.price}
-                  highPrice={item.highPrice ?? item.price}
-                  lowPrice={item.lowPrice ?? item.price}
-                  isVisible={false}
-                  isTextFull={false}
-                />
-              </div>
-            </div>
+          <CardTitle className="line-clamp-2 min-h-[2.5rem] text-sm leading-snug font-normal text-gray-600">
+            {item.title}
+          </CardTitle>
+          <div className="flex items-center gap-1 text-sm font-semibold">
+            <span>{item?.price?.toLocaleString()}원</span>
+            <ComparePriceDetail
+              price={item.price}
+              highPrice={item.highPrice ?? item.price}
+              lowPrice={item.lowPrice ?? item.price}
+              isVisible={false}
+              isTextFull={false}
+            />
           </div>
         </CardContent>
       </>
@@ -301,7 +296,7 @@ export default function ProductList({
   return (
     <>
       {type === "grid" ? (
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
+        <div className="grid grid-cols-3 gap-2 sm:grid-cols-3">
           {Array.isArray(productItems) &&
             productItems.length > 0 &&
             productItems.map((item: any) => (
@@ -400,7 +395,7 @@ export default function ProductList({
                 {[...Array(3)].map((_, idx) => (
                   <div
                     key={idx}
-                    className="h-[200px] w-[140px] animate-pulse rounded-md bg-gray-200"
+                    className="h-[200px] w-[140px] animate-pulse bg-gray-200"
                   />
                 ))}
               </div>

@@ -134,14 +134,11 @@ export default function MyNowContainer() {
 
   return (
     <article>
-      <section className="mb-24 flex justify-center">
+      <section className="mb-20 flex justify-center">
         <div className="w-[800px] px-4">
           {myProductsItems && myProductsItems.length !== 0 ? (
             // ✅ 데이터 있음
             <>
-              <h2 className="font-heading scroll-m-20 border-none text-2xl font-bold tracking-tight first:mt-0 sm:border-b">
-                찜 목록
-              </h2>
               <ProductList items={myProductsItems} type="grid" />
 
               <div className="mt-2 flex w-full gap-2">

@@ -1,7 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-import Image from "next/image";
 import {
   Drawer,
   DrawerContent,
@@ -11,13 +10,15 @@ import {
 } from "@/components/ui/drawer";
 import { Input } from "@/components/ui/input";
 import { X } from "lucide-react";
+import ProductList from "@/src/components/ProductList";
 
 const MAX_RECENTS = 10;
 const LOCAL_STORAGE_KEY = "cpnow_recent_keywords";
 
 export default function SearchModalClient() {
   const router = useRouter();
-  const [open, setOpen] = useState(true);
+  const ranOnce = useRef(false);
+  const [open, setOpen] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [recentKeywords, setRecentKeywords] = useState<string[]>([]);
   const [recentProducts, setRecentProducts] = useState<any[]>([]);
@@ -30,8 +31,8 @@ export default function SearchModalClient() {
     setTimeout(() => {
       if (hasReferrer) {
         router.back();
-      } else {
-        router.push("/rocket");
+        // } else {
+        //   router.push("/rocket");
       }
     }, 300);
   }, [router]);
@@ -52,6 +53,7 @@ export default function SearchModalClient() {
 
   const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
+      console.log(1);
       setOpen(false);
       handleSearch(inputValue.trim());
     }
@@ -81,6 +83,7 @@ export default function SearchModalClient() {
     const handleEscapeKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         setOpen(false);
+        console.log(2);
         moveClose();
       }
     };
@@ -95,12 +98,16 @@ export default function SearchModalClient() {
   }, [open]);
 
   useEffect(() => {
+    if (ranOnce.current) return; // 두 번째 실행 차단
+    ranOnce.current = true;
     const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
     const items = getRecentViewedProducts();
     if (saved) {
       setRecentKeywords(JSON.parse(saved));
     }
-    setRecentProducts(items);
+    const filterItems = items.filter((item) => item.id);
+    setRecentProducts(filterItems);
+    setOpen(true);
   }, []);
 
   return (
@@ -108,12 +115,14 @@ export default function SearchModalClient() {
       open={open}
       onOpenChange={(isOpen) => {
         setOpen(isOpen);
+
+        console.log(3);
         if (!isOpen) moveClose();
       }}
     >
       <DrawerContent
         aria-hidden="false"
-        className="!fixed !inset-0 !m-0 !h-screen !max-h-screen !w-screen !rounded-none !border-none transition-all duration-100 ease-in-out [&>div.bg-muted]:hidden"
+        className="!fixed !inset-0 !m-0 !h-screen !max-h-screen !w-screen !rounded-none !border-none !transition-none !duration-0 [&>div.bg-muted]:hidden"
       >
         <DrawerHeader className="p-4">
           <DrawerTitle className="flex items-center justify-between gap-2">
@@ -144,7 +153,6 @@ export default function SearchModalClient() {
           </DrawerTitle>
           <DrawerDescription></DrawerDescription>
         </DrawerHeader>
-
         <div className="space-y-6 px-4 py-2 text-sm">
           <div>
             <div className="mb-2 flex items-center justify-between font-semibold">
@@ -166,6 +174,8 @@ export default function SearchModalClient() {
                     className="text-sm"
                     onClick={() => {
                       setOpen(false);
+
+                      console.log(4);
                       router.push(`/search/${keyword}`);
                     }}
                   >
@@ -179,7 +189,6 @@ export default function SearchModalClient() {
               ))}
             </div>
           </div>
-
           <div>
             <div className="mb-2 font-semibold">🛒 최근 본 상품</div>
             <div className="scrollbar-hide -mx-4 overflow-x-auto px-4">
@@ -189,52 +198,11 @@ export default function SearchModalClient() {
                     최근 본 상품이 없습니다.
                   </span>
                 ) : (
-                  recentProducts.map((product) => (
-                    <div
-                      key={product.id}
-                      className="w-[100px] shrink-0 cursor-pointer bg-white p-2"
-                      onClick={() => {
-                        // setOpen(false);
-                        router.push(`/product/${product.id}`);
-                      }}
-                    >
-                      <Image
-                        src={product.thumbnail}
-                        alt={product.title}
-                        width={90}
-                        height={90}
-                        className="mb-1 h-[90px] w-full rounded object-contain"
-                      />
-                      <div className="truncate text-xs font-medium text-gray-700">
-                        {product.title}
-                      </div>
-                      <div className="text-xs font-semibold text-black">
-                        {product.price.toLocaleString()}원
-                      </div>
-                    </div>
-                  ))
+                  <ProductList items={recentProducts} type="carousel" />
                 )}
               </div>
             </div>
           </div>
-
-          {/* <div>
-            <div className="mb-2 font-semibold">✨ 추천 검색어</div>
-            <div className="flex flex-wrap gap-2">
-              {recommendedKeywords.map((keyword) => (
-                <button
-                  key={keyword}
-                  className="bg-muted hover:bg-primary/10 rounded-full px-4 py-1 text-sm"
-                  onClick={() => {
-                    setOpen(false);
-                    router.push(`/search/${keyword}`);
-                  }}
-                >
-                  {keyword}
-                </button>
-              ))}
-            </div>
-          </div> */}
         </div>
       </DrawerContent>
     </Drawer>
