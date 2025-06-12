@@ -19,6 +19,7 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Bell, Loader2, Plus } from "lucide-react"; // shadcn 아이콘
+import NotSupported from "../NotSupported";
 
 const sendProductInfo = async (parsedItem: any, parsed: any) => {
   try {
@@ -45,6 +46,7 @@ export default function MyNowContainer() {
   const searchParams = useSearchParams();
 
   const [isReady, setIsReady] = useState(false); // ✅ 추가
+  const [isAvailable, setIsAvailable] = useState(true); // ✅ 추가
   const [myProductsItems, setMyProductsItems] = useState<any>([]);
   const [loading, setLoading] = useState(false);
   const [initLoading, setInitLoading] = useState(false);
@@ -67,7 +69,11 @@ export default function MyNowContainer() {
 
   const initData = useCallback(async () => {
     const auth = getUserAuth();
-    if (!auth.userId) return;
+
+    if (!auth.userId) {
+      setIsAvailable(false);
+      setIsReady(true);
+    }
 
     const item = searchParams.get("item") || "";
     if (item) {
@@ -130,6 +136,10 @@ export default function MyNowContainer() {
         </div>
       </div>
     );
+  }
+
+  if (!isAvailable) {
+    return <NotSupported />;
   }
 
   return (

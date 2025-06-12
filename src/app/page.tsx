@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import {
   detectDevice,
   getUserAuth,
-  isApple,
   isWebView,
   sendNotificationTest,
   setUserAuth,
@@ -13,7 +12,8 @@ import { getToken } from "firebase/messaging";
 import { messaging } from "@/lib/firebase";
 import { nanoid } from "nanoid";
 import { Button } from "@/components/ui/button";
-import { AppleIcon, Loader2, PlayIcon } from "lucide-react";
+import { Loader2 } from "lucide-react";
+import NotSupported from "../components/NotSupported";
 
 export default function Page() {
   const router = useRouter();
@@ -51,15 +51,6 @@ export default function Page() {
     };
     checkAuthAndRedirect();
   }, [router]);
-
-  const handleGoToAppStore = () => {
-    window.location.href = "https://apps.apple.com/kr/app/id6746947388"; // 앱스토어 링크
-  };
-
-  const handleGoToPlayStore = () => {
-    window.location.href =
-      "https://play.google.com/store/apps/details?id=com.f5game.cpnow"; // 안드로이드 앱 링크
-  };
 
   const handleRequestPermission = async () => {
     setLoading(true);
@@ -117,61 +108,7 @@ export default function Page() {
   };
 
   if (!isAvailable) {
-    return (
-      <div className="flex min-h-[calc(100vh-64px)] items-start justify-center pt-20">
-        <div className="mx-4 w-full max-w-md rounded-lg bg-white p-6 text-center shadow-lg">
-          <div className="mb-6">
-            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-blue-100">
-              <svg
-                className="h-8 w-8 text-blue-600"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9zM13.73 21a2 2 0 0 1-3.46 0"
-                />
-              </svg>
-            </div>
-            <h2 className="mb-2 text-2xl font-bold text-gray-900">
-              이 브라우저에서는 <br />
-              알림을 사용할 수 없습니다.
-            </h2>
-            <p className="text-gray-600">
-              모바일 앱에서 알림을 받을 수 있습니다.
-            </p>
-          </div>
-
-          <div className="space-y-3">
-            {!isApple() ? (
-              <Button
-                onClick={() => handleGoToPlayStore()}
-                className="text-md text-md w-full rounded-lg bg-blue-600 px-4 py-6 text-white transition-colors hover:bg-gray-200"
-              >
-                <PlayIcon className="mr-2 h-4 w-4" />
-                안드로이드 다운로드
-              </Button>
-            ) : null}
-
-            <Button
-              disabled={loading}
-              onClick={() => handleGoToAppStore()}
-              className="text-md text-md w-full rounded-lg bg-blue-600 px-4 py-6 text-white transition-colors hover:bg-blue-700"
-            >
-              <AppleIcon className="mr-2 h-4 w-4" />
-              앱스토어 다운로드
-            </Button>
-          </div>
-
-          <p className="mt-4 text-xs text-gray-500">
-            알림은 언제든 브라우저 설정에서 변경할 수 있습니다.
-          </p>
-        </div>
-      </div>
-    );
+    return <NotSupported />;
   }
 
   if (showPermissionMessage) {
