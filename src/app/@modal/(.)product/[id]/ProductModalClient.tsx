@@ -475,7 +475,7 @@ export default function ProductModalClient({ id }: { id: string }) {
                   </div>
                 </section>
                 {productItem?.options?.length > 1 && (
-                  <section className="mt-16 flex justify-center">
+                  <section className="flex justify-center">
                     <div className="w-full max-w-[800px] px-4">
                       <div className="mt-16 mb-4 flex items-center justify-between">
                         <h2 className="font-heading scroll-m-20 text-2xl font-bold tracking-tight first:mt-0">

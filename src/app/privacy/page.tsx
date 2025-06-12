@@ -106,9 +106,9 @@ export default function PrivacyPolicyPage() {
               개인정보 관련 문의는{" "}
               <a
                 className="text-blue-600 underline"
-                href="mailto:help@cpnow.kr"
+                href="mailto:cpnowofficial@gmail.com"
               >
-                help@cpnow.kr
+                cpnowofficial@gmail.com
               </a>{" "}
               로 문의주시면 신속히 처리해드리겠습니다.
             </p>
