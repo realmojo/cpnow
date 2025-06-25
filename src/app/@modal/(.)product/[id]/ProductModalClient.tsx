@@ -3,11 +3,11 @@ import Head from "next/head";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import {
-  Drawer,
-  DrawerContent,
-  DrawerHeader,
-  DrawerTitle,
-} from "@/components/ui/drawer";
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 import Image from "next/image";
 import {
@@ -72,7 +72,6 @@ export default function ProductModalClient({ id }: { id: string }) {
 
     try {
       const raw = localStorage.getItem(key);
-      console.log(raw);
       if (raw) {
         let items: ProductSummary[] = raw ? JSON.parse(raw) : [];
 
@@ -275,17 +274,35 @@ export default function ProductModalClient({ id }: { id: string }) {
   return (
     <>
       {productItem && renderJsonLd()}
-      <Drawer
+      <Dialog
         open={open}
         onOpenChange={() => {
           setOpen(false);
           moveClose();
         }}
       >
-        <DrawerContent className="!fixed !inset-0 !m-0 !h-screen !max-h-screen !w-screen !rounded-none !border-none transition-all duration-100 ease-in-out [&>div.bg-muted]:hidden">
-          <DrawerHeader className="border-b">
-            <DrawerTitle className="flex items-center justify-between text-base font-semibold">
-              <div>상품정보</div>
+        {/* <DialogContent className="!fixed !inset-0 !m-0 !h-screen !max-h-screen !w-screen !rounded-none !border-none transition-all duration-100 ease-in-out [&>div.bg-muted]:hidden"> */}
+        <DialogContent className="!m-0 h-screen max-h-none w-screen max-w-none !gap-0 !rounded-none !border-none p-2">
+          <style>{`
+    .ring-offset-background {
+      display: none !important;
+    }
+  `}</style>
+          <DialogHeader>
+            <DialogTitle className="flex items-center justify-between text-base font-semibold">
+              <div className="flex items-center">
+                {/* 👈 뒤로가기 버튼 */}
+                <button
+                  onClick={() => {
+                    setOpen(false);
+                    moveClose();
+                  }}
+                  className="rounded-full p-1 text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+                  aria-label="뒤로가기"
+                >
+                  ←
+                </button>
+              </div>
               {productItem && (
                 <Breadcrumb>
                   <BreadcrumbList>
@@ -301,8 +318,8 @@ export default function ProductModalClient({ id }: { id: string }) {
                   </BreadcrumbList>
                 </Breadcrumb>
               )}
-            </DrawerTitle>
-          </DrawerHeader>
+            </DialogTitle>
+          </DialogHeader>
           {productItem && (
             <div id="product-container" className="flex-1 overflow-y-auto">
               <article className="mb-16">
@@ -421,42 +438,9 @@ export default function ProductModalClient({ id }: { id: string }) {
                               <th className="p-3 text-left font-bold text-gray-700">
                                 평점(리뷰 수)
                               </th>
-                              <td className="p-3 text-lg text-gray-800">
-                                <div className="flex space-x-[1px]">
-                                  <div className="flex items-center text-sm">
-                                    <div className="flex space-x-[1px]">
-                                      {Array.from({ length: 5 }).map((_, i) => {
-                                        const fill =
-                                          i + 1 <=
-                                          Math.floor(productItem.rating ?? 0)
-                                            ? "fill-yellow-400 text-yellow-400"
-                                            : i < (productItem.rating ?? 0)
-                                              ? "fill-yellow-400 text-gray-300"
-                                              : "fill-gray-300 text-gray-300";
-
-                                        return (
-                                          <svg
-                                            key={i}
-                                            xmlns="http:www.w3.org/2000/svg"
-                                            viewBox="0 0 24 24"
-                                            fill="currentColor"
-                                            className={`h-4 w-4 ${fill}`}
-                                          >
-                                            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-                                          </svg>
-                                        );
-                                      })}
-                                    </div>
-
-                                    <span className="ml-1 text-sm text-gray-600">
-                                      (
-                                      {productItem.reviewCount
-                                        ? productItem.reviewCount.toLocaleString()
-                                        : 0}
-                                      )
-                                    </span>
-                                  </div>
-                                </div>
+                              <td className="text-md p-3 text-gray-800">
+                                <span className="text-yellow-400">★</span>{" "}
+                                {productItem.rating} ({productItem.reviewCount})
                               </td>
                             </tr>
                           </tbody>
@@ -527,8 +511,8 @@ export default function ProductModalClient({ id }: { id: string }) {
               />
             </div>
           )}
-        </DrawerContent>
-      </Drawer>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }
