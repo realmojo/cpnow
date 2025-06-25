@@ -9,8 +9,8 @@ import {
   LinkIcon,
   ShoppingCart,
   AlertCircle,
-  Search,
   Rocket,
+  Settings,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -114,7 +114,7 @@ export default function BottomTabBar() {
     router.prefetch("/mynow");
     router.prefetch("/rocket");
     router.prefetch("/now");
-    router.prefetch("/search");
+    router.prefetch("/settings");
   }, [router]);
 
   return (
@@ -257,19 +257,19 @@ export default function BottomTabBar() {
           <span className="mt-1 text-xs">NOW</span>
         </button>
 
-        {/* 5. 검색 */}
+        {/* 5. 설정 */}
         <button
-          onClick={() => router.push("/search")}
+          onClick={() => router.push("/settings")}
           className={`flex flex-1 flex-col items-center justify-center ${
-            pathname === "/search"
+            pathname === "/settings"
               ? "text-primary"
               : "text-muted-foreground hover:text-primary"
           }`}
         >
-          <Search
-            className={`h-5 w-5 ${pathname === "/search" ? "fill-current" : ""}`}
+          <Settings
+            className={`h-5 w-5 ${pathname === "/settings" ? "fill-current" : ""}`}
           />
-          <span className="mt-1 text-xs">검색</span>
+          <span className="mt-1 text-xs">설정</span>
         </button>
       </nav>
     </>

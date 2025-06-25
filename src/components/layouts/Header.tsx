@@ -16,6 +16,7 @@ export default function Header() {
     if (path === "/search") return "🔎 검색";
     if (path === "/alarm") return "🔔 알람";
     if (path === "/rocket") return "🚀 로켓상품";
+    if (path === "/settings") return "⚙️ 설정";
     if (path.includes("/product")) return "상품정보";
     if (path.includes("/search"))
       return `${decodeURIComponent(path.split("/")[2])} 검색`;

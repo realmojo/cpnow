@@ -291,18 +291,16 @@ export default function ProductModalClient({ id }: { id: string }) {
           <DialogHeader>
             <DialogTitle className="flex items-center justify-between text-base font-semibold">
               <div className="flex items-center">
-                {/* 👈 뒤로가기 버튼 */}
+                {/* 👈 클릭 영역 확장된 뒤로가기 버튼 */}
                 <button
-                  onClick={() => {
-                    setOpen(false);
-                    moveClose();
-                  }}
-                  className="rounded-full p-1 text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+                  onClick={() => router.back()}
+                  className="rounded-full p-3 text-gray-600 transition hover:bg-gray-100 hover:text-gray-900"
                   aria-label="뒤로가기"
                 >
-                  ←
+                  <span className="text-xl">←</span>
                 </button>
               </div>
+
               {productItem && (
                 <Breadcrumb>
                   <BreadcrumbList>

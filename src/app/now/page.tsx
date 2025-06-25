@@ -25,7 +25,7 @@ export default function NowPage() {
                 setSortOption(value);
               }}
             >
-              <SelectTrigger className="w-[150px]">
+              <SelectTrigger className="w-[110px]">
                 <SelectValue placeholder="정렬 기준" />
               </SelectTrigger>
               <SelectContent>

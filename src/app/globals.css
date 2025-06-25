@@ -185,4 +185,8 @@
   .mb-24 {
     margin-bottom: calc(var(--spacing) * 24);
   }
+  .border-b-16 {
+    border-bottom-style: var(--tw-border-style);
+    border-bottom-width: 16px;
+  }
 }

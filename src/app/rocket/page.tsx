@@ -38,7 +38,7 @@ export default function RocketPage() {
   }, []);
   return (
     <article>
-      <section className="mt-4 mb-8 flex justify-center">
+      <section className="mt-4 mb-8 flex justify-center border-b-16 border-gray-200 pb-4">
         <div className="w-full max-w-[800px] px-4">
           <h2 className="font-heading text-md mb-4 scroll-m-20 border-none font-bold tracking-tight first:mt-0 sm:border-b">
             🔥 골드박스 특가
@@ -48,7 +48,7 @@ export default function RocketPage() {
           </div>
         </div>
       </section>
-      <section className="mt-4 mb-8 flex justify-center">
+      <section className="mt-4 mb-8 flex justify-center border-b-16 border-gray-200 pb-4">
         <div className="w-full max-w-[800px] px-4">
           <h2 className="font-heading text-md mb-4 scroll-m-20 border-none font-bold tracking-tight first:mt-0 sm:border-b">
             🥬 로켓프레시
