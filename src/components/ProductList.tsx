@@ -313,7 +313,7 @@ export default function ProductList({
                     {gridCardContent(item)}
                   </Card>
                 ) : (
-                  <Link href={`/product/${item.id}`} prefetch>
+                  <Link href={`/product/${item.id}`}>
                     <Card className="cursor-pointer gap-0 overflow-hidden border-none bg-transparent py-0 pt-4 shadow-none transition hover:shadow-md">
                       {gridCardContent(item)}
                     </Card>
@@ -345,7 +345,6 @@ export default function ProductList({
                       href={`/product/${item.id}`}
                       className="flex w-full"
                       passHref
-                      prefetch
                     >
                       <Card
                         className="relative flex flex-row items-start gap-0 rounded-none border-0 bg-transparent px-2 py-4 shadow-none ring-0 hover:bg-transparent"
@@ -414,7 +413,7 @@ export default function ProductList({
                       {carouselCardContent(item)}
                     </a>
                   ) : (
-                    <Link href={`/product/${item.id}`} prefetch>
+                    <Link href={`/product/${item.id}`}>
                       {carouselCardContent(item)}
                     </Link>
                   )}
