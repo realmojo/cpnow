@@ -3,4 +3,6 @@ Allow: /
 
 Disallow: /api/
 
+Sitemap: https://cpnow.kr/sitemap_index.xml
+
 #DaumWebMasterTool:2889ce197723d7627784007f35495447cfa8db60ad5b8fdd9be66d06d8440fd8:cDsb8JzwjV3zpqIxBw00mA==
