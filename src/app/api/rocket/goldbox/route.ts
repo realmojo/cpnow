@@ -69,13 +69,18 @@ export async function GET() {
   const url = `${PATH}?subId=${subId}`;
   const ACCESS_KEY = process.env.COUPANG_ACCESS_KEY ?? "";
   const SECRET_KEY = process.env.COUPANG_SECRET_KEY ?? "";
+  console.log(ACCESS_KEY, SECRET_KEY);
   const authorization = generateHmac(METHOD, url, SECRET_KEY, ACCESS_KEY);
+
+  console.log(authorization);
 
   try {
     const response = await fetch(`${DOMAIN}${url}`, {
       method: METHOD,
       headers: { Authorization: authorization },
     });
+
+    console.log(response);
 
     if (!response.ok) {
       const errorText = await response.text();
@@ -85,6 +90,8 @@ export async function GET() {
     }
 
     const res = await response.json();
+
+    console.log(res);
 
     // ✅ 캐시 갱신
     lastFetchedTime = now;
