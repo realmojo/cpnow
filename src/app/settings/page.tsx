@@ -65,9 +65,9 @@ export default function RocketPage() {
           <li className="flex items-center justify-between border-b py-3">
             <div className="flex flex-col">
               <Label htmlFor="block-alert">알림방해 시간 설정</Label>
-              {settings.isBlockAlarm === "Y" ? (
+              {settings?.isBlockAlarm === "Y" ? (
                 <span className="mt-1 text-xs text-gray-500">
-                  {settings.blockStartTime} ~ {settings.blockEndTime}
+                  {settings?.blockStartTime} ~ {settings?.blockEndTime}
                 </span>
               ) : null}
             </div>
