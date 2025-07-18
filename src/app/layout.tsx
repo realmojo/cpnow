@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/sonner";
 
 import Script from "next/script";
 import Header from "@/src/components/layouts/Header";
-import Footer from "@/src/components/layouts/Footer";
+// import Footer from "@/src/components/layouts/Footer";
 import RegisterServiceWorker from "@/src/app/register-service-worker";
 import localFont from "next/font/local";
 import GoogleAnalytics from "@/src/components/GoogleAnalytics";
