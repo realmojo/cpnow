@@ -118,7 +118,7 @@ export default async function RootLayout({
           <Header />
           {children}
           {modal}
-          <Footer />
+          {/* <Footer /> */}
         </main>
         <LayoutClientWrapper />
         <Toaster
