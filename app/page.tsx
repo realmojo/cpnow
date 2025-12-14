@@ -19,24 +19,11 @@ export default function Home() {
             CPNOW
           </h1>
           <p className="text-muted-foreground text-lg">
-            Compare Coupang's current price with its history.
+            Compare Coupang current price with its history.
           </p>
         </div>
 
         <div className="w-full max-w-4xl flex flex-col items-center gap-6">
-          {/* <div className="w-full bg-white rounded-lg overflow-hidden shadow-sm">
-            <iframe 
-              src="https://coupa.ng/ck1nzV" 
-              width="100%" 
-              height="75" 
-              frameBorder="0" 
-              scrolling="no" 
-              referrerPolicy="unsafe-url"
-              // @ts-expect-error - browsingtopics is a newer attribute
-              browsingtopics="true"
-            />
-          </div> */}
-
           <Card className="w-full max-w-md shadow-lg border-primary/20">
             <CardHeader>
               <CardTitle>Analyze Price</CardTitle>
