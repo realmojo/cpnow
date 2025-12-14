@@ -19,7 +19,7 @@ import {
   Legend,
 } from "recharts";
 import Link from "next/link";
-import { useParams, useSearchParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import { createClient } from "@supabase/supabase-js";
 
 import { Badge } from "@/components/ui/badge";
@@ -59,11 +59,10 @@ interface ProductData {
   updatedAt: string;
 }
 
-function ProductContent() {
+export default function ProductDetailView() {
   const params = useParams();
-  const searchParams = useSearchParams();
-  const productId = params.id as string;
-  const vendorItemId = searchParams.get("vendorItemId");
+  const productId = params.productId as string;
+  const vendorItemId = params.vendorItemId as string;
 
   const [product, setProduct] = React.useState<ProductData | null>(null);
   const [loading, setLoading] = React.useState(true);
@@ -79,6 +78,15 @@ function ProductContent() {
 
       try {
         setLoading(true);
+
+        // 0. Trigger Tracking (Scraping) to update latest price
+        try {
+          await fetch(
+            `/api/track?productId=${productId}&vendorItemId=${vendorItemId}`
+          );
+        } catch (e) {
+          console.error("Tracking update failed, falling back to cache:", e);
+        }
 
         // 1. Fetch Product Info
         const { data: productInfo, error: productError } = await supabase
@@ -133,8 +141,7 @@ function ProductContent() {
             day: "numeric",
           });
 
-          // Find the relevant history for this date
-          // Logic: Use the latest available record ON or BEFORE this day.
+          // Find dates
           const targetDateEnd = new Date(d);
           targetDateEnd.setHours(23, 59, 59, 999);
 
@@ -146,13 +153,10 @@ function ProductContent() {
           let wowPrice: number | null = null;
 
           if (relevantRecords && relevantRecords.length > 0) {
-            // Use the most recent record relative to this date
             const record = relevantRecords[relevantRecords.length - 1];
             price = record.price;
             wowPrice = record.wow_price;
           } else if (firstHistory) {
-            // Backfill: If date is before first collection, use the earliest known price
-            // This creates a flat line for the past period
             price = firstHistory.price;
             wowPrice = firstHistory.wow_price;
           }
@@ -276,8 +280,6 @@ function ProductContent() {
                 </div>
               )}
             </div>
-
-            {/* Removed Delivery Card */}
           </div>
 
           {/* Right Column: Info & Stats */}
@@ -506,19 +508,5 @@ function ProductContent() {
         </div>
       </main>
     </div>
-  );
-}
-
-export default function ProductPage() {
-  return (
-    <React.Suspense
-      fallback={
-        <div className="flex min-h-screen items-center justify-center bg-background">
-          <Loader2 className="h-10 w-10 animate-spin text-primary" />
-        </div>
-      }
-    >
-      <ProductContent />
-    </React.Suspense>
   );
 }

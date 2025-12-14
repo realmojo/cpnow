@@ -11,6 +11,17 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
+export const metadata = {
+  title: "CPNOW - 쿠팡 최저가 알리미 & 가격 추적",
+  description:
+    "쿠팡 상품의 가격 변동 이력을 추적하여 가장 스마트한 쇼핑 타이밍을 알려드립니다. 와우 멤버십 할인 정보와 역대 최저가를 한눈에 확인하세요.",
+  openGraph: {
+    title: "CPNOW - Premium Coupang Price Tracker",
+    description: "스마트한 소비를 위한 필수 도구. 실시간 가격 추적 및 할인 분석.",
+    type: "website",
+  },
+};
+
 // Force dynamic rendering
 export const revalidate = 0;
 
@@ -99,7 +110,7 @@ export default async function Home() {
           {processedProducts?.map((product, idx) => (
             <Link
               key={product.product_id}
-              href={`/product/${product.product_id}?vendorItemId=${product.vendor_item_id}`}
+              href={`/product/${product.product_id}/${product.vendor_item_id}`}
               className="group flex flex-col gap-4 animate-in fade-in fill-mode-both relative"
               style={{ animationDelay: `${idx * 100}ms`, animationDuration: "1000ms" }}
             >

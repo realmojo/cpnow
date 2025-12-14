@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Plus, Search, Loader2 } from "lucide-react";
-import { toast } from "sonner"; // Assuming sonner or use standard toast if available
 
 export function AddProductBar() {
   const [url, setUrl] = useState("");
@@ -61,7 +60,7 @@ export function AddProductBar() {
 
       // 성공 시 메인 목록 갱신 및 상세 페이지로 이동
       router.refresh(); // 데이터 갱신
-      router.push(`/product/${productId}?vendorItemId=${vendorItemId}`);
+      router.push(`/product/${productId}/${vendorItemId}`);
     } catch (error) {
       console.error(error);
       alert("상품 정보를 분석하는데 실패했습니다. 다시 시도해주세요.");
@@ -71,23 +70,30 @@ export function AddProductBar() {
   };
 
   return (
-    <form onSubmit={handleAnalyze} className="w-full max-w-2xl mx-auto flex gap-2 relative z-10">
+    <form
+      onSubmit={handleAnalyze}
+      className="w-full max-w-2xl mx-auto flex gap-2 relative z-10"
+    >
       <div className="relative flex-1">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4" />
-        <Input 
-          placeholder="쿠팡 상품 URL을 입력하여 추적 시작..." 
+        <Input
+          placeholder="쿠팡 상품 URL을 입력하여 추적 시작..."
           className="pl-10 h-12 bg-white/80 dark:bg-black/50 backdrop-blur-md border-white/20 shadow-lg focus-visible:ring-primary/50 transition-all rounded-full"
           value={url}
           onChange={(e) => setUrl(e.target.value)}
         />
       </div>
-      <Button 
-        type="submit" 
-        size="lg" 
+      <Button
+        type="submit"
+        size="lg"
         disabled={loading}
         className="h-12 rounded-full px-6 shadow-lg bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary"
       >
-        {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Plus className="w-5 h-5" />}
+        {loading ? (
+          <Loader2 className="w-4 h-4 animate-spin" />
+        ) : (
+          <Plus className="w-5 h-5" />
+        )}
         <span className="ml-2 hidden sm:inline">Add Item</span>
       </Button>
     </form>
