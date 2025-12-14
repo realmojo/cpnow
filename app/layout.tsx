@@ -26,6 +26,44 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        {/* Naver Analytics */}
+        <script id="naver-analytics" src="//wcs.naver.net/wcslog.js" />
+        <script
+          id="naver-analytics-init"
+          dangerouslySetInnerHTML={{
+            __html:
+              'if(!wcs_add) var wcs_add = {}; wcs_add["wa"] = "4f989b4b54c848"; if(window.wcs) {wcs_do();}',
+          }}
+        />
+
+        <script
+          id="google-tag-manager"
+          dangerouslySetInnerHTML={{
+            __html:
+              '(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({"gtm.start":new Date().getTime(),event:"gtm.js"});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!="dataLayer"?"&l="+l:"";j.async=true;j.src="https://www.googletagmanager.com/gtm.js?id="+i+dl;f.parentNode.insertBefore(j,f);})(window,document,"script","dataLayer","GTM-M3V3PSB");',
+          }}
+        />
+
+        {/* Google Analytics */}
+        <script
+          src="https://www.googletagmanager.com/gtag/js?id=G-HNEWC5GXNG"
+          async
+        />
+        <script
+          id="google-analytics"
+          dangerouslySetInnerHTML={{
+            __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-HNEWC5GXNG', {
+              page_path: window.location.pathname,
+            });
+          `,
+          }}
+        />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
